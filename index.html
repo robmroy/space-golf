@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<style>
+#myContainer {
+  width: 600px;
+  height: 600px;
+  position: relative;
+  background: yellow;
+}
+#ball {
+  position:relative;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  background-color: red;
+  border-radius: 50%;
+  /* top: 550px;
+  left: 0px; */
+}
+#gravitySource {
+  position:relative;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  background-color: brown;
+  border-radius: 50%;
+  top: 300px;
+  left: 300px;
+}
+
+</style>
+
+<script src="C:\Users\robmy\Desktop\gravity\main.js">
+</script>
+
+<!-- window.onload = myPosition; -->
+<body onload = myPosition();>
+
+<p>
+<button onclick="myMove()">Click Me</button> 
+</p>
+
+<div id ="myContainer">
+<div id ="ball" ></div>
+<div id = "gravitySource"></div>
+</div>
+
+
+</body>
+</html>
