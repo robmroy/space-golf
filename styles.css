@@ -1,0 +1,32 @@
+#myContainer {
+    width: 600px;
+    height: 600px;
+    position: relative;
+    background: yellow;
+  }
+  #ball {
+    position:relative;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    background-color: red;
+    border-radius: 50%;
+    /* top: 550px;
+    left: 0px; */
+  }
+  #planet {
+    position:relative;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    background-color: brown;
+    border-radius: 50%;
+    top: 300px;
+    left: 300px;
+  }
+  
+  #game1-start{
+    display: none;
+  }
+  
+  

@@ -1,48 +1,23 @@
 <!DOCTYPE html>
 <html>
-<style>
-#myContainer {
-  width: 600px;
-  height: 600px;
-  position: relative;
-  background: yellow;
-}
-#ball {
-  position:relative;
-  width: 8px;
-  height: 8px;
-  position: absolute;
-  background-color: red;
-  border-radius: 50%;
-  /* top: 550px;
-  left: 0px; */
-}
-#gravitySource {
-  position:relative;
-  width: 8px;
-  height: 8px;
-  position: absolute;
-  background-color: brown;
-  border-radius: 50%;
-  top: 300px;
-  left: 300px;
-}
-
-</style>
+    
+<link rel="stylesheet" type="text/css" href="C:\Users\robmy\Desktop\gravity\styles.css">
 
 <script src="C:\Users\robmy\Desktop\gravity\main.js">
 </script>
 
 <!-- window.onload = myPosition; -->
-<body onload = myPosition();>
+<body onload = setup();>
 
 <p>
-<button onclick="myMove()">Click Me</button> 
+<button id="game1-start" onclick="game1()">Start!</button> 
 </p>
+
+<button id= "game1-setup" onclick="game1Setup()"> Game 1</button>
 
 <div id ="myContainer">
 <div id ="ball" ></div>
-<div id = "gravitySource"></div>
+<div id = "planet"></div>
 </div>
 
 
