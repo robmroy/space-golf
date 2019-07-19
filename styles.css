@@ -1,8 +1,22 @@
 #myContainer {
-    width: 600px;
+    width: 1000px;
     height: 600px;
     position: relative;
     background: yellow;
+    position: -webkit-sticky;
+    position: sticky;
+     top: 0;
+     left: 0;
+     margin: 0;
+  }
+  #body{
+    position: -webkit-sticky;
+    position: sticky;
+     top: 0;
+     left: 0;
+     height: 100%;
+     width: 100%;
+     margin: 0;
   }
   #ball {
     position:absolute;
@@ -42,9 +56,12 @@ i {
 
 #box{
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 150px;
     border: 1px solid black;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
 }
 
 #demo{

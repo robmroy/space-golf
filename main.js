@@ -1,4 +1,7 @@
-
+const error = () => {let m = document.getElementById("myContainer");
+let rect = m.getBoundingClientRect();
+return {x: rect.x, y: rect.y};
+}
 function myMove(ball, planet, mvw) {
   
     var elem = document.getElementById("ball");   
@@ -65,25 +68,29 @@ function myMove(ball, planet, mvw) {
     ballElt.style.left = `${ball.x - ball.r}px`;
 
     var box = document.getElementById("box");
-    box.style.top = '50px';
-    box.style.left = '50px';
+    // box.style.top = '50px';
+    // box.style.left = '50px';
     
     var demo = document.getElementById("demo");
     demo.style.top = '100px';
     demo.style.left = '100px';
 
     var myContainer  = document.getElementById("myContainer");
-    box.addEventListener("mousemove", function(e) {setVelocity(ball, event)});
+
+    var svb = e => setVelocity(ball, e);
+    box.addEventListener("mousemove", svb);
 
     var boxElt = document.getElementById("box"); 
-    boxElt.onclick = () => game1(ball); 
+    boxElt.onclick = () => {game1(ball);
+      box.removeEventListener("mousemove", svb); 
+    } 
   }
 
   function showCoords(event) {
     var x = event.clientX;
     var y = event.clientY;
     var coor = "X coords: " + x + ", Y coords: " + y;
-    document.getElementById("demo").innerHTML = coor;
+    // document.getElementById("demo").innerHTML = coor;
   }
   
   function clearCoor() {
@@ -100,28 +107,37 @@ function myMove(ball, planet, mvw) {
   let planet={
     x: 304,
     y: 304,
-    g: 20
+    g: 8
   }
 
 
     myMove(ball, planet, mvw);
   }
-const error = {x: 5, y: 14}
+
   function setVelocity(ball, event){
-    let rect = event.target.getBoundingClientRect();
-    var dx = event.clientX  - ball.x - error.x;
-    var dy = event.clientY  - ball.y - error.y;
+
+    var dx = event.clientX - error().x - ball.x ;
+    var dy = event.clientY - error().y - ball.y ;
 
     var coor = "Choose Vector. X coords: " + ball.x + ", Y coords: " + ball.y;
     coor += `Vector: [${dx}, ${dy}]`;
-    coor += `event.clientY: ${event.clientY}, recttop: ${rect.top}`
     ball.vx = dx/ 1000;
     ball.vy = dy/ 1000;
     
-    document.getElementById("demo").innerHTML = coor;
-  
+    // document.getElementById("demo").innerHTML = coor;
+
+    var c = document.getElementById("arrowcanvas");
+    c.style.top = ball.y;
+    c.style.left=ball.x;
+    var ctx = c.getContext("2d");
+    ctx.clearRect(0,0,300,150);
+    ctx.beginPath();
+    ctx.moveTo(ball.x, ball.y);
+    ctx.lineTo(event.clientX - error().x, event.clientY - error().y);
+    ctx.stroke();
   }
 
   function clearSetVelocity(){
-    myContainer.removeEventListener("mousemove", setVelocity);
+    let box = document.getElementById("box");
+    box.removeEventListener("mousemove", setVelocity);
   }
