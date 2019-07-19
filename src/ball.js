@@ -10,11 +10,32 @@ class Ball {
         this.move = this.move.bind(this);
         this.vx = vx;
         this.vy = vy;
+        this.stopped = true;
     }
 
     move(){
-        this.x += this.vx;
-        this.y += this.vy;
+
+        if (!this.stopped){
+
+            this.x += this.vx;
+            this.y += this.vy;
+            this.game.planets.forEach(planet => {
+                const dx = this.x - planet.x;
+                const dy = this.y - planet.y;
+                const dz2 = ((dx)**2 + (dy)**2);
+                const dz = Math.sqrt(dz2);
+        
+                if (dz <=  this.radius + planet.radius){
+                  this.stopped = true;
+                }
+                else{
+                this.vx -= (1/dz2)*planet.mass * dx/dz;
+                this.vy -= (1/dz2)*planet.mass * dy/dz;
+                }
+        
+                
+        })};
+    
     }
     draw(ctx ) {
         ctx.beginPath();

@@ -31,6 +31,7 @@ class LaunchPad {
     }
 
     launch(){
+       this.game.ball.stopped = false;
        this.game.ball.vx = this.launchVx;
        this.game.ball.vy = this.launchVy;
     }

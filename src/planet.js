@@ -1,6 +1,6 @@
 
 class Planet {
-    constructor(game, x = 0, y = 0, radius = 5, color = "white", vx=0, vy=0){
+    constructor(game, x = 0, y = 0, radius = 10, mass = 1500, color = "grey", vx=0, vy=0){
         this.game = game;
         this.x = x;
         this.y = y;
@@ -10,6 +10,7 @@ class Planet {
         this.move = this.move.bind(this);
         this.vx = vx;
         this.vy = vy;
+        this.mass =mass;
     }
 
     move(){
@@ -18,7 +19,6 @@ class Planet {
     }
     draw(ctx ) {
         ctx.fillStyle = this.color;
-        console.log(`in ball, ctx.fillstyle is ${ctx.fillStyle}`);
         ctx.beginPath();
         ctx.arc(
           this.x, this.y, this.radius, 0, 2 * Math.PI, true

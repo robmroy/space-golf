@@ -2,6 +2,7 @@ import Ball from './ball';
 import LaunchPad from './launchpad';
 import Obstacles from './obstacles';
 import Planets from './planets';
+import Planet from './planet';
 
 class Game {
 
@@ -13,6 +14,7 @@ class Game {
         this.draw = this.draw.bind(this);
         this.launchPad = new LaunchPad(this);
         this.start = this.start.bind(this);
+        this.planets = [new Planet(this, 300, 420)]
         // this.planets = new Planets(level);
         // this.launchpad = new LaunchPad(level);
         // this.obstacles = new Obstacles(level);
@@ -56,6 +58,7 @@ class Game {
         ctx.fillRect(0, 0, 1000, 600);
         this.launchPad.draw(ctx);
         this.ball.draw(ctx);
+        this.planets.forEach(planet => planet.draw(ctx));
     }
 
 }
