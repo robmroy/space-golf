@@ -6,19 +6,26 @@
 <script src="C:\Users\robmy\Desktop\gravity\main.js">
 </script>
 
-<!-- window.onload = myPosition; -->
-<body onload = setup();>
+<body id = "body" onload = setup();>
 
 <p>
 <button id="game1-start" onclick="game1()">Start!</button> 
 </p>
 
-<button id= "game1-setup" onclick="game1Setup()"> Game 1</button>
 
 <div id ="myContainer">
+<button id= "game1-setup" onclick="game1Setup()"> Game 1</button>
+
+    <div id="box"  onmouseout="clearCoor()">
+  </div>
+  <p id="demo"></p>
 <div id ="ball" ></div>
+    <div id="arrow"><i class="up" ></i></div>
 <div id = "planet"></div>
 </div>
+
+
+
 
 
 </body>

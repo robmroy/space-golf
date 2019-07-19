@@ -5,7 +5,7 @@ function myMove(ball, planet, mvw) {
     var t = 0;
     var id = setInterval(frame, 10);
     function frame() {
-      if (t >= 30) {
+      if (t >= 90) {
         clearInterval(id);
       } else {
         t+=.1; 
@@ -45,26 +45,83 @@ function myMove(ball, planet, mvw) {
   }
 
   function game1Setup(){
-    var elem = document.getElementById("game1-start"); 
-    elem.style.display = "block"; 
+    
+    var ball = {
+      x: 100,
+      y: 100,
+      r: 4,
+      vx: .05,
+      vy: .1,
+      d: 8,
+      stopped: false
+    }
+    
+    var arrow=document.getElementById("arrow");
+    arrow.style.top = '100px';
+    arrow.style.left = '100px';
+
+    var ballElt = document.getElementById("ball");
+    ballElt.style.top = `${ball.y - ball.r}px`;
+    ballElt.style.left = `${ball.x - ball.r}px`;
+
+    var box = document.getElementById("box");
+    box.style.top = '50px';
+    box.style.left = '50px';
+    
+    var demo = document.getElementById("demo");
+    demo.style.top = '100px';
+    demo.style.left = '100px';
+
+    var myContainer  = document.getElementById("myContainer");
+    box.addEventListener("mousemove", function(e) {setVelocity(ball, event)});
+
+    var boxElt = document.getElementById("box"); 
+    boxElt.onclick = () => game1(ball); 
   }
-  function game1(){
+
+  function showCoords(event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    var coor = "X coords: " + x + ", Y coords: " + y;
+    document.getElementById("demo").innerHTML = coor;
+  }
+  
+  function clearCoor() {
+    document.getElementById("demo").innerHTML = "";
+  }
+
+  function game1(ball){
+
+    clearSetVelocity();
     const mvw = 600;
-  let d = 8;
-  let ball = {
-    vx: .05,
-    vy: .1,
-    r: d/2,
-    d,
-    x: 0,
-    y: 200 - d,
-    stopped: false
-  }
+  
+  
 
   let planet={
     x: 304,
     y: 304,
-    g: 500
+    g: 20
   }
+
+
     myMove(ball, planet, mvw);
+  }
+const error = {x: 5, y: 14}
+  function setVelocity(ball, event){
+    let rect = event.target.getBoundingClientRect();
+    var dx = event.clientX  - ball.x - error.x;
+    var dy = event.clientY  - ball.y - error.y;
+
+    var coor = "Choose Vector. X coords: " + ball.x + ", Y coords: " + ball.y;
+    coor += `Vector: [${dx}, ${dy}]`;
+    coor += `event.clientY: ${event.clientY}, recttop: ${rect.top}`
+    ball.vx = dx/ 1000;
+    ball.vy = dy/ 1000;
+    
+    document.getElementById("demo").innerHTML = coor;
+  
+  }
+
+  function clearSetVelocity(){
+    myContainer.removeEventListener("mousemove", setVelocity);
   }
