@@ -17,6 +17,7 @@ class Ball {
         this.y += this.vy;
     }
     draw(ctx ) {
+        ctx.beginPath();
         ctx.fillStyle = this.color;
         console.log(`in ball, ctx.fillstyle is ${ctx.fillStyle}`);
         ctx.beginPath();

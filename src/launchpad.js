@@ -24,6 +24,7 @@ class LaunchPad {
       this.y += this.vy;
   }
   draw(ctx ) {
+     ctx.beginPath();
      ctx.fillStyle = this.color;
      ctx.fillRect(this.x, this.y, this.width, this.height);
       ctx.fill();
