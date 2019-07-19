@@ -1,6 +1,7 @@
 
 class Ball {
     constructor(game, x = 0, y = 0, radius = 5, color = "white", vx=0, vy=0){
+        this.game = game;
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -12,14 +13,12 @@ class Ball {
     }
 
     move(){
-        console.log(`ball.x=${this.x}`);
-        console.log(`ball.y=${this.y}`);
         this.x += this.vx;
         this.y += this.vy;
     }
     draw(ctx ) {
         ctx.fillStyle = this.color;
-      
+        console.log(`in ball, ctx.fillstyle is ${ctx.fillStyle}`);
         ctx.beginPath();
         ctx.arc(
           this.x, this.y, this.radius, 0, 2 * Math.PI, true

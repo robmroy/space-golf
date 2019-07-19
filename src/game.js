@@ -1,4 +1,5 @@
 import Ball from './ball';
+import LaunchPad from './launchpad';
 import Obstacles from './obstacles';
 import Planets from './planets';
 
@@ -9,8 +10,9 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
 
         this.ball = new Ball(this, 50, 50);
-        this.ball.vx = 1;
         this.draw = this.draw.bind(this);
+        this.launchPad = new LaunchPad(this);
+        this.start = this.start.bind(this);
         // this.planets = new Planets(level);
         // this.launchpad = new LaunchPad(level);
         // this.obstacles = new Obstacles(level);
@@ -18,6 +20,16 @@ class Game {
     start() {
         // this.bindKeyHandlers();
         // this.lastTime = 0;
+        let func = e => this.launchPad.setVelocity(this.ball, e);
+        this.canvas.addEventListener(
+            'mousemove', 
+        func
+        )
+        this.canvas.addEventListener(
+            "click",
+            e => {this.launchPad.launch();
+                document.getElementById("game-canvas").removeEventListener('mousemove', func);
+            })
         requestAnimationFrame(this.animate.bind(this));
     }
     step(delta) {
@@ -42,7 +54,8 @@ class Game {
         ctx.height = 600;
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 1000, 600);
-        this.ball.draw(this.ctx);
+        this.launchPad.draw(ctx);
+        this.ball.draw(ctx);
     }
 
 }
