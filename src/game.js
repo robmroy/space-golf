@@ -3,6 +3,7 @@ import LaunchPad from './launchpad';
 import Obstacles from './obstacles';
 import Planets from './planets';
 import Planet from './planet';
+import Obstacle from './obstacle';
 
 class Game {
 
@@ -10,11 +11,16 @@ class Game {
         this.canvas = document.getElementById("game-canvas");
         this.ctx = this.canvas.getContext("2d");
 
-        this.ball = new Ball(this, 50, 50);
+        this.ball = new Ball(this, 300, 50);
         this.draw = this.draw.bind(this);
-        this.launchPad = new LaunchPad(this);
+        this.launchPad = new LaunchPad(this, 250);
         this.start = this.start.bind(this);
-        this.planets = [new Planet(this, 300, 420)]
+        this.planets = [
+            new Planet(this, 300, 520, 22,  "red"), 
+            new Planet(this, 620, 250, 15)
+        ]
+            this.obstacles=[];
+        this.obstacles = [new Obstacle(this, 800, 100, 600, 400)];
         // this.planets = new Planets(level);
         // this.launchpad = new LaunchPad(level);
         // this.obstacles = new Obstacles(level);
@@ -59,6 +65,7 @@ class Game {
         this.launchPad.draw(ctx);
         this.ball.draw(ctx);
         this.planets.forEach(planet => planet.draw(ctx));
+        this.obstacles.forEach(obstacle => obstacle.draw(ctx));
     }
 
 }

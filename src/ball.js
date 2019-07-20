@@ -11,10 +11,14 @@ class Ball {
         this.vx = vx;
         this.vy = vy;
         this.stopped = true;
+        this.logging = true;
     }
 
     move(){
-
+        if(this.logging){
+            console.log(`ballx is ${this.x}`);
+            console.log(`bally is ${this.y}`);
+        }
         if (!this.stopped){
 
             this.x += this.vx;
@@ -31,16 +35,19 @@ class Ball {
                 else{
                 this.vx -= (1/dz2)*planet.mass * dx/dz;
                 this.vy -= (1/dz2)*planet.mass * dy/dz;
-                }
-        
-                
-        })};
+                } 
+        });
+        this.game.obstacles.forEach(obstacle => {
+            if (obstacle.checkForBall()){
+                obstacle.bounce();
+            }
+        })
+    };
     
     }
     draw(ctx ) {
         ctx.beginPath();
         ctx.fillStyle = this.color;
-        console.log(`in ball, ctx.fillstyle is ${ctx.fillStyle}`);
         ctx.beginPath();
         ctx.arc(
           this.x, this.y, this.radius, 0, 2 * Math.PI, true

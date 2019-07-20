@@ -1,6 +1,6 @@
 
 class Planet {
-    constructor(game, x = 0, y = 0, radius = 10, mass = 1500, color = "grey", vx=0, vy=0){
+    constructor(game, x = 0, y = 0, radius = 10, color = "grey", mass , vx=0, vy=0){
         this.game = game;
         this.x = x;
         this.y = y;
@@ -10,7 +10,7 @@ class Planet {
         this.move = this.move.bind(this);
         this.vx = vx;
         this.vy = vy;
-        this.mass =mass;
+        this.mass =mass || this.radius**3;
     }
 
     move(){
