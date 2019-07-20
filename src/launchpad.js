@@ -46,8 +46,8 @@ class LaunchPad {
         
             var coor = "Choose Vector. X coords: " + ball.x + ", Y coords: " + ball.y;
             coor += `Vector: [${dx}, ${dy}]`;
-            this.launchVx = dx/ 20;
-            this.launchVy = dy/ 20;
+            this.launchVx = dx/ 5;
+            this.launchVy = dy/ 5;
             
             // document.getElementById("demo").innerHTML = coor;
             console.log(`ball.x=${ball.x}`)

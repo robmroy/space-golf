@@ -25,16 +25,23 @@ class Obstacle {
     }
     checkForBall(){
         
+        
 
         let ball = this.game.ball;
         ball.logging = false;
         let {x1, x2, y1, y2} = this;
         let {x, y, radius} = ball;
+        if (x - radius > Math.max(x1, x2) || x + radius < Math.min(x1, x2)){
+            return false;
+        }
+        if (y - radius > Math.max(y1, y2) || y + radius < Math.min(y1, y2)){
+            return false;
+        }
         let d = ((y2-y1)*x - (x2-x1)*y+x2*y1-y2*x1)/Math.sqrt((y2-y1)**2 + (x2-x1)**2);
         let result = -radius <= d && radius >= d;
-        if (result) {console.log("BALL FOUND");
-    console.log(this.normal);}
+        if (result) {
         return result;
+        }
     }
     move(){
         this.x += this.vx;

@@ -10,7 +10,7 @@ class Planet {
         this.move = this.move.bind(this);
         this.vx = vx;
         this.vy = vy;
-        this.mass =mass || this.radius**3;
+        this.mass =mass || .6 * this.radius**3;
     }
 
     move(){
