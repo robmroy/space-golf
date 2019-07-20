@@ -25,8 +25,6 @@ class Obstacle {
     }
     checkForBall(){
         
-        
-
         let ball = this.game.ball;
         ball.logging = false;
         let {x1, x2, y1, y2} = this;

@@ -17,10 +17,12 @@ class Game {
         this.start = this.start.bind(this);
         this.planets = [
             new Planet(this, 300, 520, 22,  "red"), 
-            new Planet(this, 620, 250, 15)
+            new Planet(this, 620, 250, 15, "purple", 10)
         ]
             this.obstacles=[];
-        this.obstacles = [new Obstacle(this, 800, 100, 600, 400)];
+        this.obstacles = [
+            // new Obstacle(this, 800, 300, 600, 600)
+        ];
         // this.planets = new Planets(level);
         // this.launchpad = new LaunchPad(level);
         // this.obstacles = new Obstacles(level);

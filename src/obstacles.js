@@ -1,0 +1,3 @@
+import Obstacle from './obstacle';
+
+

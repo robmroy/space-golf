@@ -11,7 +11,7 @@ class Ball {
         this.vx = vx;
         this.vy = vy;
         this.stopped = true;
-        this.logging = true;
+        this.logging = false;
     }
 
     move(){
@@ -33,8 +33,8 @@ class Ball {
                   this.stopped = true;
                 }
                 else{
-                this.vx -= (1/dz2)*planet.mass * dx/dz;
-                this.vy -= (1/dz2)*planet.mass * dy/dz;
+                this.vx -= (1/dz2)*planet.mass * dx/dz * .7;
+                this.vy -= (1/dz2)*planet.mass * dy/dz * .7;
                 } 
         });
         this.game.obstacles.forEach(obstacle => {
