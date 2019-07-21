@@ -1,3 +1,4 @@
+import LaunchPad from "./launchpad";
 
 class Ball {
     constructor(game, x = 0, y = 0, radius = 5, color = "white", vx=0, vy=0){
@@ -47,7 +48,12 @@ class Ball {
                     this.y += error * normal[1];
                     this.ax = 0;
                     this.ay = 0;
-                  if (planet.sticky || Math.abs(this.vx) + Math.abs(this.vy)<1 ){this.stopped = true;}
+                  if (planet.sticky || Math.abs(this.vx) + Math.abs(this.vy)<1 ){
+                      this.stopped = true;
+                    this.game.currentPlanet = planet;
+                    this.game.launchPad = new LaunchPad(this.game, this.x, this.y, normal);
+                    this.game.setupLaunchPad();
+                }
                   else{planet.bounce(normal);}
                     
                 }

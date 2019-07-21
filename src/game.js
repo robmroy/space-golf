@@ -19,8 +19,8 @@ class Game {
         this.launchPad = new LaunchPad(this, 300, 100);
         this.planets = [
             this.currentPlanet,
-            new BouncyPlanet(this, 300, 400, 35), 
-            new BouncyPlanet(this, 620, 250, 15, "orange", 3),
+            new StickyPlanet(this, 300, 400, 35), 
+            new StickyPlanet(this, 620, 250, 15, "orange", 3),
             
         ]
         this.hole = new Hole(this, 200, 200);
@@ -30,10 +30,9 @@ class Game {
         ];
         this.draw = this.draw.bind(this);
         this.start = this.start.bind(this);
+        this.setupLaunchPad = this.setupLaunchPad.bind(this);
     }
-    start() {
-        // this.bindKeyHandlers();
-        // this.lastTime = 0;
+    setupLaunchPad(){
         let func = e => this.launchPad.setVelocity(this.ball, e);
         this.canvas.addEventListener(
             'mousemove', 
@@ -45,6 +44,9 @@ class Game {
                 document.getElementById("game-canvas").removeEventListener('mousemove', func);
             }
             })
+    }
+    start() {
+        this.setupLaunchPad();
         requestAnimationFrame(this.animate.bind(this));
     }
     step(delta) {
