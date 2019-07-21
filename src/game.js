@@ -2,8 +2,10 @@ import Ball from './ball';
 import LaunchPad from './launchpad';
 import Obstacles from './obstacles';
 import Planets from './planets';
-import Planet from './planet';
+import StickyPlanet from './Sticky_planet';
 import Obstacle from './obstacle';
+import BouncyPlanet from './bouncy_planet';
+import Hole from './hole';
 
 class Game {
 
@@ -16,12 +18,14 @@ class Game {
         this.launchPad = new LaunchPad(this, 250);
         this.start = this.start.bind(this);
         this.planets = [
-            new Planet(this, 300, 520, 22,  "red"), 
-            new Planet(this, 620, 250, 15, "purple", 10)
+            new BouncyPlanet(this, 300, 400, 35), 
+            new StickyPlanet(this, 620, 250, 15, "purple", 3),
+            
         ]
+        this.hole = new Hole(this, 200, 200);
             this.obstacles=[];
         this.obstacles = [
-            // new Obstacle(this, 800, 300, 600, 600)
+            new Obstacle(this, 90, 0, 90, 900)   
         ];
         // this.planets = new Planets(level);
         // this.launchpad = new LaunchPad(level);
@@ -65,9 +69,11 @@ class Game {
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 1000, 600);
         this.launchPad.draw(ctx);
+        this.hole.drawFlag(ctx);
         this.ball.draw(ctx);
         this.planets.forEach(planet => planet.draw(ctx));
         this.obstacles.forEach(obstacle => obstacle.draw(ctx));
+        this.hole.drawHole(ctx);
     }
 
 }

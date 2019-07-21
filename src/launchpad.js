@@ -49,17 +49,7 @@ class LaunchPad {
             this.launchVx = dx/ 5;
             this.launchVy = dy/ 5;
             
-            // document.getElementById("demo").innerHTML = coor;
-            console.log(`ball.x=${ball.x}`)
             
-            
-            // var ctx = c.getContext("2d");
-            // ctx.fillStyle="black";
-            // ctx.fillRect(0,0,900,600);
-            // ctx.beginPath();
-            // ctx.moveTo(ball.x, ball.y);
-            // ctx.lineTo(event.clientX - error().x, event.clientY - error().y);
-            // ctx.stroke();
 
          }   
     }

@@ -1,6 +1,7 @@
 
-class Planet {
-    constructor(game, x = 0, y = 0, radius = 10, color = "grey", density, vx=0, vy=0){
+class BouncyPlanet {
+    constructor(game, x = 0, y = 0, radius = 10, color = "pink", density, 
+    bounce_coeff, vx=0, vy=0){
         this.game = game;
         this.x = x;
         this.y = y;
@@ -12,8 +13,20 @@ class Planet {
         this.vy = vy;
         this.density = density || 1;
         this.mass = this.density * this.radius**3;
+        this.sticky = false;
+        this.bounce_coeff = bounce_coeff || .9;
     }
 
+    bounce(normal){
+        let ball = this.game.ball;
+        const dampen = vel => 1 - Math.exp(-.5*Math.abs(vel));
+        let vDotNormal = ball.vx * normal[0] + ball.vy * normal[1];
+        let new_vx = this.bounce_coeff*(dampen(ball.vx))*(ball.vx - 2 * vDotNormal * normal[0]);
+        let new_vy = this.bounce_coeff*(dampen(ball.vy))*(ball.vy - 2 * vDotNormal * normal[1]);
+        ball.vx = new_vx;
+        ball.vy = new_vy;
+    }
+    
     move(){
         this.x += this.vx;
         this.y += this.vy;
@@ -32,4 +45,4 @@ class Planet {
       };
 }
 
-export default Planet;
+export default BouncyPlanet;
