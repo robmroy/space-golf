@@ -28,18 +28,22 @@ class Obstacle {
         let ball = this.game.ball;
         ball.logging = false;
         let {x1, x2, y1, y2} = this;
-        let {x, y, radius} = ball;
-        if (x - radius > Math.max(x1, x2) || x + radius < Math.min(x1, x2)){
-            return false;
-        }
-        if (y - radius > Math.max(y1, y2) || y + radius < Math.min(y1, y2)){
-            return false;
-        }
-        let d = ((y2-y1)*x - (x2-x1)*y+x2*y1-y2*x1)/Math.sqrt((y2-y1)**2 + (x2-x1)**2);
-        let result = -radius <= d && radius >= d;
-        if (result) {
-        return result;
-        }
+        let normal = [y1-y2, x2-x1]
+        let {x, y, radius, vx, vy} = ball;
+        // if (x - radius > Math.max(x1, x2) || x + radius < Math.min(x1, x2)){
+        //     return false;
+        // }
+        // if (y - radius > Math.max(y1, y2) || y + radius < Math.min(y1, y2)){
+        //     return false;
+        // }
+        // let d = ((y2-y1)*x - (x2-x1)*y+x2*y1-y2*x1)/Math.sqrt((y2-y1)**2 + (x2-x1)**2);
+        // let result = -1.5*radius <= d && 1.5*radius >= d;
+        // if (result) {
+        // return result;
+        // }
+        let perpComponent = normal[0] * (x - x1) + normal[1]*(y-y1);
+        let nextPerpComponent = normal[0] * (x + vx - x1) + normal[1]*(y+vy-y1);
+        return perpComponent * nextPerpComponent <= 0;
     }
     move(){
         this.x += this.vx;

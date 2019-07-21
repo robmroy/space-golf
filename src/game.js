@@ -20,13 +20,14 @@ class Game {
         this.planets = [
             this.currentPlanet,
             new StickyPlanet(this, 300, 400, 35), 
-            new StickyPlanet(this, 620, 250, 15, "orange", 3),
+            new StickyPlanet(this, 520, 250, 30, "orange"),
             
         ]
-        this.hole = new Hole(this, 200, 200);
+        this.hole = new Hole(this, 700, 200);
         this.obstacles=[];
         this.obstacles = [
-            new Obstacle(this, 90, 0, 90, 900)   
+            new Obstacle(this, 90, 0, 90, 900)   ,
+            new Obstacle(this, 600, 40, 850, 300)
         ];
         this.draw = this.draw.bind(this);
         this.start = this.start.bind(this);

@@ -5,7 +5,7 @@ return {x: rect.x, y: rect.y};
 }
 
 class LaunchPad {
-   constructor(game, x = 0, y = 0, normal = [0,1], radius = 80,  color = "white"){
+   constructor(game, x = 0, y = 0, normal = [0,1], radius = 100,  color = "white"){
       this.game = game;
       this.x = x;
       this.y = y;
