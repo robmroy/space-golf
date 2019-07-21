@@ -12,24 +12,24 @@ class Game {
     constructor(level) {
         this.canvas = document.getElementById("game-canvas");
         this.ctx = this.canvas.getContext("2d");
+        
+        this.ball = new Ball(this, 300, 100);
+        this.currentPlanet = new StickyPlanet(this, 300, 70, 25, "#27753a", .4);
 
-        this.ball = new Ball(this, 300, 50);
-        this.draw = this.draw.bind(this);
-        this.launchPad = new LaunchPad(this, 250);
-        this.start = this.start.bind(this);
+        this.launchPad = new LaunchPad(this, 300, 100);
         this.planets = [
+            this.currentPlanet,
             new BouncyPlanet(this, 300, 400, 35), 
-            new StickyPlanet(this, 620, 250, 15, "purple", 3),
+            new BouncyPlanet(this, 620, 250, 15, "orange", 3),
             
         ]
         this.hole = new Hole(this, 200, 200);
-            this.obstacles=[];
+        this.obstacles=[];
         this.obstacles = [
             new Obstacle(this, 90, 0, 90, 900)   
         ];
-        // this.planets = new Planets(level);
-        // this.launchpad = new LaunchPad(level);
-        // this.obstacles = new Obstacles(level);
+        this.draw = this.draw.bind(this);
+        this.start = this.start.bind(this);
     }
     start() {
         // this.bindKeyHandlers();
@@ -41,8 +41,9 @@ class Game {
         )
         this.canvas.addEventListener(
             "click",
-            e => {this.launchPad.launch();
+            e => {if (this.launchPad.launch()){
                 document.getElementById("game-canvas").removeEventListener('mousemove', func);
+            }
             })
         requestAnimationFrame(this.animate.bind(this));
     }

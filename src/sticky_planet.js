@@ -19,6 +19,17 @@ class StickyPlanet {
         this.x += this.vx;
         this.y += this.vy;
     }
+
+    ballData(){
+      const ball = this.game.ball;
+      const dx = ball.x - this.x;
+      const dy = ball.y - this.y;
+      const dz2 = ((dx)**2 + (dy)**2);
+      const dz = Math.sqrt(dz2);
+      const normal = [dx/dz, dy/dz];
+      return {dx, dy, dz2, dz, normal}
+  }
+
     draw(ctx ) {
         ctx.fillStyle = this.color;
         ctx.beginPath();
@@ -26,9 +37,13 @@ class StickyPlanet {
           this.x, this.y, this.radius, 0, 2 * Math.PI, true
         );
         ctx.font = `${Math.floor(.9 * this.radius)}px Arial`;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.fillStyle = "white"
+        ctx.font = `${21}px Arial`;
         ctx.fillText(`Density: ${this.density}`, 
-        `${this.x - 1.9* this.radius}`,
-         `${this.y + 2* this.radius}`);
+        `${this.x -  this.radius - 10}`,
+         `${this.y +  this.radius + this.game.ball.radius * 2 +18}`);
         ctx.fill();
       };
 }

@@ -15,7 +15,7 @@ class Ball {
         this.stopped = true;
         this.logging = false;
     }
-
+    
     move(){
         if(this.logging){
             console.log(`ballx is ${this.x}`);
@@ -38,15 +38,9 @@ class Ball {
                 this.stopped = true;}
             this.ax = 0;
             this.ay = 0;
-            let dx;
-            let dy;
-            let dz;
+            
             this.game.planets.forEach(planet => {
-                dx = this.x - planet.x;
-                dy = this.y - planet.y;
-                const dz2 = ((dx)**2 + (dy)**2);
-                 dz = Math.sqrt(dz2);
-                let normal = [dx/dz, dy/dz];
+                const {dx, dy, dz2, dz, normal} = planet.ballData();
                 if (dz <=  this.radius + planet.radius){
                     let error = this.radius + planet.radius - dz;
                     this.x += error * normal[0];
