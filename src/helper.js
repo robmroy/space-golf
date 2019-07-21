@@ -27,3 +27,11 @@ export const vectorAngle = function(vector){
     return x > 0 ? Math.atan(y/x) : Math.PI + Math.atan(y/x);
     
 }
+
+
+export const intervalsIntersect = function (interval1, interval2){
+    let [a1, b1] = interval1;
+    let [a2, b2] = interval2;
+    return (b2 - a1)*(a2-a1) <= 0 ||  (b2 - b1)*(a2-b1) <= 0
+    || (b1 - a2) * (a1-a2) <=0 || (b1 - b2) * (a1-b2) <=0;
+}

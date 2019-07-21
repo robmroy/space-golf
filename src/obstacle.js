@@ -1,4 +1,4 @@
-
+import {intervalsIntersect} from './helper';
 class Obstacle {
     constructor(game, x1 = 0, y1 = 0, x2 = 100, y2 = 100, color = "orange"){
         this.game = game;
@@ -43,7 +43,9 @@ class Obstacle {
         // }
         let perpComponent = normal[0] * (x - x1) + normal[1]*(y-y1);
         let nextPerpComponent = normal[0] * (x + vx - x1) + normal[1]*(y+vy-y1);
-        return perpComponent * nextPerpComponent <= 0;
+        return perpComponent * nextPerpComponent <= 0 
+        && intervalsIntersect([x, x+vx], [x1, x2]) 
+        && intervalsIntersect([y, y+vy], [y1, y2]);
     }
     move(){
         this.x += this.vx;
