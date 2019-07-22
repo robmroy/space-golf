@@ -1,40 +1,58 @@
 import Ball from './ball';
 import LaunchPad from './launchpad';
-import Obstacles from './obstacles';
-import Planets from './planets';
 import StickyPlanet from './Sticky_planet';
 import Obstacle from './obstacle';
 import BouncyPlanet from './bouncy_planet';
 import Hole from './hole';
+import Level1 from './levels/level1';
+import Level2 from './levels/level2';
 
 class Game {
 
-    constructor(level) {
+    constructor() {
         this.canvas = document.getElementById("game-canvas");
         this.ctx = this.canvas.getContext("2d");
-        
-        this.ball = new Ball(this, 300, 100);
-        this.currentPlanet = new StickyPlanet(this, 300, 70, 25, "#27753a", .4);
+        this.levels = [null, Level1, Level2];
+        this.currentLevelNumber = 0;
+       
+        // this.ball = new Ball(this, 300, 100);
+        // this.currentPlanet = new StickyPlanet(this, 300, 70, 25, "#27753a", .4);
 
-        this.launchPad = new LaunchPad(this, 300, 100);
-        this.planets = [
-            this.currentPlanet,
-            new StickyPlanet(this, 300, 400, 35), 
-            new StickyPlanet(this, 520, 250, 30, "orange"),
-            new StickyPlanet(this, 620, 450, 30, "orange"),
+        // this.launchPad = new LaunchPad(this, 300, 100);
+        // this.planets = [
+        //     this.currentPlanet,
+        //     new StickyPlanet(this, 300, 400, 35), 
+        //     new StickyPlanet(this, 520, 250, 30, "orange"),
+        //     new StickyPlanet(this, 620, 450, 30, "orange"),
 
             
-        ]
-        this.hole = new Hole(this, 700, 600);
-        this.obstacles=[];
-        this.obstacles = [
-            new Obstacle(this, 90, 0, 90, 900)   ,
-            new Obstacle(this, 600, 40, 850, 300)
-        ];
+        // ]
+        // this.hole = new Hole(this, 700, 600);
+        // this.obstacles=[];
+        // this.obstacles = [
+        //     new Obstacle(this, 90, 0, 90, 900)   ,
+        //     new Obstacle(this, 600, 40, 850, 300)
+        // ];
+        
+
         this.draw = this.draw.bind(this);
-        this.start = this.start.bind(this);
+        this.initiateLevel = this.initiateLevel.bind(this);
         this.setupLaunchPad = this.setupLaunchPad.bind(this);
     }
+
+    initiateLevel() {
+        this.currentLevelNumber += 1;
+        const level = new this.levels[this.currentLevelNumber](this);
+        this.ball = level.ball;
+        this.currentPlanet = level.currentPlanet;
+        this.launchPad = level.launchPad;
+        this.planets=level.planets;
+        this.hole = level.hole;
+        this.obstacles = level.obstacles;
+        this.setupLaunchPad();
+        requestAnimationFrame(this.animate.bind(this));
+    }
+    
     setupLaunchPad(){
         let func = e => this.launchPad.setVelocity(this.ball, e);
         this.canvas.addEventListener(
@@ -48,10 +66,7 @@ class Game {
             }
             })
     }
-    start() {
-        this.setupLaunchPad();
-        requestAnimationFrame(this.animate.bind(this));
-    }
+    
     step(delta) {
         this.moveObjects(delta);
     }

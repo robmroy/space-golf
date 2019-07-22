@@ -10,6 +10,7 @@ class Hole {
        this.move = this.move.bind(this);
        this.launchVx = 0;
        this.launchVy=0;
+       this.checkForWin=this.checkForWin.bind(this);
    }
  
    move(){
@@ -57,6 +58,7 @@ class Hole {
             && ball.vy >0;
             if (result){
                 console.log('won, supposedly');
+                this.game.initiateLevel();
             }
             return result;
         }
