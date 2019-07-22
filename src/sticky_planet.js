@@ -39,11 +39,11 @@ class StickyPlanet {
         ctx.font = `${Math.floor(.9 * this.radius)}px Arial`;
         ctx.fill();
         ctx.beginPath();
-        ctx.fillStyle = "white"
-        ctx.font = `${21}px Arial`;
-        ctx.fillText(`Density: ${this.density}`, 
-        `${this.x -  this.radius - 10}`,
-         `${this.y +  this.radius + this.game.ball.radius * 2 +18}`);
+        ctx.fillStyle = "#3e78ad"
+        ctx.font = `${14}px Arial`;
+        ctx.fillText(`Escape vel. approx. ${(this.radius * this.density **.45 *.504 ).toFixed(2)}`, 
+        `${this.x +  this.radius + 2}`,
+         `${this.y + .5 * this.radius}`);
         ctx.fill();
       };
 }

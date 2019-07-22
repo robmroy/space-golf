@@ -19,6 +19,7 @@ class LaunchPad {
       this.launchVy=0;
       this.normalAngle = vectorAngle(normal);
       this.setVelocity = this.setVelocity.bind(this);
+      this.arrowTip = {x: null, y: null};
 
   }
 
@@ -35,34 +36,70 @@ class LaunchPad {
    // ctx.stroke();
    //  
    dottedArc(ctx, this.x, this.y, this.radius, 
-      this.normalAngle - Math.PI/2, this.normalAngle + Math.PI/2, this.color)
+      this.normalAngle - Math.PI/2, this.normalAngle + Math.PI/2, this.color);
+   if (this.arrowTip.x !== null){
+      ctx.beginPath();
+      ctx.strokeStyle = "white";
+      ctx.setLineDash([5,5]);
+     ctx.moveTo(this.x, this.y);
+     ctx.lineTo(this.arrowTip.x, this.arrowTip.y)
+     ctx.stroke();
+     this.drawArrowBits(ctx);
+     ctx.beginPath();
+        ctx.fillStyle = "purple"
+        ctx.font = `${21}px Arial`;
+        ctx.fillText(`Initial speed: ${Math.sqrt(this.launchVx **2 + this.launchVy **2).toFixed(2)}`, 
+        `${0.5 * (this.x + this.arrowTip.x)}`,
+         `${0.5 * (this.y + this.arrowTip.y)}`);
+        ctx.fill();
+     
+   }
 }
+   drawArrowBits (ctx) {
+      let {x, y, arrowTip} = this;
+      const theta = vectorAngle([arrowTip.x - x, arrowTip.y -y] );
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(arrowTip.x, arrowTip.y);
+      ctx.lineTo(
+         arrowTip.x + 12 * Math.cos(theta + 3*Math.PI/4), 
+         arrowTip.y + 12* Math.sin(theta + 3*Math.PI/4));
+      ctx.moveTo(arrowTip.x, arrowTip.y);
+      ctx.lineTo(
+         arrowTip.x + 12 * Math.cos(theta - 3*Math.PI/4), 
+         arrowTip.y + 12* Math.sin(theta - 3*Math.PI/4));
+      ctx.stroke();
+
+   }
 
     launch(){
+       if (this.arrowTip.x === null){
+          return false;
+       }
        this.game.ball.stopped = false;
        this.game.ball.vx = this.launchVx;
        this.game.ball.vy = this.launchVy;
+       return true;
     }
 
-    setVelocity(ball, event){
+    setVelocity(event){
 
       const cursor = {x: event.clientX -error().x, y: event.clientY - error().y};
       const dx = cursor.x - this.x;
       const dy = cursor.y - this.y;
-      console.log(`this.normal is ${this.normal}`);
       if (
          dx**2 + dy**2 <= this.radius ** 2 &&
           dx * this.normal[0] + dy * this.normal[1] >= 0
           ) {
-            
-            
-            var coor = "Choose Vector. X coords: " + ball.x + ", Y coords: " + ball.y;
-            coor += `Vector: [${dx}, ${dy}]`;
+             this.arrowTip.x = cursor.x;
+             this.arrowTip.y = cursor.y;
+
             this.launchVx = dx/ 4;
             this.launchVy = dy/ 4;
-            return true;
+           
+            
          }   
-         return false;
+         else {this.arrowTip.x = null;}
     }
    }
 

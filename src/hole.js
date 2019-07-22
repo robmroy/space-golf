@@ -20,6 +20,7 @@ class Hole {
    drawFlag(ctx ) {
        let x = this.x;
        let y = this.y;
+       ctx.setLineDash([]);
       ctx.beginPath();
       ctx.strokeStyle = "gold";
       ctx.moveTo(x, y);
@@ -56,10 +57,7 @@ class Hole {
             && ball.y-5*ball.radius < y
             && Math.abs(ball.x - x) < width/2
             && ball.vy >0;
-            if (result){
-                console.log('won, supposedly');
-                this.game.initiateLevel();
-            }
+            
             return result;
         }
  

@@ -22,16 +22,15 @@ class Ball {
             console.log(`ballx is ${this.x}`);
             console.log(`bally is ${this.y}`);
         }
-        if (this.game.hole.checkForWin()){
-            this.stopped = true;
+        if (this.stopped){
+            console.log("stopped");
         }
+        
         if (!this.stopped){
             this.x += this.vx;
             this.y += this.vy;
             this.vx += this.ax;
             this.vy +=this.ay;
-            // console.log(`vy is ${this.vy}`);
-            // console.log(`ay is ${this.ay}`);
             
 
             if (Math.abs(this.vx) + Math.abs(this.vy) < 0.4

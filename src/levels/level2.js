@@ -7,7 +7,6 @@ import Hole from '../hole';
 
 class Level2 {
     constructor(game){
-        console.log('level2');
     this.ball = new Ball(game, 300, 100);
         this.currentPlanet = new StickyPlanet(game, 300, 70, 25, "#27753a", .4);
 
@@ -16,7 +15,7 @@ class Level2 {
             this.currentPlanet,
             new StickyPlanet(game, 300, 400, 35), 
             new StickyPlanet(game, 520, 250, 30, "orange"),
-            new StickyPlanet(game, 620, 450, 30, "orange"),
+            new StickyPlanet(game, 580, 450, 30, "orange"),
 
             
         ]

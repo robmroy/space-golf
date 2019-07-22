@@ -41,7 +41,12 @@ class Game {
     }
 
     initiateLevel() {
+
         this.currentLevelNumber += 1;
+        if (this.currentLevelNumber >= this.levels.length){
+            this.ball.stopped = true;
+            return this.victoryMessage();
+        }
         const level = new this.levels[this.currentLevelNumber](this);
         this.ball = level.ball;
         this.currentPlanet = level.currentPlanet;
@@ -52,13 +57,21 @@ class Game {
         this.setupLaunchPad();
         requestAnimationFrame(this.animate.bind(this));
     }
+
+    victoryMessage(){
+        const ctx = this.ctx;
+        ctx.beginPath();
+        ctx.fillStyle = "white"
+        ctx.font = `${30}px Arial`;
+        ctx.fillText('You win!', 
+       400, 400);
+        ctx.fill();
+    }
     
     setupLaunchPad(){
-        let func = e => this.launchPad.setVelocity(this.ball, e);
-        this.canvas.addEventListener(
-            'mousemove', 
-        func
-        )
+        let func = e => this.launchPad.setVelocity(e);
+        this.canvas.onmousemove= func;
+        
         this.canvas.addEventListener(
             "click",
             e => {if (this.launchPad.launch()){
@@ -75,6 +88,10 @@ class Game {
         this.ball.move();
     }
     animate(time) {
+        if (this.hole.checkForWin()){
+            this.ball.stopped = true;
+            return this.initiateLevel();
+        }
         const timeDelta = time - this.lastTime;
         this.step(timeDelta);
         this.draw();
@@ -92,9 +109,9 @@ class Game {
         this.launchPad.draw(ctx);
         this.hole.drawFlag(ctx);
         this.ball.draw(ctx);
-        this.planets.forEach(planet => planet.draw(ctx));
         this.obstacles.forEach(obstacle => obstacle.draw(ctx));
         this.hole.drawHole(ctx);
+        this.planets.forEach(planet => planet.draw(ctx));
     }
 
 }
