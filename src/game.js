@@ -11,9 +11,11 @@ class Game {
 
     constructor() {
         this.canvas = document.getElementById("game-canvas");
+        this.canvas.setAttribute("tabindex", 0);
         this.ctx = this.canvas.getContext("2d");
         this.levels = [null, Level1, Level2];
         this.currentLevelNumber = 0;
+        this.ballSpeedMultiplier=1;
        
         // this.ball = new Ball(this, 300, 100);
         // this.currentPlanet = new StickyPlanet(this, 300, 70, 25, "#27753a", .4);
@@ -54,8 +56,14 @@ class Game {
         this.planets=level.planets;
         this.hole = level.hole;
         this.obstacles = level.obstacles;
+        this.corners = level.corners;
         this.setupLaunchPad();
         requestAnimationFrame(this.animate.bind(this));
+    }
+
+    restartLevel() {
+        this.currentLevelNumber -= 1;
+        this.initiateLevel();
     }
 
     victoryMessage(){
@@ -67,15 +75,23 @@ class Game {
        400, 400);
         ctx.fill();
     }
-    
+        
     setupLaunchPad(){
         let func = e => this.launchPad.setVelocity(e);
-        this.canvas.onmousemove= func;
-        
+        let game = this;
+        this.canvas.addEventListener("mousemove", func, false);
+        let aFunc = e => {
+            game.canvas.removeEventListener('mousemove', func, false);
+            game.launchPad.setVelocityByArrowKeys(e);
+            console.log(game);
+        }
+
+        // this.canvas.addEventListener("keydown", e => aFunc(e));
+        this.canvas.onkeydown = aFunc;
         this.canvas.addEventListener(
             "click",
             e => {if (this.launchPad.launch()){
-                document.getElementById("game-canvas").removeEventListener('mousemove', func);
+                this.canvas.removeEventListener('mousemove', func);
             }
             })
     }
@@ -86,6 +102,9 @@ class Game {
 
     moveObjects() {
         this.ball.move();
+        if (!this.ball.checkRectangle(this.corners)){
+            this.restartLevel();
+        }
     }
     animate(time) {
         if (this.hole.checkForWin()){

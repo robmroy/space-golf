@@ -20,7 +20,7 @@ class LaunchPad {
       this.normalAngle = vectorAngle(normal);
       this.setVelocity = this.setVelocity.bind(this);
       this.arrowTip = {x: null, y: null};
-
+      this.arrowAngle = this.normalAngle;
   }
 
   move(){
@@ -97,10 +97,29 @@ class LaunchPad {
             this.launchVx = dx/ 4;
             this.launchVy = dy/ 4;
            
+            this.arrowAngle = vectorAngle([dx, dy]);
             
          }   
          else {this.arrowTip.x = null;}
     }
+    setVelocityByArrowKeys(event){
+       const dVx = .1 * Math.cos(this.arrowAngle);
+       const dVy = .1 * Math.sin(this.arrowAngle);
+       if (event.keyCode === 40){
+          this.launchVx -= dVx;        
+          this.launchVy -= dVy;        
+          this.arrowTip.x -= 4 * dVx;
+          this.arrowTip.y -= 4 * dVy;
+       }
+       if (event.keyCode === 38){
+          this.launchVx += dVx;
+          this.launchVy += dVy;
+          this.arrowTip.x += 4 * dVx;
+          this.arrowTip.y += 4 * dVy;
+
+       }
+    }
    }
+
 
    export default LaunchPad;

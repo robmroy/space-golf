@@ -1,5 +1,4 @@
 import LaunchPad from "./launchpad";
-
 class Ball {
     constructor(game, x = 0, y = 0, radius = 5, color = "white", vx=0, vy=0){
         this.game = game;
@@ -14,21 +13,24 @@ class Ball {
         this.ax = 0;
         this.ay = 0;
         this.stopped = true;
-        this.logging = false;
+        // this.logging = true;
     }
     
+    checkRectangle(corners){
+        const {x, y} = this;
+        return x > corners[0][0] && x < corners[1][0] && y > corners[0][1] && y < corners[1][1];
+    }
+
     move(){
         if(this.logging){
             console.log(`ballx is ${this.x}`);
             console.log(`bally is ${this.y}`);
         }
-        if (this.stopped){
-            console.log("stopped");
-        }
         
+
         if (!this.stopped){
-            this.x += this.vx;
-            this.y += this.vy;
+            this.x += this.game.ballSpeedMultiplier*this.vx;
+            this.y += this.game.ballSpeedMultiplier* this.vy;
             this.vx += this.ax;
             this.vy +=this.ay;
             

@@ -1,22 +1,22 @@
+import {intervalsIntersect} from './helper';
 class Hole {
-    constructor(game, x = 600, y = 500, width = 100,  flagColor = "red"){
-       this.game = game;
-       this.x = x;
-       this.y = y;
-       this.width = width;
-       this.flagColor = flagColor;
-       this.drawFlag= this.drawFlag.bind(this);
-       this.drawHole= this.drawHole.bind(this);
-       this.move = this.move.bind(this);
-       this.launchVx = 0;
-       this.launchVy=0;
-       this.checkForWin=this.checkForWin.bind(this);
-   }
+    constructor(game, x, y, normal = [0,1], width = 100){
+        this.game = game;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.drawFlag= this.drawFlag.bind(this);
+        this.drawHole= this.drawHole.bind(this);
+        this.normal = normal;
+        this.drawFlag = this.drawFlag.bind(this);
+        this.drawHole = this.drawHole.bind(this);
+    }
  
    move(){
        this.x += this.vx;
        this.y += this.vy;
    }
+
    drawFlag(ctx ) {
        let x = this.x;
        let y = this.y;
@@ -36,29 +36,36 @@ class Hole {
      drawHole(ctx) {
          let {x, y, width} = this;
          let ball = this.game.ball;
-         if (ball.y - ball.radius <= y +20 && ball.vy > 0){
              ctx.beginPath();
-             ctx.fillStyle = "black";
+             ctx.strokeStyle = "purple";
              ctx.moveTo(x - width/2, y);
              ctx.lineTo(x + width/2, y);
+             ctx.stroke();
+             ctx.beginPath();
+             ctx.fillStyle = "black";
+             ctx.moveTo(x + width/2, y);
              ctx.lineTo(x + width/2, y + 30);
              ctx.lineTo(x - width/2, y + 30);
              ctx.lineTo(x - width/2, y );
              ctx.fill();
-         }
          
 
-         
         }
         checkForWin(){
-            let {x, y, width} = this;
+            let {x, y, width, normal} = this;
             let ball = this.game.ball;
-            let result = ball.y -ball.radius> y 
-            && ball.y-5*ball.radius < y
-            && Math.abs(ball.x - x) < width/2
-            && ball.vy >0;
+            // let result = ball.y -ball.radius> y 
+            // && ball.y-2*ball.radius < y
+            // && Math.abs(ball.x - x) < width/2
+            // && ball.vy >0;
             
-            return result;
+            // return result;
+
+            let perpComponent = normal[0] * (ball.x - x) + normal[1]*(ball.y-y);
+            let nextPerpComponent = normal[0] * (ball.x + ball.vx - x) + normal[1]*(ball.y+ball.vy-y);
+            return perpComponent * nextPerpComponent <= 0 
+            && intervalsIntersect([ball.x, ball.x+ball.vx], [x - 0.5 * width* normal[1], x+ 0.5* width * normal[1]]) 
+            && intervalsIntersect([ball.y, ball.y+ball.vy], [y - 0.5 * width* normal[0], y + 0.5 * width * normal[0]]);
         }
  
     
