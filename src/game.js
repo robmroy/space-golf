@@ -82,11 +82,13 @@ class Game {
         this.canvas.addEventListener("mousemove", func, false);
         let aFunc = e => {
             game.canvas.removeEventListener('mousemove', func, false);
-            game.launchPad.setVelocityByArrowKeys(e);
+            game.launchPad.setVelocityByArrowKeys(e, () => {
+            game.canvas.removeEventListener('keydown', aFunc, false); 
+            });
         }
 
         // this.canvas.addEventListener("keydown", e => aFunc(e));
-        this.canvas.onkeydown = aFunc;
+        this.canvas.addEventListener('keydown', aFunc, false);
         this.canvas.addEventListener(
             "click",
             e => {if (this.launchPad.launch()){

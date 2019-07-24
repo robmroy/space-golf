@@ -127,40 +127,21 @@ class LaunchPad {
        const dVy = .1 * Math.sin(this.arrowAngle);
 
        if (event.keyCode === 40){
-         //  this.launchVx -= dVx;        
-         //  this.launchVy -= dVy;        
-         //  this.arrowTip.x -= 4 * dVx;
-         //  this.arrowTip.y -= 4 * dVy;
          this.arrowLength -= .5;
        }
        if (event.keyCode === 38){
-         //  this.launchVx += dVx;
-         //  this.launchVy += dVy;
-         //  this.arrowTip.x = 4 * this.launchVx + this.x;
-         //  this.arrowTip.y = 4 * this.launchVx + this.y;
          this.arrowLength += .5;
        }
-      //  this.updateLaunchVelocity();
-      //  const arrowLength = 
-      //    Math.sqrt((this.arrowTip.x-this.x)**2 + (this.arrowTip.y - this.y)**2);
        if (event.keyCode === 37){
           this.arrowAngle -= .02;
-         //  this.arrowTip.x = this.x + arrowLength * Math.cos(this.arrowAngle);
-         //  this.arrowTip.y = this.y + arrowLength * Math.sin(this.arrowAngle);
-         //  this.launchVx = .25 * (this.arrowTip.x -this.x);
-         //  this.launchVy = .25 * (this.arrowTip.y -this.y);
        }
        if (event.keyCode === 39){
           this.arrowAngle += .02;
-         //  this.arrowTip.x = this.x + arrowLength * Math.cos(this.arrowAngle);
-         //  this.arrowTip.y = this.y + arrowLength * Math.sin(this.arrowAngle);
-         //  this.launchVx = .25 * (this.arrowTip.x -this.x);
-         //  this.launchVy = .25 * (this.arrowTip.y -this.y);
       }
-            if ([32,13].includes(event.keyCode)){
-               if (this.launch()){
-                  callback();
-               }
+      if ([32,13].includes(event.keyCode)){
+         if (this.launch()){
+            callback();
+         }
        }
        this.updateArrowTip();
        this.updateLaunchVelocity();
