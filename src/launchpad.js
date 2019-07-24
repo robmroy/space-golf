@@ -1,4 +1,4 @@
-import {dottedArc, vectorAngle} from './helper';
+import {dottedArc, vectorAngle, vectorLength} from './helper';
 const error = () => {let m = document.getElementById("game-canvas");
 let rect = m.getBoundingClientRect();
 return {x: rect.x, y: rect.y};
@@ -15,17 +15,38 @@ class LaunchPad {
       this.draw= this.draw.bind(this);
       this.move = this.move.bind(this);
       this.launch = this.launch.bind(this);
+      this.arrowVector = this.arrowVector.bind(this);
+      this.updatePolar = this.updatePolar.bind(this);
+      this.updateArrowTip = this.updateArrowTip.bind(this);
+      this.updateLaunchVelocity = this.updateLaunchVelocity.bind(this);
       this.launchVx = 0;
       this.launchVy=0;
       this.normalAngle = vectorAngle(normal);
       this.setVelocity = this.setVelocity.bind(this);
       this.arrowTip = {x: null, y: null};
       this.arrowAngle = this.normalAngle;
+      this.arrowLength = 60;
   }
 
   move(){
       this.x += this.vx;
       this.y += this.vy;
+  }
+
+  arrowVector(){
+     return [this.arrowTip.x-this.x, this.arrowTip.y-this.y];
+  }
+  updatePolar(){
+   this.arrowLength = vectorLength(this.arrowVector());
+   this.arrowAngle = vectorAngle(this.arrowVector());
+  }
+  updateArrowTip(){
+     this.arrowTip.x = this.x + this.arrowLength*Math.cos(this.arrowAngle);
+     this.arrowTip.y = this.y + this.arrowLength*Math.sin(this.arrowAngle);
+  }
+  updateLaunchVelocity(){
+     this.launchVx = this.arrowVector()[0]/4;
+     this.launchVy = this.arrowVector()[1]/4;
   }
   draw(ctx ) {
    // ctx.beginPath();
@@ -48,7 +69,7 @@ class LaunchPad {
      ctx.beginPath();
         ctx.fillStyle = "purple"
         ctx.font = `${21}px Arial`;
-        ctx.fillText(`Initial speed: ${Math.sqrt(this.launchVx **2 + this.launchVy **2).toFixed(2)}`, 
+        ctx.fillText(`Initial speed: ${(this.arrowLength/4).toFixed(2)}`, 
         `${0.5 * (this.x + this.arrowTip.x)}`,
          `${0.5 * (this.y + this.arrowTip.y)}`);
         ctx.fill();
@@ -94,10 +115,9 @@ class LaunchPad {
              this.arrowTip.x = cursor.x;
              this.arrowTip.y = cursor.y;
 
-            this.launchVx = dx/ 4;
-            this.launchVy = dy/ 4;
+            this.updateLaunchVelocity();
            
-            this.arrowAngle = vectorAngle([dx, dy]);
+            this.updatePolar();
             
          }   
          else {this.arrowTip.x = null;}
@@ -105,19 +125,42 @@ class LaunchPad {
     setVelocityByArrowKeys(event){
        const dVx = .1 * Math.cos(this.arrowAngle);
        const dVy = .1 * Math.sin(this.arrowAngle);
+
        if (event.keyCode === 40){
-          this.launchVx -= dVx;        
-          this.launchVy -= dVy;        
-          this.arrowTip.x -= 4 * dVx;
-          this.arrowTip.y -= 4 * dVy;
+         //  this.launchVx -= dVx;        
+         //  this.launchVy -= dVy;        
+         //  this.arrowTip.x -= 4 * dVx;
+         //  this.arrowTip.y -= 4 * dVy;
+         this.arrowLength -= .5;
        }
        if (event.keyCode === 38){
-          this.launchVx += dVx;
-          this.launchVy += dVy;
-          this.arrowTip.x += 4 * dVx;
-          this.arrowTip.y += 4 * dVy;
-
+         //  this.launchVx += dVx;
+         //  this.launchVy += dVy;
+         //  this.arrowTip.x = 4 * this.launchVx + this.x;
+         //  this.arrowTip.y = 4 * this.launchVx + this.y;
+         this.arrowLength += .5;
        }
+      //  this.updateLaunchVelocity();
+      //  const arrowLength = 
+      //    Math.sqrt((this.arrowTip.x-this.x)**2 + (this.arrowTip.y - this.y)**2);
+       if (event.keyCode === 37){
+          this.arrowAngle -= .02;
+         //  this.arrowTip.x = this.x + arrowLength * Math.cos(this.arrowAngle);
+         //  this.arrowTip.y = this.y + arrowLength * Math.sin(this.arrowAngle);
+         //  this.launchVx = .25 * (this.arrowTip.x -this.x);
+         //  this.launchVy = .25 * (this.arrowTip.y -this.y);
+       }
+       if (event.keyCode === 39){
+          this.arrowAngle += .02;
+         //  this.arrowTip.x = this.x + arrowLength * Math.cos(this.arrowAngle);
+         //  this.arrowTip.y = this.y + arrowLength * Math.sin(this.arrowAngle);
+         //  this.launchVx = .25 * (this.arrowTip.x -this.x);
+         //  this.launchVy = .25 * (this.arrowTip.y -this.y);
+       }
+       this.updateArrowTip();
+       this.updateLaunchVelocity();
+       
+
     }
    }
 

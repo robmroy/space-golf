@@ -28,6 +28,10 @@ export const vectorAngle = function(vector){
     
 }
 
+export const vectorLength = function(vector){
+    return Math.sqrt(vector[0] ** 2 + vector[1] ** 2);
+}
+
 
 export const intervalsIntersect = function (interval1, interval2){
     let [a1, b1] = interval1;
