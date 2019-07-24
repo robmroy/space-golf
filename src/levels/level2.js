@@ -8,7 +8,7 @@ import Hole from '../hole';
 class Level2 {
     constructor(game){
     this.ball = new Ball(game, 300, 100);
-        this.currentPlanet = new StickyPlanet(game, 300, 70, 25, "#27753a", .4);
+        this.currentPlanet = new StickyPlanet(game, 300, 70, 25, "#27753a", 1);
         this.corners = [[-200, -200], [1200, 900]];
         this.launchPad = new LaunchPad(game, 300, 100);
         this.planets = [

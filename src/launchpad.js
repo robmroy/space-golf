@@ -122,7 +122,7 @@ class LaunchPad {
          }   
          else {this.arrowTip.x = null;}
     }
-    setVelocityByArrowKeys(event){
+    setVelocityByArrowKeys(event, callback){
        const dVx = .1 * Math.cos(this.arrowAngle);
        const dVy = .1 * Math.sin(this.arrowAngle);
 
@@ -156,13 +156,16 @@ class LaunchPad {
          //  this.arrowTip.y = this.y + arrowLength * Math.sin(this.arrowAngle);
          //  this.launchVx = .25 * (this.arrowTip.x -this.x);
          //  this.launchVy = .25 * (this.arrowTip.y -this.y);
+      }
+            if ([32,13].includes(event.keyCode)){
+               if (this.launch()){
+                  callback();
+               }
        }
        this.updateArrowTip();
        this.updateLaunchVelocity();
        
-
     }
    }
-
 
    export default LaunchPad;
