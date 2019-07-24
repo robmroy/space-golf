@@ -16,7 +16,6 @@ class Game {
         this.levels = [null, Level1, Level2];
         this.currentLevelNumber = 0;
         this.ballSpeedMultiplier=1;
-       
         // this.ball = new Ball(this, 300, 100);
         // this.currentPlanet = new StickyPlanet(this, 300, 70, 25, "#27753a", .4);
 
@@ -57,7 +56,8 @@ class Game {
         this.hole = level.hole;
         this.obstacles = level.obstacles;
         this.corners = level.corners;
-        this.setupLaunchPad();
+       this.startButton = level.startButton;
+        // this.setupLaunchPad();
         requestAnimationFrame(this.animate.bind(this));
     }
 
@@ -83,7 +83,6 @@ class Game {
         let aFunc = e => {
             game.canvas.removeEventListener('mousemove', func, false);
             game.launchPad.setVelocityByArrowKeys(e);
-            console.log(game);
         }
 
         // this.canvas.addEventListener("keydown", e => aFunc(e));
@@ -131,6 +130,7 @@ class Game {
         this.obstacles.forEach(obstacle => obstacle.draw(ctx));
         this.hole.drawHole(ctx);
         this.planets.forEach(planet => planet.draw(ctx));
+        if(this.startButton) this.startButton.draw(ctx);
     }
 
 }
