@@ -15,30 +15,12 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         this.levels = [null, Level1, Level2];
         this.currentLevelNumber = 0;
-        this.ballSpeedMultiplier=1;
-        // this.ball = new Ball(this, 300, 100);
-        // this.currentPlanet = new StickyPlanet(this, 300, 70, 25, "#27753a", .4);
-
-        // this.launchPad = new LaunchPad(this, 300, 100);
-        // this.planets = [
-        //     this.currentPlanet,
-        //     new StickyPlanet(this, 300, 400, 35), 
-        //     new StickyPlanet(this, 520, 250, 30, "orange"),
-        //     new StickyPlanet(this, 620, 450, 30, "orange"),
-
-            
-        // ]
-        // this.hole = new Hole(this, 700, 600);
-        // this.obstacles=[];
-        // this.obstacles = [
-        //     new Obstacle(this, 90, 0, 90, 900)   ,
-        //     new Obstacle(this, 600, 40, 850, 300)
-        // ];
-        
-
         this.draw = this.draw.bind(this);
         this.initiateLevel = this.initiateLevel.bind(this);
         this.setupLaunchPad = this.setupLaunchPad.bind(this);
+        this.playSpeed = {num: 1, fractional: false};
+        this.setPlaySpeed = this.setPlaySpeed.bind(this);
+        this.frameCount = 0;
     }
 
     initiateLevel() {
@@ -56,7 +38,11 @@ class Game {
         this.hole = level.hole;
         this.obstacles = level.obstacles;
         this.corners = level.corners;
-       this.startButton = level.startButton;
+        this.startButton = level.startButton;
+        this.playSpeed = {num: 1, fractional: false};
+
+        this.canvas.addEventListener("keydown", this.setPlaySpeed, false);
+
         if (!this.startButton){this.setupLaunchPad();}
         requestAnimationFrame(this.animate.bind(this));
     }
@@ -66,6 +52,41 @@ class Game {
         this.initiateLevel();
     }
 
+    setPlaySpeed(event){
+        if (event.keyCode === 70){
+            if (this.playSpeed.fractional){
+                if ([2,3,4].includes(this.playSpeed.num)) {
+                    this.playSpeed.num -= 1;
+                }
+                else if (this.playSpeed.num === 1) {
+                    this.playSpeed.fractional = false;
+                    this.playSpeed.num = 2;
+                }   
+            }
+            else {
+                if ([1,2,3].includes(this.playSpeed.num)) {
+                    this.playSpeed.num += 1;
+            }
+            }
+        }
+        if (event.keyCode === 83) {
+            if (this.playSpeed.fractional){
+                if ([1,2,3].includes(this.playSpeed.num)) {
+                    this.playSpeed.num += 1;
+                }
+            }
+            else {
+                if ([2,3,4].includes(this.playSpeed.num)) {
+                    this.playSpeed.num -=1;
+                }
+                else if (this.playSpeed.num === 1){
+                    this.playSpeed.fractional = true;
+                    this.playSpeed.num = 2;
+                }
+            }
+        } 
+    }
+    
     victoryMessage(){
         const ctx = this.ctx;
         ctx.beginPath();
@@ -83,21 +104,19 @@ class Game {
         let launchBallWithMouse =  e => {if (this.launchPad.launch()){
             canvas.removeEventListener('mousemove', setVelocityWithMouse, false);
             canvas.removeEventListener("click", launchBallWithMouse, false);
-            canvas.removeEventListener("keydown", aFunc, false);
+            canvas.removeEventListener("keydown", keyDownHandler, false);
 
         }}
-        canvas.addEventListener("mousemove", setVelocityWithMouse, false);
-        let aFunc = e => {
+        let keyDownHandler = e => {
             canvas.removeEventListener('mousemove', setVelocityWithMouse, false);
             game.launchPad.setVelocityByArrowKeys(e, () => {
-            canvas.removeEventListener('keydown', aFunc, false); 
+            canvas.removeEventListener('keydown', keyDownHandler, false); 
             canvas.removeEventListener("click", launchBallWithMouse, false);
             });
         }
-
-        // canvas.addEventListener("keydown", e => aFunc(e));
-        canvas.addEventListener('keydown', aFunc, false);
-        canvas.addEventListener("click", launchBallWithMouse, false)
+        canvas.addEventListener("mousemove", setVelocityWithMouse, false);
+        canvas.addEventListener('keydown', keyDownHandler, false);
+        canvas.addEventListener("click", launchBallWithMouse, false);
     }
     
     step(delta) {
@@ -105,9 +124,25 @@ class Game {
     }
 
     moveObjects() {
-        this.ball.move();
-        if (!this.ball.checkRectangle(this.corners)){
-            this.restartLevel();
+        let {playSpeed} = this;
+        if (playSpeed.fractional){
+            if (this.frameCount % playSpeed.num ===0 ){
+                this.ball.move();
+              if (!this.ball.checkRectangle(this.corners)){
+                this.restartLevel();
+                return;
+                 }
+            }
+
+        }
+        else {
+            for (let i = 1; i <= playSpeed.num; i++) {
+                this.ball.move();
+              if (!this.ball.checkRectangle(this.corners)){
+                this.restartLevel();
+                return;
+                 }
+            }
         }
     }
     animate(time) {
@@ -119,6 +154,7 @@ class Game {
         this.step(timeDelta);
         this.draw();
         this.lastTime = time;
+        this.frameCount += 1;
 
         // every call to animate requests causes another call to animate
         requestAnimationFrame(this.animate.bind(this));
