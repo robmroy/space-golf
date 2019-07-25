@@ -77,24 +77,27 @@ class Game {
     }
         
     setupLaunchPad(){
-        let func = e => this.launchPad.setVelocity(e);
         let game = this;
-        this.canvas.addEventListener("mousemove", func, false);
+        let canvas = game.canvas;
+        let setVelocityWithMouse = e => this.launchPad.setVelocity(e);
+        let launchBallWithMouse =  e => {if (this.launchPad.launch()){
+            canvas.removeEventListener('mousemove', setVelocityWithMouse, false);
+            canvas.removeEventListener("click", launchBallWithMouse, false);
+            canvas.removeEventListener("keydown", aFunc, false);
+
+        }}
+        canvas.addEventListener("mousemove", setVelocityWithMouse, false);
         let aFunc = e => {
-            game.canvas.removeEventListener('mousemove', func, false);
+            canvas.removeEventListener('mousemove', setVelocityWithMouse, false);
             game.launchPad.setVelocityByArrowKeys(e, () => {
-            game.canvas.removeEventListener('keydown', aFunc, false); 
+            canvas.removeEventListener('keydown', aFunc, false); 
+            canvas.removeEventListener("click", launchBallWithMouse, false);
             });
         }
 
-        // this.canvas.addEventListener("keydown", e => aFunc(e));
-        this.canvas.addEventListener('keydown', aFunc, false);
-        this.canvas.addEventListener(
-            "click",
-            e => {if (this.launchPad.launch()){
-                this.canvas.removeEventListener('mousemove', func);
-            }
-            })
+        // canvas.addEventListener("keydown", e => aFunc(e));
+        canvas.addEventListener('keydown', aFunc, false);
+        canvas.addEventListener("click", launchBallWithMouse, false)
     }
     
     step(delta) {
