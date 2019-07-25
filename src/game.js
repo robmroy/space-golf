@@ -57,7 +57,7 @@ class Game {
         this.obstacles = level.obstacles;
         this.corners = level.corners;
        this.startButton = level.startButton;
-        // this.setupLaunchPad();
+        if (!this.startButton){this.setupLaunchPad();}
         requestAnimationFrame(this.animate.bind(this));
     }
 
