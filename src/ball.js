@@ -16,6 +16,8 @@ class Ball {
         this.ax = 0;
         this.ay = 0;
         this.stopped = true;
+        this.prevx =x ;
+        this.prevy = y;
         // this.logging = true;
     }
     
@@ -39,8 +41,9 @@ class Ball {
             console.log(`bally is ${this.y}`);
         }
 
+        this.prevx = this.x;
+        this.prevy = this.y;
         if (this.stopped) return;
-        
         // this.x += this.playSpeed*this.vx;
         // this.y += this.playSpeed* this.vy;
         // this.vx += this.accelCorrection * this.playSpeed**2 * this.ax;
@@ -87,12 +90,12 @@ class Ball {
     
     
     }
-    draw(ctx ) {
+    draw(ctx, x = this.x, y = this.y ) {
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(
-          this.x, this.y, this.radius, 0, 2 * Math.PI, true
+          x, y, this.radius, 0, 2 * Math.PI, true
         );
         ctx.fill();
       };

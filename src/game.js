@@ -6,6 +6,7 @@ import BouncyPlanet from './bouncy_planet';
 import Hole from './hole';
 import Level1 from './levels/level1';
 import Level2 from './levels/level2';
+import TimedMessage from './timedMessage';
 
 class Game {
 
@@ -21,6 +22,7 @@ class Game {
         this.playSpeed = {num: 1, fractional: false};
         this.setPlaySpeed = this.setPlaySpeed.bind(this);
         this.frameCount = 0;
+        this.playSpeedMessage = null;
     }
 
     initiateLevel() {
@@ -53,6 +55,7 @@ class Game {
     }
 
     setPlaySpeed(event){
+        if (![70,83].includes(event.keyCode)) return;
         if (event.keyCode === 70){
             if (this.playSpeed.fractional){
                 if ([2,3,4].includes(this.playSpeed.num)) {
@@ -85,6 +88,9 @@ class Game {
                 }
             }
         } 
+        this.playSpeedMessage = new TimedMessage(
+            `Playspeed: ${this.playSpeed.fractional ? 
+                (1/this.playSpeed.num).toFixed(2) : this.playSpeed.num}`);
     }
     
     victoryMessage(){
@@ -96,6 +102,8 @@ class Game {
        400, 400);
         ctx.fill();
     }
+
+   
         
     setupLaunchPad(){
         let game = this;
@@ -161,17 +169,31 @@ class Game {
     }
     draw() {
         let ctx=this.ctx;
+        let ball = this.ball;
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 1000, 600);
         this.launchPad.draw(ctx);
         this.hole.drawFlag(ctx);
-        this.ball.draw(ctx);
+        if (this.playSpeed.fractional && this.playSpeed.num > 1){
+            const num = this.playSpeed.num;
+            const residue = this.frameCount % num;
+            ball.draw(
+                ctx, 
+                (residue/num) * ball.x + (1 - residue/num) * ball.prevx,
+                (residue/num) * ball.y + (1 - residue/num) * ball.prevy
+                )
+        }
+        else {
+            ball.draw(ctx);
+        }
         this.obstacles.forEach(obstacle => obstacle.draw(ctx));
         this.hole.drawHole(ctx);
         this.planets.forEach(planet => planet.draw(ctx));
         if(this.startButton) this.startButton.draw(ctx);
+        if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
+
     }
 
 }
