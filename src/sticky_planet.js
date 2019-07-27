@@ -30,20 +30,20 @@ class StickyPlanet {
       return {dx, dy, dz2, dz, normal}
   }
 
-    draw(ctx ) {
+    draw(ctx, x = this.x, y = this.y, r = this.radius ) {
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(
-          this.x, this.y, this.radius, 0, 2 * Math.PI, true
+          x, y, r, 0, 2 * Math.PI, true
         );
-        ctx.font = `${Math.floor(.9 * this.radius)}px Arial`;
+        ctx.font = `${Math.floor(.9 * r)}px Arial`;
         ctx.fill();
         ctx.beginPath();
         ctx.fillStyle = "#3e78ad"
         ctx.font = `${14}px Arial`;
         ctx.fillText(`Escape vel. approx. ${(this.radius * this.density **.45 *.504 ).toFixed(2)}`, 
-        `${this.x +  this.radius + 2}`,
-         `${this.y + .5 * this.radius}`);
+        `${x +  r + 2}`,
+         `${y + .5 * r}`);
         ctx.fill();
       };
 }

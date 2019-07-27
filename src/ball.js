@@ -90,12 +90,12 @@ class Ball {
     
     
     }
-    draw(ctx, x = this.x, y = this.y ) {
+    draw(ctx, x = this.x, y = this.y, r = this.radius ) {
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(
-          x, y, this.radius, 0, 2 * Math.PI, true
+          x, y, r, 0, 2 * Math.PI, true
         );
         ctx.fill();
       };

@@ -1,12 +1,8 @@
 import Ball from './ball';
-import LaunchPad from './launchpad';
-import StickyPlanet from './Sticky_planet';
-import Obstacle from './obstacle';
-import BouncyPlanet from './bouncy_planet';
-import Hole from './hole';
 import Level1 from './levels/level1';
 import Level2 from './levels/level2';
 import TimedMessage from './timedMessage';
+import Viewport from './viewport';
 
 class Game {
 
@@ -23,6 +19,8 @@ class Game {
         this.setPlaySpeed = this.setPlaySpeed.bind(this);
         this.frameCount = 0;
         this.playSpeedMessage = null;
+        this.viewport = new Viewport();
+        // {topLeft: {x: 0, y: 0}, bottomRight: {x: 1200, y: 600}, zoom: 100}
     }
 
     initiateLevel() {
@@ -129,6 +127,7 @@ class Game {
     
     step(delta) {
         this.moveObjects(delta);
+        this.viewport.moveWithBall(this.ball);
     }
 
     moveObjects() {
@@ -168,8 +167,7 @@ class Game {
         requestAnimationFrame(this.animate.bind(this));
     }
     draw() {
-        let ctx=this.ctx;
-        let ball = this.ball;
+        let {ctx, ball, viewport} = this;
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
@@ -181,16 +179,17 @@ class Game {
             const residue = this.frameCount % num;
             ball.draw(
                 ctx, 
-                (residue/num) * ball.x + (1 - residue/num) * ball.prevx,
-                (residue/num) * ball.y + (1 - residue/num) * ball.prevy
+                (residue/num) * ball.x + (1 - residue/num) * ball.prevx - viewport.x1,
+                (residue/num) * ball.y + (1 - residue/num) * ball.prevy - viewport.y1
                 )
         }
         else {
-            ball.draw(ctx);
+            ball.draw(ctx, ball.x - viewport.x1, ball.y - viewport.y1);
         }
         this.obstacles.forEach(obstacle => obstacle.draw(ctx));
         this.hole.drawHole(ctx);
-        this.planets.forEach(planet => planet.draw(ctx));
+        this.planets.forEach(planet => 
+            planet.draw(ctx, planet.x - viewport.x1, planet.y - viewport.y1));
         if(this.startButton) this.startButton.draw(ctx);
         if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
 
