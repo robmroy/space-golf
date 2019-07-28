@@ -167,13 +167,13 @@ class Game {
         requestAnimationFrame(this.animate.bind(this));
     }
     draw() {
-        let {ctx, ball, viewport} = this;
+        let {ctx, ball, viewport, launchPad, hole} = this;
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 1000, 600);
-        this.launchPad.draw(ctx);
-        this.hole.drawFlag(ctx);
+        launchPad.draw(ctx, launchPad.x - viewport.x1, launchPad.y - viewport.y1);
+        hole.drawFlag(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
         if (this.playSpeed.fractional && this.playSpeed.num > 1){
             const num = this.playSpeed.num;
             const residue = this.frameCount % num;
@@ -186,8 +186,8 @@ class Game {
         else {
             ball.draw(ctx, ball.x - viewport.x1, ball.y - viewport.y1);
         }
-        this.obstacles.forEach(obstacle => obstacle.draw(ctx));
-        this.hole.drawHole(ctx);
+        this.obstacles.forEach(obstacle => obstacle.draw(ctx, viewport));
+        hole.drawHole(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
         this.planets.forEach(planet => 
             planet.draw(ctx, planet.x - viewport.x1, planet.y - viewport.y1));
         if(this.startButton) this.startButton.draw(ctx);

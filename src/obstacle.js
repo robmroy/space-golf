@@ -51,11 +51,12 @@ class Obstacle {
         this.x += this.vx;
         this.y += this.vy;
     }
-    draw(ctx ) {
+    draw(ctx, viewport ) {
+        let {x1, y1} = viewport;
         ctx.setLineDash([]);
         ctx.beginPath();
-        ctx.moveTo(this.x1, this.y1);
-        ctx.lineTo(this.x2, this.y2);
+        ctx.moveTo(this.x1 - x1, this.y1 - y1);
+        ctx.lineTo(this.x2 - x1, this.y2 - y1);
         ctx.strokeStyle = this.color;
         ctx.stroke();
       };

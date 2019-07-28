@@ -17,9 +17,7 @@ class Hole {
        this.y += this.vy;
    }
 
-   drawFlag(ctx ) {
-       let x = this.x;
-       let y = this.y;
+   drawFlag(ctx, x = this.x, y = this.y ) {
        ctx.setLineDash([]);
       ctx.beginPath();
       ctx.strokeStyle = "gold";
@@ -33,8 +31,8 @@ class Hole {
        ctx.lineTo(x, y-50);
        ctx.fill();
      }
-     drawHole(ctx) {
-         let {x, y, width} = this;
+     drawHole(ctx, x = this.x, y = this.y) {
+         let {width} = this;
          let ball = this.game.ball;
              ctx.beginPath();
              ctx.strokeStyle = "purple";

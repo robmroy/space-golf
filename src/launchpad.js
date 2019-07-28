@@ -48,7 +48,7 @@ class LaunchPad {
      this.launchVx = this.arrowVector()[0]/4;
      this.launchVy = this.arrowVector()[1]/4;
   }
-  draw(ctx ) {
+  draw(ctx, x = this.x, y = this.y, r = this.radius ) {
    // ctx.beginPath();
    // ctx.strokeStyle = this.color;
    // ctx.arc(
@@ -56,13 +56,13 @@ class LaunchPad {
    // );
    // ctx.stroke();
    //  
-   dottedArc(ctx, this.x, this.y, this.radius, 
+   dottedArc(ctx, x, y, r, 
       this.normalAngle - Math.PI/2, this.normalAngle + Math.PI/2, this.color);
    if (this.arrowTip.x !== null){
       ctx.beginPath();
       ctx.strokeStyle = "white";
       ctx.setLineDash([5,5]);
-     ctx.moveTo(this.x, this.y);
+     ctx.moveTo(x, y);
      ctx.lineTo(this.arrowTip.x, this.arrowTip.y)
      ctx.stroke();
      this.drawArrowBits(ctx);
@@ -70,8 +70,8 @@ class LaunchPad {
         ctx.fillStyle = "purple"
         ctx.font = `${21}px Arial`;
         ctx.fillText(`Initial speed: ${(this.arrowLength/4).toFixed(2)}`, 
-        `${0.5 * (this.x + this.arrowTip.x)}`,
-         `${0.5 * (this.y + this.arrowTip.y)}`);
+        `${0.5 * (x + this.arrowTip.x)}`,
+         `${0.5 * (y + this.arrowTip.y)}`);
         ctx.fill();
      
    }
