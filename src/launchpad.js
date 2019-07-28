@@ -34,15 +34,17 @@ class LaunchPad {
   }
 
   arrowVector(){
-     return [this.arrowTip.x-this.x, this.arrowTip.y-this.y];
+     const vp = this.game.viewport;
+     return [this.arrowTip.x-this.x + vp.x1, this.arrowTip.y-this.y + vp.y1];
   }
   updatePolar(){
    this.arrowLength = vectorLength(this.arrowVector());
    this.arrowAngle = vectorAngle(this.arrowVector());
   }
   updateArrowTip(){
-     this.arrowTip.x = this.x + this.arrowLength*Math.cos(this.arrowAngle);
-     this.arrowTip.y = this.y + this.arrowLength*Math.sin(this.arrowAngle);
+     let vp = this.game.viewport;
+     this.arrowTip.x = this.x -vp.x1 + this.arrowLength*Math.cos(this.arrowAngle);
+     this.arrowTip.y = this.y - vp.y1 + this.arrowLength*Math.sin(this.arrowAngle);
   }
   updateLaunchVelocity(){
      this.launchVx = this.arrowVector()[0]/4;
@@ -56,6 +58,7 @@ class LaunchPad {
    // );
    // ctx.stroke();
    //  
+   
    dottedArc(ctx, x, y, r, 
       this.normalAngle - Math.PI/2, this.normalAngle + Math.PI/2, this.color);
    if (this.arrowTip.x !== null){
@@ -76,8 +79,11 @@ class LaunchPad {
      
    }
 }
-   drawArrowBits (ctx) {
-      let {x, y, arrowTip} = this;
+   drawArrowBits(ctx) {
+      let {x, y, arrowTip, game} = this;
+       x -= game.viewport.x1;
+      y-= game.viewport.y1;
+
       const theta = vectorAngle([arrowTip.x - x, arrowTip.y -y] );
       ctx.setLineDash([]);
       ctx.beginPath();
@@ -104,10 +110,10 @@ class LaunchPad {
     }
 
     setVelocity(event){
-
+      const vp = this.game.viewport;
       const cursor = {x: event.clientX -error().x, y: event.clientY - error().y};
-      const dx = cursor.x - this.x;
-      const dy = cursor.y - this.y;
+      const dx = cursor.x - this.x +vp.x1;
+      const dy = cursor.y - this.y + vp.y1;
       if (
          dx**2 + dy**2 <= this.radius ** 2 &&
           dx * this.normal[0] + dy * this.normal[1] >= 0
