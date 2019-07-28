@@ -1,10 +1,7 @@
-import Ball from './ball';
 import Level1 from './levels/level1';
 import Level2 from './levels/level2';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
-// import Prando from 'prando';
-import fastRandom from 'fast-random';
 import Stars from './stars';
 
 class Game {
@@ -121,6 +118,7 @@ class Game {
             canvas.removeEventListener('mousemove', setVelocityWithMouse, false);
             canvas.removeEventListener("click", launchBallWithMouse, false);
             canvas.removeEventListener("keydown", keyDownHandler, false);
+            this.launchPad = null;
 
         }}
         let keyDownHandler = e => {
@@ -128,6 +126,7 @@ class Game {
             game.launchPad.setVelocityByArrowKeys(e, () => {
             canvas.removeEventListener('keydown', keyDownHandler, false); 
             canvas.removeEventListener("click", launchBallWithMouse, false);
+            this.launchPad = null;
             });
         }
         canvas.addEventListener("mousemove", setVelocityWithMouse, false);
@@ -139,6 +138,7 @@ class Game {
         this.moveObjects(delta);
         this.setBallInterpolatedPosition();
         this.viewport.moveWithBall(this.ballInterpolatedX, this.ballInterpolatedY);
+
     }
 
     moveObjects() {
@@ -187,20 +187,28 @@ class Game {
             this.ballInterpolatedY = (residue/num) * ball.y + (1 - residue/num) * ball.prevy;
         }
         else {
-            this.ballInterpolatedX = ball.x;
-            this.ballInterpolatedY = ball.y;
+            this.ballInterpolatedX = ball.prevx;
+            this.ballInterpolatedY = ball.prevy;
         }
     }
     draw() {
         let {ctx, ball, viewport, launchPad, hole, ballInterpolatedX, ballInterpolatedY} = this;
+        let vp=viewport;
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 1000, 600);
         if (this.stars){
-            this.stars.drawBlock(ctx, 0, 0, viewport);
+            for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){
+                for (let j=Math.floor(vp.y1/1000); j<=Math.ceil(vp.y2/1000); j++){
+                    if (!this.stars.getBlock(i, j)){
+                        this.stars.generateBlock(i, j)
+                    }
+                    this.stars.drawBlock(ctx, i, j, vp);
+                }
+            }
         }
-        launchPad.draw(ctx, launchPad.x - viewport.x1, launchPad.y - viewport.y1);
+        if(launchPad) {launchPad.draw(ctx, launchPad.x - viewport.x1, launchPad.y - viewport.y1);}
         hole.drawFlag(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
         ball.draw(ctx, ballInterpolatedX - viewport.x1, ballInterpolatedY - viewport.y1);
         this.obstacles.forEach(obstacle => obstacle.draw(ctx, viewport));
