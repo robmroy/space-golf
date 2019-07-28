@@ -5,6 +5,7 @@ import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 // import Prando from 'prando';
 import fastRandom from 'fast-random';
+import Stars from './stars';
 
 class Game {
 
@@ -23,6 +24,8 @@ class Game {
         this.playSpeedMessage = null;
         this.viewport = new Viewport();
         // {topLeft: {x: 0, y: 0}, bottomRight: {x: 1200, y: 600}, zoom: 100}
+        
+        
     }
 
     initiateLevel() {
@@ -45,6 +48,8 @@ class Game {
         this.corners = level.corners;
         this.startButton = level.startButton;
         this.playSpeed = {num: 1, fractional: false};
+        this.stars = new Stars(level);
+        this.stars.generateBlock(0, 0);
 
         this.canvas.addEventListener("keydown", this.setPlaySpeed, false);
 
@@ -192,6 +197,9 @@ class Game {
         ctx.height = 600;
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 1000, 600);
+        if (this.stars){
+            this.stars.drawBlock(ctx, 0, 0, viewport);
+        }
         launchPad.draw(ctx, launchPad.x - viewport.x1, launchPad.y - viewport.y1);
         hole.drawFlag(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
         ball.draw(ctx, ballInterpolatedX - viewport.x1, ballInterpolatedY - viewport.y1);
