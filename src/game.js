@@ -3,6 +3,8 @@ import Level1 from './levels/level1';
 import Level2 from './levels/level2';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
+// import Prando from 'prando';
+import fastRandom from 'fast-random';
 
 class Game {
 
@@ -26,12 +28,15 @@ class Game {
     initiateLevel() {
 
         this.currentLevelNumber += 1;
+        
         if (this.currentLevelNumber >= this.levels.length){
             this.ball.stopped = true;
             return this.victoryMessage();
         }
         const level = new this.levels[this.currentLevelNumber](this);
         this.ball = level.ball;
+        this.ballInterpolatedX = this.ball.x;
+        this.ballInterpolatedY = this.ball.y;
         this.currentPlanet = level.currentPlanet;
         this.launchPad = level.launchPad;
         this.planets=level.planets;
@@ -127,7 +132,8 @@ class Game {
     
     step(delta) {
         this.moveObjects(delta);
-        this.viewport.moveWithBall(this.ball);
+        this.setBallInterpolatedPosition();
+        this.viewport.moveWithBall(this.ballInterpolatedX, this.ballInterpolatedY);
     }
 
     moveObjects() {
@@ -166,26 +172,29 @@ class Game {
         // every call to animate requests causes another call to animate
         requestAnimationFrame(this.animate.bind(this));
     }
+
+    setBallInterpolatedPosition(){
+        const ball = this.ball;
+        if (this.playSpeed.fractional && this.playSpeed.num > 1){
+            const num = this.playSpeed.num;
+            const residue = this.frameCount % num;
+            this.ballInterpolatedX =   (residue/num) * ball.x + (1 - residue/num) * ball.prevx;
+            this.ballInterpolatedY = (residue/num) * ball.y + (1 - residue/num) * ball.prevy;
+        }
+        else {
+            this.ballInterpolatedX = ball.x;
+            this.ballInterpolatedY = ball.y;
+        }
+    }
     draw() {
-        let {ctx, ball, viewport, launchPad, hole} = this;
+        let {ctx, ball, viewport, launchPad, hole, ballInterpolatedX, ballInterpolatedY} = this;
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 1000, 600);
         launchPad.draw(ctx, launchPad.x - viewport.x1, launchPad.y - viewport.y1);
         hole.drawFlag(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
-        if (this.playSpeed.fractional && this.playSpeed.num > 1){
-            const num = this.playSpeed.num;
-            const residue = this.frameCount % num;
-            ball.draw(
-                ctx, 
-                (residue/num) * ball.x + (1 - residue/num) * ball.prevx - viewport.x1,
-                (residue/num) * ball.y + (1 - residue/num) * ball.prevy - viewport.y1
-                )
-        }
-        else {
-            ball.draw(ctx, ball.x - viewport.x1, ball.y - viewport.y1);
-        }
+        ball.draw(ctx, ballInterpolatedX - viewport.x1, ballInterpolatedY - viewport.y1);
         this.obstacles.forEach(obstacle => obstacle.draw(ctx, viewport));
         hole.drawHole(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
         this.planets.forEach(planet => 

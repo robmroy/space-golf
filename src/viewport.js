@@ -8,9 +8,9 @@ class Viewport {
         
     }
 
-    moveWithBall(ball){
+    moveWithBall(ballX, ballY){
         let {x1, x2, y1, y2} = this;
-        let ballOvershoot = {x: ball.x - .5*(x1+x2), y: ball.y - .5 *(y1+y2)};
+        let ballOvershoot = {x: ballX - .5*(x1+x2), y: ballY - .5 *(y1+y2)};
         if (ballOvershoot.x  > 0 ){
             this.x1 += ballOvershoot.x;
             this.x2 += ballOvershoot.x;
