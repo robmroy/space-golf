@@ -5,19 +5,25 @@ class Viewport {
         this.x2 = x2;
         this.y2 = y2;
         this.zoom = zoom;
-        
+        this.setMovementStart = this.setMovementStart.bind(this);
+        this.moveWithBall = this.moveWithBall.bind(this);
     }
-
-    moveWithBall(ballX, ballY){
+    setMovementStart(x,y){
+        this.movementStartX = x;
+        this.movementStartY = y;
+    }
+    moveWithBall(ballX, ballY, ball){
         let {x1, x2, y1, y2} = this;
         let ballOvershoot = {x: ballX - .5*(x1+x2), y: ballY - .5 *(y1+y2)};
-        if (ballOvershoot.x  > 0 ){
-            this.x1 += ballOvershoot.x;
-            this.x2 += ballOvershoot.x;
+        if (ballOvershoot.x  > 0 && ballX > this.movementStartX){
+            const catchupX = Math.min(ballOvershoot.x, 1.4 * ball.vx);
+            this.x1 += catchupX;
+            this.x2 += catchupX;
         }
-        if (ballOvershoot.y  > 0 ){
-            this.y1 += ballOvershoot.y;
-            this.y2 += ballOvershoot.y;
+        if (ballOvershoot.y  > 0 && ballY > this.movementStartY){
+            const catchupY = Math.min(ballOvershoot.y, 1.4 * ball.vy);
+            this.y1 += catchupY;
+            this.y2 += catchupY;
         }
     }
 }

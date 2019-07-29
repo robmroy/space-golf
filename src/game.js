@@ -47,6 +47,9 @@ class Game {
         this.playSpeed = {num: 1, fractional: false};
         this.stars = new Stars(level);
         this.stars.generateBlock(0, 0);
+        this.viewport.setMovementStart(
+            level.viewportMovementStartX || 0,
+            level.viewportMovementStartY || 0);
 
         this.canvas.addEventListener("keydown", this.setPlaySpeed, false);
 
@@ -137,7 +140,8 @@ class Game {
     step(delta) {
         this.moveObjects(delta);
         this.setBallInterpolatedPosition();
-        this.viewport.moveWithBall(this.ballInterpolatedX, this.ballInterpolatedY);
+        this.viewport.moveWithBall(this.ballInterpolatedX, this.ballInterpolatedY,
+            this.ball);
 
     }
 
@@ -197,7 +201,7 @@ class Game {
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, 1000, 600);
+        ctx.fillRect(0, 0, 1200, 600);
         if (this.stars){
             for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){
                 for (let j=Math.floor(vp.y1/1000); j<=Math.ceil(vp.y2/1000); j++){
