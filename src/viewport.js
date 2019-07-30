@@ -1,5 +1,5 @@
 class Viewport {
-    constructor(x1 = 0, y1 =0, x2 = 1200, y2 = 600, zoom =100){
+    constructor(x1 = 0, y1 =0, x2 = 1200 + x1, y2 = 600 + y1, zoom =100){
         this.x1 = x1;
         this.y1= y1;
         this.x2 = x2;

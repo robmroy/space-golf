@@ -208,7 +208,7 @@ class Game {
             planet.draw(ctx, planet.x - vp.x1, planet.y - vp.y1));
         if(this.startButton) this.startButton.draw(ctx);
         if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
-        if(launchPad) {launchPad.draw(ctx, launchPad.x - vp.x1, launchPad.y - vp.y1);}
+        if(launchPad) {launchPad.draw(ctx);}
 
 
     }

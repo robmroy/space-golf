@@ -57,16 +57,10 @@ class LaunchPad {
      this.launchVx = this.arrowVector()[0]/4;
      this.launchVy = this.arrowVector()[1]/4;
   }
-  draw(ctx, x = this.x, y = this.y, r = this.radius ) {
-   // ctx.beginPath();
-   // ctx.strokeStyle = this.color;
-   // ctx.arc(
-   //   this.x, this.y, this.radius, 0,  Math.PI
-   // );
-   // ctx.stroke();
-   //  
-   
-   dottedArc(ctx, x, y, r, 
+  draw(ctx ) {
+   let x = this.vpX();
+   let y = this.vpY();
+   dottedArc(ctx, x, y, this.radius, 
       this.normalAngle - Math.PI/2, this.normalAngle + Math.PI/2, this.color);
       let currentPlanet = this.game.currentPlanet;
       if(this.arrowTip.x === null){currentPlanet.hideText = false;}
@@ -87,10 +81,10 @@ class LaunchPad {
         `${textX}`,
          `${textY}`);
         ctx.fill();
-        
-        if (textX  >=currentPlanet.textPos.x -150  && 
-           textY >= currentPlanet.textPos.y - 7 &&
-         textY  <= currentPlanet.textPos.y + 4){
+        let vp = this.game.vp;
+        if (textX  >=currentPlanet.textPos.x - vp.x1 - 150  && 
+           textY >= currentPlanet.textPos.y - vp.y1 - 28  &&
+         textY  <= currentPlanet.textPos.y - vp.y1 + 8){
             currentPlanet.hideText = true;
             console.log(`textX: ${textX} vs ${currentPlanet.textPos.x}`);
             console.log(`textY: ${textY} vs ${currentPlanet.textPos.y}`)
