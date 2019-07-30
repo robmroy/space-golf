@@ -33,8 +33,15 @@ class LaunchPad {
       this.y += this.vy;
   }
 
+  vpX(){
+    return this.game.vp.displayPos(this).x;
+   }
+   vpY(){
+      return this.game.vp.displayPos(this).y;
+   }
+
   arrowVector(){
-     const vp = this.game.viewport;
+     const vp = this.game.vp;
      return [this.arrowTip.x-this.x + vp.x1, this.arrowTip.y-this.y + vp.y1];
   }
   updatePolar(){
@@ -42,7 +49,7 @@ class LaunchPad {
    this.arrowAngle = vectorAngle(this.arrowVector());
   }
   updateArrowTip(){
-     let vp = this.game.viewport;
+     let vp = this.game.vp;
      this.arrowTip.x = this.x -vp.x1 + this.arrowLength*Math.cos(this.arrowAngle);
      this.arrowTip.y = this.y - vp.y1 + this.arrowLength*Math.sin(this.arrowAngle);
   }
@@ -81,10 +88,12 @@ class LaunchPad {
          `${textY}`);
         ctx.fill();
         
-        if (currentPlanet.textPos.x <= textX + 40 && 
-         currentPlanet.textPos.y <= textY +30
-         && currentPlanet.textPos.y >= textY - 18){
+        if (textX  >=currentPlanet.textPos.x -150  && 
+           textY >= currentPlanet.textPos.y - 7 &&
+         textY  <= currentPlanet.textPos.y + 4){
             currentPlanet.hideText = true;
+            console.log(`textX: ${textX} vs ${currentPlanet.textPos.x}`);
+            console.log(`textY: ${textY} vs ${currentPlanet.textPos.y}`)
          }
          else { currentPlanet.hideText = false;}
      
@@ -92,8 +101,8 @@ class LaunchPad {
 }
    drawArrowBits(ctx) {
       let {x, y, arrowTip, game} = this;
-       x -= game.viewport.x1;
-      y-= game.viewport.y1;
+       x -= game.vp.x1;
+      y-= game.vp.y1;
 
       const theta = vectorAngle([arrowTip.x - x, arrowTip.y -y] );
       ctx.setLineDash([]);
@@ -121,7 +130,7 @@ class LaunchPad {
     }
 
     setVelocity(event){
-      const vp = this.game.viewport;
+      const vp = this.game.vp;
       const cursor = {x: event.clientX -error().x, y: event.clientY - error().y};
       const dx = cursor.x - this.x +vp.x1;
       const dy = cursor.y - this.y + vp.y1;

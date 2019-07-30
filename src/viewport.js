@@ -26,6 +26,10 @@ class Viewport {
             this.y2 += catchupY;
         }
     }
+
+    displayPos(pojo){
+        return {x: pojo.x - this.x1, y: pojo.y - this.y1 }
+    }
 }
 
 export default Viewport;

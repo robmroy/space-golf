@@ -10,15 +10,39 @@ class Ball {
         this.move = this.move.bind(this);
         this.vx = vx;
         this.vy = vy;
-        this.playSpeed = playSpeed;
-        // this.setPlaySpeed = this.setPlaySpeed.bind(this);
-        // this.accelCorrection = 1;
         this.ax = 0;
         this.ay = 0;
         this.stopped = true;
         this.prevx =x ;
         this.prevy = y;
-        // this.logging = true;
+        this.drawX = x;
+        this.drawY = y;
+        this.interpolateX = x;
+        this.interpolateY = y;
+    }
+
+    vpX(){
+        return this.game.vp.displayPos(this).x;
+    }
+    vpY(){
+        return this.game.vp.displayPos(this).y;
+    }
+
+    setAuxPositions(){
+        const playSpeed = this.game.playSpeed;
+        const vp = this.game.vp;
+        if (playSpeed.fractional && playSpeed.num > 1){
+            const num = playSpeed.num;
+            const residue = this.frameCount % num;
+            this.interpolateX =   (residue/num) * this.x + (1 - residue/num) * this.prevx;
+            this.interpolateY = (residue/num) * this.y + (1 - residue/num) * this.prevy; 
+        }
+        else {
+            this.interpolateX = this.prevx;
+            this.interpolateY = this.prevy ;
+        }
+        this.drawX = this.interpolateX - vp.x1;
+         this.drawY = this.interpolateY - vp.y1;
     }
     
     checkRectangle(corners){
@@ -95,12 +119,13 @@ class Ball {
     
     
     }
-    draw(ctx, x = this.x, y = this.y, r = this.radius ) {
+    draw(ctx, r = this.radius ) {
+        this.setAuxPositions();
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(
-          x, y, r, 0, 2 * Math.PI, true
+          this.drawX, this.drawY, r, 0, 2 * Math.PI, true
         );
         ctx.fill();
       };

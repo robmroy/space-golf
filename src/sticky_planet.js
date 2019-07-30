@@ -17,6 +17,14 @@ class StickyPlanet {
         this.textPos={x: x + radius + 2, y: y+ radius + .5};
     }
 
+    vpX(){
+      return this.game.vp.displayPos(this).x;
+  }
+
+  vpY(){
+      return this.game.vp.displayPos(this).y;
+  }
+
     move(){
         this.x += this.vx;
         this.y += this.vy;

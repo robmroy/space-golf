@@ -16,7 +16,7 @@ class Level1 {
         this.planets = [
             this.currentPlanet,
             // new StickyPlanet(game, 300, 400, 35), 
-            new StickyPlanet(game, 640, 490, 22, "green", 3),
+            new StickyPlanet(game, 640, 490, 22, "white", 3),
             
         ]
         this.hole = new Hole(game, 680, 435,  [0,1], 100);

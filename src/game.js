@@ -21,7 +21,7 @@ class Game {
         this.setPlaySpeed = this.setPlaySpeed.bind(this);
         this.frameCount = 0;
         this.playSpeedMessage = null;
-        this.viewport = new Viewport();
+        this.vp = new Viewport();
         this.restartLevel = this.restartLevel.bind(this);
         // {topLeft: {x: 0, y: 0}, bottomRight: {x: 1200, y: 600}, zoom: 100}
         
@@ -31,15 +31,13 @@ class Game {
     initiateLevel() {
         
         this.currentLevelNumber += 1;
-        this.viewport = new Viewport();
+        this.vp = new Viewport();
         if (this.currentLevelNumber >= this.levels.length){
             this.ball.stopped = true;
             return this.victoryMessage();
         }
         const level = new this.levels[this.currentLevelNumber](this);
         this.ball = level.ball;
-        this.ballInterpolatedX = this.ball.x;
-        this.ballInterpolatedY = this.ball.y;
         this.currentPlanet = level.currentPlanet;
         this.launchPad = level.launchPad;
         this.planets=level.planets;
@@ -50,7 +48,7 @@ class Game {
         this.playSpeed = {num: 1, fractional: false};
         this.stars = new Stars(level);
         this.stars.generateBlock(0, 0);
-        this.viewport.setMovementStart(
+        this.vp.setMovementStart(
             level.viewportMovementStartX || 0,
             level.viewportMovementStartY || 0);
 
@@ -142,8 +140,7 @@ class Game {
     
     step(delta) {
         this.moveObjects(delta);
-        this.setBallInterpolatedPosition();
-        this.viewport.moveWithBall(this.ballInterpolatedX, this.ballInterpolatedY,
+        this.vp.moveWithBall(this.ball.interpolateX, this.ball.interpolateY,
             this.ball);
 
     }
@@ -185,22 +182,10 @@ class Game {
         requestAnimationFrame(this.animate.bind(this));
     }
 
-    setBallInterpolatedPosition(){
-        const ball = this.ball;
-        if (this.playSpeed.fractional && this.playSpeed.num > 1){
-            const num = this.playSpeed.num;
-            const residue = this.frameCount % num;
-            this.ballInterpolatedX =   (residue/num) * ball.x + (1 - residue/num) * ball.prevx;
-            this.ballInterpolatedY = (residue/num) * ball.y + (1 - residue/num) * ball.prevy;
-        }
-        else {
-            this.ballInterpolatedX = ball.prevx;
-            this.ballInterpolatedY = ball.prevy;
-        }
-    }
+    
     draw() {
-        let {ctx, ball, viewport, launchPad, hole, ballInterpolatedX, ballInterpolatedY} = this;
-        let vp=viewport;
+        let {ctx, ball, vp, launchPad, hole} = this;
+        
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
@@ -215,15 +200,15 @@ class Game {
                 }
             }
         }
-        hole.drawFlag(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
-        ball.draw(ctx, ballInterpolatedX - viewport.x1, ballInterpolatedY - viewport.y1);
-        this.obstacles.forEach(obstacle => obstacle.draw(ctx, viewport));
-        hole.drawHole(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
+        hole.drawFlag(ctx, hole.x - vp.x1, hole.y - vp.y1);
+        ball.draw(ctx);
+        this.obstacles.forEach(obstacle => obstacle.draw(ctx, vp));
+        hole.drawHole(ctx, hole.x - vp.x1, hole.y - vp.y1);
         this.planets.forEach(planet => 
-            planet.draw(ctx, planet.x - viewport.x1, planet.y - viewport.y1));
+            planet.draw(ctx, planet.x - vp.x1, planet.y - vp.y1));
         if(this.startButton) this.startButton.draw(ctx);
         if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
-        if(launchPad) {launchPad.draw(ctx, launchPad.x - viewport.x1, launchPad.y - viewport.y1);}
+        if(launchPad) {launchPad.draw(ctx, launchPad.x - vp.x1, launchPad.y - vp.y1);}
 
 
     }

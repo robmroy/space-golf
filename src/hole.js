@@ -11,6 +11,13 @@ class Hole {
         this.drawFlag = this.drawFlag.bind(this);
         this.drawHole = this.drawHole.bind(this);
     }
+
+    vpX(){
+        return this.game.vp.displayPos(this).x;
+    }
+    vpY(){
+        return this.game.vp.displayPos(this).y;
+    }
  
    move(){
        this.x += this.vx;
