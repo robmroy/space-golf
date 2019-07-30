@@ -36,7 +36,6 @@ class StartButton{
             cursor.x >= this.x -20 && cursor.x <= this.x + 75
             && cursor.y >=this.y - 25 && cursor.y <= this.y + 10
             ){
-                console.log("successful click");
                 this.game.setupLaunchPad();
                 this.game.canvas.removeEventListener("click", this.clickHandler, false);
                 this.visible = false;

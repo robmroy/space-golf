@@ -33,7 +33,7 @@ class Ball {
         const vp = this.game.vp;
         if (playSpeed.fractional && playSpeed.num > 1){
             const num = playSpeed.num;
-            const residue = this.frameCount % num;
+            const residue = this.game.frameCount % num;
             this.interpolateX =   (residue/num) * this.x + (1 - residue/num) * this.prevx;
             this.interpolateY = (residue/num) * this.y + (1 - residue/num) * this.prevy; 
         }
@@ -82,9 +82,9 @@ class Ball {
         this.vx +=  this.ax;
         this.vy +=  this.ay;
         
-        if (Math.abs(this.vx) + Math.abs(this.vy) < 0.4
-        && Math.abs(this.ax) + Math.abs(this.ay) <0.1){
-            this.stop();}
+        // if (Math.abs(this.vx) + Math.abs(this.vy) < 0.4
+        // && Math.abs(this.ax) + Math.abs(this.ay) <0.1){
+        //     this.stop();}
 
         this.ax = 0;
         this.ay = 0;

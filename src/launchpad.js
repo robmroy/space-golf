@@ -82,12 +82,11 @@ class LaunchPad {
          `${textY}`);
         ctx.fill();
         let vp = this.game.vp;
+        let ball = this.game.ball;
         if (textX  >=currentPlanet.textPos.x - vp.x1 - 150  && 
-           textY >= currentPlanet.textPos.y - vp.y1 - 28  &&
-         textY  <= currentPlanet.textPos.y - vp.y1 + 8){
+           textY >= currentPlanet.textPos.y - vp.y1 - 28 + ball.radius  &&
+         textY  <= currentPlanet.textPos.y - vp.y1 + 8 + ball.radius){
             currentPlanet.hideText = true;
-            console.log(`textX: ${textX} vs ${currentPlanet.textPos.x}`);
-            console.log(`textY: ${textY} vs ${currentPlanet.textPos.y}`)
          }
          else { currentPlanet.hideText = false;}
      

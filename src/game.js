@@ -26,19 +26,27 @@ class Game {
         this.playSpeedMessage = null;
         this.vp = new Viewport();
         this.restartLevel = this.restartLevel.bind(this);
+        this.keyRestart = this.keyRestart.bind(this);
+
         // {topLeft: {x: 0, y: 0}, bottomRight: {x: 1200, y: 600}, zoom: 100}
-        
+        this.canvas.addEventListener("keydown", this.keyRestart);
+        window.printo = () => {
+        let ball = this.ball;
+        console.log(`ballx: ${ball.x}, bpx: ${ball.prevx}, playSpeed: ${
+            JSON.stringify(this.playSpeed)}, fC: ${this.frameCount},
+            balldrawX: ${ball.drawX}, ballInterX: ${ball.interpolateX}
+            viewportx1: ${this.vp.x1}`,
+            )}
+            requestAnimationFrame(this.animate.bind(this));
         
     }
-
+    keyRestart(event){
+        if (event.keyCode === 82) this.restartLevel();
+    }
     initiateLevel() {
         
         this.currentLevelNumber += 1;
         
-        if (this.currentLevelNumber >= this.levels.length){
-            this.ball.stopped = true;
-            return this.victoryMessage();
-        }
 
         this.vp = new Viewport();
         const level = new this.levels[this.currentLevelNumber](this);
@@ -60,7 +68,6 @@ class Game {
         this.canvas.addEventListener("keydown", this.setPlaySpeed, false);
 
         if (!this.startButton){this.setupLaunchPad();}
-        requestAnimationFrame(this.animate.bind(this));
     }
 
     restartLevel() {
@@ -178,7 +185,11 @@ class Game {
         this.draw();
         if (this.hole.checkForWin()){
             this.ball.stop();
-            return this.initiateLevel();
+            if(this.currentLevelNumber >= this.levels.length - 1){
+                this.won = true;}
+                else{
+                this.initiateLevel();
+                }
         }
         this.lastTime = time;
         this.frameCount += 1;
@@ -214,7 +225,7 @@ class Game {
         if(this.startButton) this.startButton.draw(ctx);
         if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
         if(launchPad) {launchPad.draw(ctx);}
-
+        if(this.won) this.victoryMessage();
 
     }
 
