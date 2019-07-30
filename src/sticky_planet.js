@@ -13,6 +13,8 @@ class StickyPlanet {
         this.density = density || 1;
         this.mass = this.density * this.radius**3;
         this.sticky = true;
+        this.hideText = false;
+        this.textPos={x: x + radius + 2, y: y+ radius + .5};
     }
 
     move(){
@@ -38,7 +40,8 @@ class StickyPlanet {
         );
         ctx.font = `${Math.floor(.9 * r)}px Arial`;
         ctx.fill();
-        ctx.beginPath();
+        if (!this.hideText){
+          ctx.beginPath();
         ctx.fillStyle = "#3e78ad"
         ctx.font = `${14}px Arial`;
         ctx.fillText(`Escape vel. approx. ${(this.radius * this.density **.45 *.504 ).toFixed(2)}`, 
@@ -46,6 +49,7 @@ class StickyPlanet {
          `${y + .5 * r}`);
         ctx.fill();
       };
+    }
 }
 
 export default StickyPlanet;

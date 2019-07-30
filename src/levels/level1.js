@@ -19,12 +19,12 @@ class Level1 {
             new StickyPlanet(game, 640, 490, 22, "green", 3),
             
         ]
-        this.hole = new Hole(game, 670, 450,  [0,1], 100);
+        this.hole = new Hole(game, 680, 435,  [0,1], 100);
         this.obstacles=[];
         this.obstacles = [
             // new Obstacle(game, 90, 0, 90, 900)   ,
-            new Obstacle(game, 350, 280, 680, 420),
-            new Obstacle(game, 360, 150, 710, 410)
+            new Obstacle(game, 350, 280, 660, 420),
+            new Obstacle(game, 360, 150, 690, 410)
         ]
         this.viewportMovementStartX = 700;
         this.viewportMovementStartY = 500;

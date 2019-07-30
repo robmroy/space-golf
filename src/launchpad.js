@@ -61,6 +61,8 @@ class LaunchPad {
    
    dottedArc(ctx, x, y, r, 
       this.normalAngle - Math.PI/2, this.normalAngle + Math.PI/2, this.color);
+      let currentPlanet = this.game.currentPlanet;
+      if(this.arrowTip.x === null){currentPlanet.hideText = false;}
    if (this.arrowTip.x !== null){
       ctx.beginPath();
       ctx.strokeStyle = "white";
@@ -70,12 +72,21 @@ class LaunchPad {
      ctx.stroke();
      this.drawArrowBits(ctx);
      ctx.beginPath();
+      let textX = 0.5 * (x + this.arrowTip.x);
+      let textY = 0.5 * (y + this.arrowTip.y);
         ctx.fillStyle = "purple"
         ctx.font = `${21}px Arial`;
         ctx.fillText(`Initial speed: ${(this.arrowLength/4).toFixed(2)}`, 
-        `${0.5 * (x + this.arrowTip.x)}`,
-         `${0.5 * (y + this.arrowTip.y)}`);
+        `${textX}`,
+         `${textY}`);
         ctx.fill();
+        
+        if (currentPlanet.textPos.x <= textX + 40 && 
+         currentPlanet.textPos.y <= textY +30
+         && currentPlanet.textPos.y >= textY - 18){
+            currentPlanet.hideText = true;
+         }
+         else { currentPlanet.hideText = false;}
      
    }
 }

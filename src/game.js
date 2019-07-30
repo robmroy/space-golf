@@ -10,7 +10,9 @@ class Game {
         this.canvas = document.getElementById("game-canvas");
         this.canvas.setAttribute("tabindex", 0);
         this.ctx = this.canvas.getContext("2d");
-        this.levels = [null, Level1, Level2];
+        this.levels = [null, 
+            Level1, 
+            Level2];
         this.currentLevelNumber = 0;
         this.draw = this.draw.bind(this);
         this.initiateLevel = this.initiateLevel.bind(this);
@@ -20,15 +22,16 @@ class Game {
         this.frameCount = 0;
         this.playSpeedMessage = null;
         this.viewport = new Viewport();
+        this.restartLevel = this.restartLevel.bind(this);
         // {topLeft: {x: 0, y: 0}, bottomRight: {x: 1200, y: 600}, zoom: 100}
         
         
     }
 
     initiateLevel() {
-
-        this.currentLevelNumber += 1;
         
+        this.currentLevelNumber += 1;
+        this.viewport = new Viewport();
         if (this.currentLevelNumber >= this.levels.length){
             this.ball.stopped = true;
             return this.victoryMessage();
@@ -212,7 +215,6 @@ class Game {
                 }
             }
         }
-        if(launchPad) {launchPad.draw(ctx, launchPad.x - viewport.x1, launchPad.y - viewport.y1);}
         hole.drawFlag(ctx, hole.x - viewport.x1, hole.y - viewport.y1);
         ball.draw(ctx, ballInterpolatedX - viewport.x1, ballInterpolatedY - viewport.y1);
         this.obstacles.forEach(obstacle => obstacle.draw(ctx, viewport));
@@ -221,6 +223,8 @@ class Game {
             planet.draw(ctx, planet.x - viewport.x1, planet.y - viewport.y1));
         if(this.startButton) this.startButton.draw(ctx);
         if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
+        if(launchPad) {launchPad.draw(ctx, launchPad.x - viewport.x1, launchPad.y - viewport.y1);}
+
 
     }
 

@@ -35,6 +35,11 @@ class Ball {
     //     } 
     //     this.accelCorrection = this.playSpeed ** (-.88);
     // }
+    stop(){
+        this.stopped = true;
+        this.vx = 0;
+        this.vy = 0;
+    }
     move(){
         if(this.logging){
             console.log(`ballx is ${this.x}`);
@@ -55,7 +60,7 @@ class Ball {
         
         if (Math.abs(this.vx) + Math.abs(this.vy) < 0.4
         && Math.abs(this.ax) + Math.abs(this.ay) <0.1){
-            this.stopped = true;}
+            this.stop();}
 
         this.ax = 0;
         this.ay = 0;
@@ -69,7 +74,7 @@ class Ball {
                 this.ax = 0;
                 this.ay = 0;
                 if (planet.sticky || Math.abs(this.vx) + Math.abs(this.vy)<1 ){
-                    this.stopped = true;
+                    this.stop();
                 this.game.currentPlanet = planet;
                 this.game.launchPad = new LaunchPad(this.game, this.x, this.y, normal);
                 this.game.setupLaunchPad();
