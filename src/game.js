@@ -23,12 +23,11 @@ class Game {
         this.playSpeed = {num: 1, fractional: false};
         this.setPlaySpeed = this.setPlaySpeed.bind(this);
         this.frameCount = 0;
-        this.playSpeedMessage = null;
+        // this.playSpeedMessage = null;
         this.vp = new Viewport();
         this.restartLevel = this.restartLevel.bind(this);
         this.keyRestart = this.keyRestart.bind(this);
-
-        // {topLeft: {x: 0, y: 0}, bottomRight: {x: 1200, y: 600}, zoom: 100}
+        this.timedMessages = [];
         this.canvas.addEventListener("keydown", this.keyRestart);
         window.printo = () => {
         let ball = this.ball;
@@ -109,9 +108,9 @@ class Game {
                 }
             }
         } 
-        this.playSpeedMessage = new TimedMessage(
+        this.timedMessages = [ new TimedMessage(
             `Playspeed: ${this.playSpeed.fractional ? 
-                (1/this.playSpeed.num).toFixed(2) : this.playSpeed.num}`);
+                (1/this.playSpeed.num).toFixed(2) : this.playSpeed.num}`)];
     }
     
     victoryMessage(){
@@ -137,8 +136,10 @@ class Game {
             this.launchPad = null;
 
         }}
+        let arrowCodes = [37, 38, 39, 40];
         let keyDownHandler = e => {
-            canvas.removeEventListener('mousemove', setVelocityWithMouse, false);
+            if (arrowCodes.includes(e.keyCode)){
+            canvas.removeEventListener('mousemove', setVelocityWithMouse, false);}
             game.launchPad.setVelocityByArrowKeys(e, () => {
             canvas.removeEventListener('keydown', keyDownHandler, false); 
             canvas.removeEventListener("click", launchBallWithMouse, false);
@@ -154,6 +155,11 @@ class Game {
         this.moveObjects(delta);
         this.vp.moveWithBall(this.ball.interpolateX, this.ball.interpolateY,
             this.ball);
+        this.timedMessages.forEach(message => {
+            message.duration -= 1;
+        });
+        this.timedMessages = this.timedMessages.filter(message => 
+           (message.duration >= 0) );
 
     }
 
@@ -223,7 +229,8 @@ class Game {
         this.planets.forEach(planet => 
             planet.draw(ctx, planet.x - vp.x1, planet.y - vp.y1));
         if(this.startButton) this.startButton.draw(ctx);
-        if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
+        // if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
+        this.timedMessages.forEach( message => {message.draw(ctx);})
         if(launchPad) {launchPad.draw(ctx);}
         if(this.won) this.victoryMessage();
 
