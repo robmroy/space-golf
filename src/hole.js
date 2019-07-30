@@ -1,6 +1,6 @@
 import {intervalsIntersect} from './helper';
 class Hole {
-    constructor(game, x, y, normal = [0,1], width = 100){
+    constructor(game, x, y, normal = [0,-1], width = 100){
         this.game = game;
         this.x = x;
         this.y = y;
@@ -25,33 +25,38 @@ class Hole {
    }
 
    drawFlag(ctx, x = this.x, y = this.y ) {
+       let normal = this.normal;
        ctx.setLineDash([]);
       ctx.beginPath();
       ctx.strokeStyle = "gold";
       ctx.moveTo(x, y);
-      ctx.lineTo(x, y - 50)
+      ctx.lineTo(x + 50* normal[0] , y + 50 * normal[1])
        ctx.stroke();
        ctx.fillStyle = "red";
-       ctx.moveTo(x, y-50);
-       ctx.lineTo(x,y-70);
-       ctx.lineTo(x+ 25, y-60);
-       ctx.lineTo(x, y-50);
+       ctx.moveTo(x + 50* normal[0] , y + 50 * normal[1]);
+       ctx.lineTo(x + 70* normal[0] , y + 70 * normal[1]);
+       ctx.lineTo(x + 60* normal[0] - 20* normal[1], y + 60 * normal[1] + 20 * normal[0]);
+       ctx.lineTo(x + 50* normal[0] , y + 50 * normal[1]);
        ctx.fill();
      }
      drawHole(ctx, x = this.x, y = this.y) {
-         let {width} = this;
+         let {width, normal} = this;
          let ball = this.game.ball;
              ctx.beginPath();
              ctx.strokeStyle = "purple";
-             ctx.moveTo(x - width/2, y);
-             ctx.lineTo(x + width/2, y);
+             ctx.moveTo(x - normal[1] * width/2 , y + normal[0] * width/2 );
+             ctx.lineTo(x +  normal[1] * width/2, y - normal[0] * width/2);
              ctx.stroke();
              ctx.beginPath();
              ctx.fillStyle = "black";
-             ctx.moveTo(x + width/2, y);
-             ctx.lineTo(x + width/2, y + 30);
-             ctx.lineTo(x - width/2, y + 30);
-             ctx.lineTo(x - width/2, y );
+             ctx.moveTo(x + normal[1] * width/2, y - normal[0] * width/2);
+             ctx.lineTo(x + normal[1] * width/2 -30 * normal[0],
+                 y - normal[0] * width/2 -30*normal[1]);
+             ctx.lineTo(x - normal[1] * width/2 -30 * normal[0],
+                y + normal[0] * width/2 -30*normal[1]);
+            ctx.lineTo(x - normal[1] * width/2 ,
+                y + normal[0] * width/2);
+             ctx.lineTo(x + normal[1] * width/2, y - normal[0] * width/2 );
              ctx.fill();
          
 
@@ -66,11 +71,11 @@ class Hole {
             
             // return result;
 
-            let perpComponent = normal[0] * (ball.x - x) + normal[1]*(ball.y-y);
-            let nextPerpComponent = normal[0] * (ball.x + ball.vx - x) + normal[1]*(ball.y+ball.vy-y);
+            let perpComponent = normal[0] * (ball.prevx - x) + normal[1]*(ball.prevy-y);
+            let nextPerpComponent = normal[0] * (ball.prevx + ball.vx - x) + normal[1]*(ball.prevy+ball.vy-y);
             return perpComponent * nextPerpComponent <= 0 
-            && intervalsIntersect([ball.x, ball.x+ball.vx], [x - 0.5 * width* normal[1], x+ 0.5* width * normal[1]]) 
-            && intervalsIntersect([ball.y, ball.y+ball.vy], [y - 0.5 * width* normal[0], y + 0.5 * width * normal[0]]);
+            && intervalsIntersect([ ball.prevx, ball.x], [x - 0.5 * width* normal[1], x+ 0.5* width * normal[1]]) 
+            && intervalsIntersect([ ball.prevy, ball.y], [y - 0.5 * width* normal[0], y + 0.5 * width* normal[0]]);
         }
  
     

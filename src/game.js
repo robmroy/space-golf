@@ -1,5 +1,6 @@
 import Level1 from './levels/level1';
 import Level2 from './levels/level2';
+import Level3 from './levels/level3';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
@@ -12,7 +13,9 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         this.levels = [null, 
             Level1, 
-            Level2];
+            Level2,
+            Level3
+        ];
         this.currentLevelNumber = 0;
         this.draw = this.draw.bind(this);
         this.initiateLevel = this.initiateLevel.bind(this);
@@ -31,18 +34,20 @@ class Game {
     initiateLevel() {
         
         this.currentLevelNumber += 1;
-        this.vp = new Viewport();
+        
         if (this.currentLevelNumber >= this.levels.length){
             this.ball.stopped = true;
             return this.victoryMessage();
         }
+
+        this.vp = new Viewport();
         const level = new this.levels[this.currentLevelNumber](this);
         this.ball = level.ball;
         this.currentPlanet = level.currentPlanet;
         this.launchPad = level.launchPad;
-        this.planets=level.planets;
+        this.planets=level.planets || [];
         this.hole = level.hole;
-        this.obstacles = level.obstacles;
+        this.obstacles = level.obstacles || [];
         this.corners = level.corners;
         this.startButton = level.startButton;
         this.playSpeed = {num: 1, fractional: false};
@@ -168,13 +173,13 @@ class Game {
         }
     }
     animate(time) {
-        if (this.hole.checkForWin()){
-            this.ball.stopped = true;
-            return this.initiateLevel();
-        }
         const timeDelta = time - this.lastTime;
         this.step(timeDelta);
         this.draw();
+        if (this.hole.checkForWin()){
+            this.ball.stop();
+            return this.initiateLevel();
+        }
         this.lastTime = time;
         this.frameCount += 1;
 
@@ -202,8 +207,8 @@ class Game {
         }
         hole.drawFlag(ctx, hole.x - vp.x1, hole.y - vp.y1);
         ball.draw(ctx);
-        this.obstacles.forEach(obstacle => obstacle.draw(ctx, vp));
         hole.drawHole(ctx, hole.x - vp.x1, hole.y - vp.y1);
+        this.obstacles.forEach(obstacle => obstacle.draw(ctx, vp));
         this.planets.forEach(planet => 
             planet.draw(ctx, planet.x - vp.x1, planet.y - vp.y1));
         if(this.startButton) this.startButton.draw(ctx);

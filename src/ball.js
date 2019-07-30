@@ -38,8 +38,8 @@ class Ball {
             this.interpolateY = (residue/num) * this.y + (1 - residue/num) * this.prevy; 
         }
         else {
-            this.interpolateX = this.prevx;
-            this.interpolateY = this.prevy ;
+            this.interpolateX = this.x;
+            this.interpolateY = this.y ;
         }
         this.drawX = this.interpolateX - vp.x1;
          this.drawY = this.interpolateY - vp.y1;

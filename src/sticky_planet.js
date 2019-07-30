@@ -52,7 +52,7 @@ class StickyPlanet {
           ctx.beginPath();
         ctx.fillStyle = "#3e78ad"
         ctx.font = `${14}px Arial`;
-        ctx.fillText(`Escape vel. approx. ${(this.radius * this.density **.45 *.504 ).toFixed(2)}`, 
+        ctx.fillText(`Escape vel. ${(this.radius * this.density **.45 *.504 ).toFixed(2)}`, 
         `${x +  r + 2}`,
          `${y + .5 * r}`);
         ctx.fill();
