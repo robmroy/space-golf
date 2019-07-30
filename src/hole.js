@@ -71,9 +71,9 @@ class Hole {
             
             // return result;
 
-            let perpComponent = normal[0] * (ball.prevx - x) + normal[1]*(ball.prevy-y);
-            let nextPerpComponent = normal[0] * (ball.prevx + ball.vx - x) + normal[1]*(ball.prevy+ball.vy-y);
-            return perpComponent * nextPerpComponent <= 0 
+            let prevPerpComponent = normal[0] * (ball.prevx - x) + normal[1]*(ball.prevy-y);
+            let perpComponent = normal[0] * (ball.x - x) + normal[1]*(ball.y-y);
+            return prevPerpComponent < 0  && perpComponent > 0
             && intervalsIntersect([ ball.prevx, ball.x], [x - 0.5 * width* normal[1], x+ 0.5* width * normal[1]]) 
             && intervalsIntersect([ ball.prevy, ball.y], [y - 0.5 * width* normal[0], y + 0.5 * width* normal[0]]);
         }

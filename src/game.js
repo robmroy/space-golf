@@ -12,9 +12,9 @@ class Game {
         this.canvas.setAttribute("tabindex", 0);
         this.ctx = this.canvas.getContext("2d");
         this.levels = [null, 
-            Level1, 
-            Level2,
-            Level3
+            // Level1, 
+            // Level2,
+            Level2
         ];
         this.currentLevelNumber = 0;
         this.draw = this.draw.bind(this);

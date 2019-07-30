@@ -5,7 +5,7 @@ return {x: rect.x, y: rect.y};
 }
 
 class LaunchPad {
-   constructor(game, x = 0, y = 0, normal = [0,1], radius = 100,  color = "white"){
+   constructor(game, x = 0, y = 0, normal = [0,1], radius = 80,  color = "white"){
       this.game = game;
       this.x = x;
       this.y = y;
@@ -26,6 +26,7 @@ class LaunchPad {
       this.arrowTip = {x: null, y: null};
       this.arrowAngle = this.normalAngle;
       this.arrowLength = 60;
+      this.setVelocityByArrowKeys = this.setVelocityByArrowKeys.bind(this);
   }
 
   move(){
@@ -142,20 +143,18 @@ class LaunchPad {
          else {this.arrowTip.x = null;}
     }
     setVelocityByArrowKeys(event, callback){
-       const dVx = .1 * Math.cos(this.arrowAngle);
-       const dVy = .1 * Math.sin(this.arrowAngle);
-
+       const al = this.arrowLength;
        if (event.keyCode === 40){
-         this.arrowLength -= .5;
+         this.arrowLength = Math.max(al -.4, 0);
        }
        if (event.keyCode === 38){
-         this.arrowLength += .5;
+         this.arrowLength = Math.min(al + .4, this.radius);
        }
        if (event.keyCode === 37){
-          this.arrowAngle -= .02;
+          this.arrowAngle -= .01;
        }
        if (event.keyCode === 39){
-          this.arrowAngle += .02;
+          this.arrowAngle += .01;
       }
       if ([32,13].includes(event.keyCode)){
          if (this.launch()){

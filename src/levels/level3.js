@@ -11,7 +11,7 @@ class Level3 {
         this.ball = new Ball(game, 100 + (25 + 5)*invSqrt, 40 + (25 + 5)*invSqrt);
         this.corners = [[-200, -200], [3400, 3100]];
         this.currentPlanet = new StickyPlanet(game, 100, 40, 25, "#27753a", 1);
-        this.startButton = new StartButton(game, 400, 400);
+        // this.startButton = new StartButton(game, 400, 400);
         this.launchPad = new LaunchPad(game, this.ball.x, this.ball.y, [invSqrt, invSqrt]);
         this.planets = [
             this.currentPlanet,
