@@ -1,6 +1,7 @@
 import Level1 from './levels/level1';
 import Level2 from './levels/level2';
 import Level3 from './levels/level3';
+import Level4 from './levels/level4';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
@@ -14,7 +15,8 @@ class Game {
         this.levels = [null, 
             // Level1, 
             // Level2,
-            Level2
+            // Level3,
+            Level4
         ];
         this.currentLevelNumber = 0;
         this.draw = this.draw.bind(this);

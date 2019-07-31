@@ -35,7 +35,7 @@ class Hole {
        ctx.fillStyle = "red";
        ctx.moveTo(x + 50* normal[0] , y + 50 * normal[1]);
        ctx.lineTo(x + 70* normal[0] , y + 70 * normal[1]);
-       ctx.lineTo(x + 60* normal[0] - 20* normal[1], y + 60 * normal[1] + 20 * normal[0]);
+       ctx.lineTo(x + 60* normal[0] - 30* normal[1], y + 60 * normal[1] + 30 * normal[0]);
        ctx.lineTo(x + 50* normal[0] , y + 50 * normal[1]);
        ctx.fill();
      }
@@ -73,7 +73,7 @@ class Hole {
 
             let prevPerpComponent = normal[0] * (ball.prevx - x) + normal[1]*(ball.prevy-y);
             let perpComponent = normal[0] * (ball.x - x) + normal[1]*(ball.y-y);
-            return prevPerpComponent < 0  && perpComponent > 0
+            return prevPerpComponent >= 0  && perpComponent <= 0
             && intervalsIntersect([ ball.prevx, ball.x], [x - 0.5 * width* normal[1], x+ 0.5* width * normal[1]]) 
             && intervalsIntersect([ ball.prevy, ball.y], [y - 0.5 * width* normal[0], y + 0.5 * width* normal[0]]);
         }
