@@ -1,6 +1,6 @@
 
 class StickyPlanet {
-    constructor(game, x = 0, y = 0, radius = 10, color = "grey", density, vx=0, vy=0){
+    constructor(game, x = 0, y = 0, radius = 10, color = "grey", density, maxTheta=Math.PI/2,vx=0, vy=0){
         this.game = game;
         this.x = x;
         this.y = y;
@@ -14,6 +14,7 @@ class StickyPlanet {
         this.mass = this.density * this.radius**3;
         this.sticky = true;
         this.hideText = false;
+        this.maxTheta = maxTheta;
         this.textPos={x: x + radius + 2, y: y+ radius + .5};
     }
 

@@ -2,6 +2,7 @@ import Level1 from './levels/level1';
 import Level2 from './levels/level2';
 import Level3 from './levels/level3';
 import Level4 from './levels/level4';
+import Level5 from './levels/level5';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
@@ -13,10 +14,11 @@ class Game {
         this.canvas.setAttribute("tabindex", 0);
         this.ctx = this.canvas.getContext("2d");
         this.levels = [null, 
-            // Level1, 
-            // Level2,
-            // Level3,
-            Level4
+            Level1, 
+            Level2,
+            Level3,
+            Level4,
+            Level5
         ];
         this.currentLevelNumber = 0;
         this.draw = this.draw.bind(this);
@@ -235,6 +237,15 @@ class Game {
         this.timedMessages.forEach( message => {message.draw(ctx);})
         if(launchPad) {launchPad.draw(ctx);}
         if(this.won) this.victoryMessage();
+        ctx.beginPath();
+        ctx.fillStyle = "#3e78ad"
+        ctx.font = `${14}px Arial`;
+        ctx.fillText(`Velocity_x=${this.ball.vx.toFixed(0)}, Velocity_y=${this.ball.vy.toFixed(0)},
+        speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)}`, 
+        50,
+         50);
+        //  console.log(Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0));
+        ctx.fill();
 
     }
 

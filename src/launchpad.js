@@ -5,7 +5,7 @@ return {x: rect.x, y: rect.y};
 }
 
 class LaunchPad {
-   constructor(game, x = 0, y = 0, normal = [0,1], radius = 80,  color = "white"){
+   constructor(game, x = 0, y = 0, normal = [0,1],  maxTheta = Math.PI/2, radius = 80, color = "white"){
       this.game = game;
       this.x = x;
       this.y = y;
@@ -26,6 +26,8 @@ class LaunchPad {
       this.arrowTip = {x: null, y: null};
       this.arrowAngle = this.normalAngle;
       this.arrowLength = 60;
+      this.maxTheta = maxTheta;
+      this.thetaRestrictionHelper = (1-Math.cos(maxTheta))**2 + (Math.sin(maxTheta))**2;
       this.setVelocityByArrowKeys = this.setVelocityByArrowKeys.bind(this);
   }
 
@@ -62,7 +64,7 @@ class LaunchPad {
    let x = this.vpX();
    let y = this.vpY();
    dottedArc(ctx, x, y, this.radius, 
-      this.normalAngle - Math.PI/2, this.normalAngle + Math.PI/2, this.color);
+      this.normalAngle - this.maxTheta, this.normalAngle +this.maxTheta, this.color);
       let currentPlanet = this.game.currentPlanet;
       if(this.arrowTip.x === null){currentPlanet.hideText = false;}
    if (this.arrowTip.x !== null){
@@ -128,9 +130,14 @@ class LaunchPad {
       const cursor = {x: event.clientX -error().x, y: event.clientY - error().y};
       const dx = cursor.x - this.x +vp.x1;
       const dy = cursor.y - this.y + vp.y1;
+      const dz = Math.sqrt(dx**2 + dy**2);
+      console.log(`normal: ${this.normal}`);
+      console.log(`trh: ${this.thetaRestrictionHelper}`);
+      console.log(`dx, dy:${[dx, dy]}`);
       if (
          dx**2 + dy**2 <= this.radius ** 2 &&
-          dx * this.normal[0] + dy * this.normal[1] >= 0
+         //  dx * this.normal[0] + dy * this.normal[1] >= 0
+         (this.normal[0] - dx/dz)**2 + (this.normal[1] - dy/dz)**2 <= this.thetaRestrictionHelper
           ) {
              this.arrowTip.x = cursor.x;
              this.arrowTip.y = cursor.y;

@@ -5,7 +5,7 @@ import Obstacle from '../obstacle';
 import BouncyPlanet from '../bouncy_planet';
 import Hole from '../hole';
 import StartButton from '../start_button';
-class Level3 {
+class Level4 {
     constructor(game){
         const sqrt = 1/Math.sqrt(2);
         this.ball = new Ball(game, 560 + (25 + 5), 245);
@@ -29,4 +29,4 @@ class Level3 {
         }
 }
 
-export default Level3;
+export default Level4;

@@ -100,7 +100,7 @@ class Ball {
                 if (planet.sticky || Math.abs(this.vx) + Math.abs(this.vy)<1 ){
                     this.stop();
                 this.game.currentPlanet = planet;
-                this.game.launchPad = new LaunchPad(this.game, this.x, this.y, normal);
+                this.game.launchPad = new LaunchPad(this.game, this.x, this.y, normal, planet.maxTheta );
                 this.game.setupLaunchPad();
             }
                 else{planet.bounce(normal);}
