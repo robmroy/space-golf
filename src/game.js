@@ -8,6 +8,7 @@ import Level7 from './levels/level7';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
+import Menu from './menu';
 
 class Game {
 
@@ -24,6 +25,7 @@ class Game {
             Level6,
             Level7
         ];
+        this.menu = new Menu(this);
         this.currentLevelNumber = 0;
         this.draw = this.draw.bind(this);
         this.initiateLevel = this.initiateLevel.bind(this);
@@ -45,7 +47,9 @@ class Game {
             viewportx1: ${this.vp.x1}`,
             )}
             requestAnimationFrame(this.animate.bind(this));
-        
+        // this.launchBallWithMouse = this.launchBallWithMouse.bind(this);
+        // this.setVelocityWithMouse = this.setVelocityWithMouse.bind(this);
+        this.menuReady();
     }
     keyRestart(event){
         if (event.keyCode === 82) this.restartLevel();
@@ -64,7 +68,7 @@ class Game {
         this.hole = level.hole;
         this.obstacles = level.obstacles || [];
         this.corners = level.corners;
-        this.startButton = level.startButton;
+        // this.startButton = level.startButton;
         this.playSpeed = {num: 1, fractional: false};
         this.stars = new Stars(level);
         this.stars.generateBlock(0, 0);
@@ -74,7 +78,7 @@ class Game {
 
         this.canvas.addEventListener("keydown", this.setPlaySpeed, false);
 
-        if (!this.startButton){this.setupLaunchPad();}
+        if (!this.menu){this.setupLaunchPad();}
     }
 
     restartLevel() {
@@ -131,7 +135,7 @@ class Game {
         ctx.fill();
     }
 
-   
+    
         
     setupLaunchPad(){
         let game = this;
@@ -154,10 +158,32 @@ class Game {
             this.launchPad = null;
             });
         }
-        canvas.addEventListener("mousemove", setVelocityWithMouse, false);
-        canvas.addEventListener('keydown', keyDownHandler, false);
-        canvas.addEventListener("click", launchBallWithMouse, false);
+
+        this.setVelocityWithMouse = setVelocityWithMouse;
+        this.keyDownHandler = keyDownHandler;
+        this.launchBallWithMouse = launchBallWithMouse;
+        canvas.addEventListener("mousemove", this.setVelocityWithMouse, false);
+        canvas.addEventListener('keydown', this.keyDownHandler, false);
+        canvas.addEventListener("click", this.launchBallWithMouse, false);
     }
+    
+    disableLaunchPad(){
+        let canvas = this.canvas;
+        canvas.removeEventListener('keydown', this.keyDownHandler, false); 
+        canvas.removeEventListener("click", this.launchBallWithMouse, false);
+        canvas.removeEventListener('mousemove', this.setVelocityWithMouse, false);
+    }
+
+    menuReady(){
+        let canvas = this.canvas;
+        canvas.addEventListener('keydown', (e) => {
+            if (e.keyCode === 77){
+            this.disableLaunchPad();
+            this.menu = new Menu(this)}}
+        
+        , false);
+    }
+
     
     step(delta) {
         this.moveObjects(delta);
@@ -236,7 +262,7 @@ class Game {
         this.obstacles.forEach(obstacle => obstacle.draw(ctx, vp));
         this.planets.forEach(planet => 
             planet.draw(ctx, planet.x - vp.x1, planet.y - vp.y1));
-        if(this.startButton) this.startButton.draw(ctx);
+        // if(this.startButton) this.startButton.draw(ctx);
         // if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
         this.timedMessages.forEach( message => {message.draw(ctx);})
         if(launchPad) {launchPad.draw(ctx);}
@@ -250,6 +276,7 @@ class Game {
          50);
         //  console.log(Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0));
         ctx.fill();
+            if (this.menu) this.menu.draw(ctx);
 
     }
 

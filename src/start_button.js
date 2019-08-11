@@ -3,24 +3,25 @@ let rect = m.getBoundingClientRect();
 return {x: rect.x, y: rect.y};
 }
 class StartButton{
-    constructor(game, x, y){
+    constructor(game, x, y, color = 'black'){
         this.game = game;
         this.clickHandler = this.clickHandler.bind(this);
         game.canvas.addEventListener("click", this.clickHandler);
         this.visible = true;
         this.x =x;
         this.y = y;
+        this.color = color;
     }
     draw(ctx){
         if(this.visible){
             ctx.beginPath();
-        ctx.fillStyle = "white"
+        ctx.fillStyle = this.color;
         ctx.font = `${25}px Arial`;
         ctx.fillText(`Start`, 
        this.x, this.y);
         ctx.fill();
             ctx.beginPath();
-            ctx.strokeStyle = "white";
+            ctx.strokeStyle = this.color;
             ctx.moveTo(this.x - 20, this.y+10);
             ctx.lineTo(this.x - 20, this.y - 25);
             ctx.lineTo(this.x + 75, this.y - 25);
@@ -39,6 +40,7 @@ class StartButton{
                 this.game.setupLaunchPad();
                 this.game.canvas.removeEventListener("click", this.clickHandler, false);
                 this.visible = false;
+                this.game.menu = null;
             }
     }
 

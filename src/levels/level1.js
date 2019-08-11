@@ -10,7 +10,7 @@ class Level1 {
         this.ball = new Ball(game, 300 + 25 + 5, 240 );
         this.corners = [[-200, -200], [1200, 600]];
         this.currentPlanet = new StickyPlanet(game, 300, 240, 25, "#27753a", 1);
-        this.startButton = new StartButton(game, 400, 400);
+        // this.startButton = new StartButton(game, 400, 400);
         this.launchPad = new LaunchPad(game, this.ball.x, this.ball.y, [1, 0]);
         this.planets = [
             this.currentPlanet,
