@@ -158,10 +158,10 @@ class LaunchPad {
          this.arrowLength = Math.min(al + .4, this.radius);
        }
        if (event.keyCode === 37){
-          this.arrowAngle -= .01;
+          this.arrowAngle -= .004;
        }
        if (event.keyCode === 39){
-          this.arrowAngle += .01;
+          this.arrowAngle += .004;
       }
       if ([32,13].includes(event.keyCode)){
          if (this.launch()){
