@@ -5,7 +5,6 @@ import Obstacle from '../obstacle';
 import {polyFromFunction} from '../obstacles';
 import BouncyPlanet from '../bouncy_planet';
 import Hole from '../hole';
-import StartButton from '../start_button';
 class Level7 {
     constructor(game){
         const invSqrt = 1/Math.sqrt(2);

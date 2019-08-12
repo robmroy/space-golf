@@ -20,7 +20,7 @@ class Level3 {
             
         ]
         let sqrt = 1/Math.sqrt(2);
-        this.hole = new Hole(game, 740, 420,  [sqrt,-sqrt], 100);
+        this.hole = new Hole(game, 720, 420,  [sqrt,-sqrt], 100);
         this.obstacles = [
             // new Obstacle(game, 90, 0, 90, 900)   ,
             new Obstacle(game, 250, 150, 640, 340),

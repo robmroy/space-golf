@@ -21,9 +21,13 @@ class Menu{
         ctx.fillStyle = "black";
         ctx.font = `${18}px Arial`;
         ctx.fillText(`Use mouse or arrow keys to select launch direction. Click to launch.`, 
-       x + 30, y + 50);
-        ctx.fillText(`Use 's' or 'f' for slower or faster playspeed, and 'm' for menu.`, 
-       x + 30, y + 100);
+       x + 30, y + 40);
+        ctx.fillText(`Use 's' or 'f' for slower or faster playspeed, and 'p' to pause.`, 
+       x + 30, y + 80);
+        ctx.fillText(`Pressing 'r' restarts the current level.`, 
+       x + 30, y + 120);
+        ctx.fillText(`Press 'm' to return to this menu.`, 
+       x + 30, y + 160);
         
     //      `${y + .5 * r + this.game.ball.radius}`);
         ctx.fill();

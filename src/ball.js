@@ -111,11 +111,21 @@ class Ball {
             this.ay -= (1/dz2)*planet.mass * dy/dz * .2;
             } 
         });
-        this.game.obstacles.forEach(obstacle => {
+        const game = this.game;
+        game.obstacles.forEach(obstacle => {
             if (obstacle.checkForBall()){
                 obstacle.bounce();
             }
         })
+        if (game.hole.checkForWin()){
+            this.stop();
+            if(game.currentLevelNumber >= game.levels.length - 1){
+                this.won = true;}
+                else{
+                game.initiateLevel();
+                game.playSpeed = {num: 1, fractional: false};
+                }
+        }
     
     
     }

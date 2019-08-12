@@ -5,6 +5,7 @@ import Level4 from './levels/level4';
 import Level5 from './levels/level5';
 import Level6 from './levels/level6';
 import Level7 from './levels/level7';
+import Level8 from './levels/level8';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
@@ -24,7 +25,8 @@ class Game {
             Level4,
             Level5,
             Level6,
-            Level7
+            Level7,
+            Level8
         ];
         this.menu = new Menu(this);
         this.currentLevelNumber = 0;
@@ -34,7 +36,6 @@ class Game {
         this.playSpeed = {num: 1, fractional: false};
         this.setPlaySpeed = this.setPlaySpeed.bind(this);
         this.frameCount = 0;
-        // this.playSpeedMessage = null;
         this.vp = new Viewport();
         this.restartLevel = this.restartLevel.bind(this);
         this.keyRestart = this.keyRestart.bind(this);
@@ -68,8 +69,7 @@ class Game {
         this.hole = level.hole;
         this.obstacles = level.obstacles || [];
         this.corners = level.corners;
-        // this.startButton = level.startButton;
-        this.playSpeed = {num: 1, fractional: false};
+        // this.playSpeed = {num: 1, fractional: false};
         this.stars = new Stars(level);
         this.stars.generateBlock(0, 0);
         this.vp.setMovementStartPoints(
@@ -234,14 +234,6 @@ class Game {
         const timeDelta = time - this.lastTime;
         this.step(timeDelta);
         this.draw();
-        if (this.hole.checkForWin()){
-            this.ball.stop();
-            if(this.currentLevelNumber >= this.levels.length - 1){
-                this.won = true;}
-                else{
-                this.initiateLevel();
-                }
-        }
         this.lastTime = time;
         this.frameCount += 1;
 
@@ -283,8 +275,7 @@ class Game {
         ctx.fillStyle = "#3e78ad"
         ctx.font = `${14}px Arial`;
         ctx.fillText(`Velocity_x=${this.ball.vx.toFixed(0)}, Velocity_y=${this.ball.vy.toFixed(0)},
-        speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)},
-        vpy1=${this.vp.y1}`, 
+        speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)}`, 
         50,
          50);
         //  console.log(Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0));
