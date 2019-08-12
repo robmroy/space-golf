@@ -18,7 +18,7 @@ class Level4 {
             new StickyPlanet(game, 640, 280, 20, "orange", 1),
             
         ]
-        this.hole = new Hole(game, 650, 340,   [sqrt,-sqrt], 100);
+        this.hole = new Hole(game, 665, 330,   [sqrt,-sqrt], 100);
         this.obstacles = [
             // new Obstacle(game, 90, 0, 90, 900)   ,
             new Obstacle(game, 250, 280, 640, 280),

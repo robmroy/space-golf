@@ -9,7 +9,7 @@ class Level2 {
     constructor(game){
     this.ball = new Ball(game, 600, 440);
         this.currentPlanet = new StickyPlanet(game, 600, 470, 25, "#27753a", 1);
-        this.corners = [[-200, -200], [2400, 1900]];
+        this.corners = [[-200, -800], [2400, 1900]];
         this.launchPad = new LaunchPad(game, 600, 440, [0, -1]);
         this.planets = [
             this.currentPlanet,

@@ -16,6 +16,7 @@ class Game {
         this.canvas = document.getElementById("game-canvas");
         this.canvas.setAttribute("tabindex", 0);
         this.ctx = this.canvas.getContext("2d");
+        this.animating = true;
         this.levels = [null, 
             Level1, 
             Level2,
@@ -41,10 +42,9 @@ class Game {
         this.canvas.addEventListener("keydown", this.keyRestart);
         window.printo = () => {
         let ball = this.ball;
-        console.log(`ballx: ${ball.x}, bpx: ${ball.prevx}, playSpeed: ${
-            JSON.stringify(this.playSpeed)}, fC: ${this.frameCount},
+        console.log(`ballx: ${ball.x}, bpx: ${ball.prevx}, 
             balldrawX: ${ball.drawX}, ballInterX: ${ball.interpolateX}
-            viewportx1: ${this.vp.x1}`,
+            viewportx1: ${this.vp.x1} viewporty1: ${this.vp.y1}`
             )}
             requestAnimationFrame(this.animate.bind(this));
         // this.launchBallWithMouse = this.launchBallWithMouse.bind(this);
@@ -72,9 +72,11 @@ class Game {
         this.playSpeed = {num: 1, fractional: false};
         this.stars = new Stars(level);
         this.stars.generateBlock(0, 0);
-        this.vp.setMovementStart(
-            level.viewportMovementStartX || 0,
-            level.viewportMovementStartY || 0);
+        this.vp.setMovementStartPoints(
+            level.viewportMovementUp,
+            level.viewportMovementRight,
+            level.viewportMovementDown,
+            level.viewportMovementLeft);
 
         this.canvas.addEventListener("keydown", this.setPlaySpeed, false);
 
@@ -179,9 +181,17 @@ class Game {
         canvas.addEventListener('keydown', (e) => {
             if (e.keyCode === 77){
             this.disableLaunchPad();
-            this.menu = new Menu(this)}}
-        
+            this.menu = new Menu(this)}
+            if(e.keyCode === 80){
+                if(this.animating){this.animating = false;}
+                else{
+                    this.animating = true;
+                    requestAnimationFrame(this.animate.bind(this));
+                }
+            }
+        }
         , false);
+                
     }
 
     
@@ -219,6 +229,7 @@ class Game {
             }
         }
     }
+
     animate(time) {
         const timeDelta = time - this.lastTime;
         this.step(timeDelta);
@@ -235,6 +246,7 @@ class Game {
         this.frameCount += 1;
 
         // every call to animate requests causes another call to animate
+        if(this.animating)
         requestAnimationFrame(this.animate.bind(this));
     }
 
@@ -271,7 +283,8 @@ class Game {
         ctx.fillStyle = "#3e78ad"
         ctx.font = `${14}px Arial`;
         ctx.fillText(`Velocity_x=${this.ball.vx.toFixed(0)}, Velocity_y=${this.ball.vy.toFixed(0)},
-        speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)}`, 
+        speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)},
+        vpy1=${this.vp.y1}`, 
         50,
          50);
         //  console.log(Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0));

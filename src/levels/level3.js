@@ -23,7 +23,7 @@ class Level3 {
         this.hole = new Hole(game, 740, 420,  [sqrt,-sqrt], 100);
         this.obstacles = [
             // new Obstacle(game, 90, 0, 90, 900)   ,
-            new Obstacle(game, 250, 150, 640, 300),
+            new Obstacle(game, 250, 150, 640, 340),
             // new Obstacle(game, 360, 100, 650, 270)
         ]
         this.viewportMovementStartX = 700;

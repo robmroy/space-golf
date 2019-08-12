@@ -5,7 +5,7 @@ return {x: rect.x, y: rect.y};
 }
 
 class LaunchPad {
-   constructor(game, x = 0, y = 0, normal = [0,1],  maxTheta = Math.PI/2, radius = 80, color = "white"){
+   constructor(game, x = 0, y = 0, normal = [0,1],  maxTheta = Math.PI/2, radius = 160, color = "white"){
       this.game = game;
       this.x = x;
       this.y = y;
@@ -57,8 +57,8 @@ class LaunchPad {
      this.arrowTip.y = this.y - vp.y1 + this.arrowLength*Math.sin(this.arrowAngle);
   }
   updateLaunchVelocity(){
-     this.launchVx = this.arrowVector()[0]/4;
-     this.launchVy = this.arrowVector()[1]/4;
+     this.launchVx = this.arrowVector()[0]/8;
+     this.launchVy = this.arrowVector()[1]/8;
   }
   draw(ctx ) {
    let x = this.vpX();
@@ -80,7 +80,7 @@ class LaunchPad {
       let textY = 0.5 * (y + this.arrowTip.y);
         ctx.fillStyle = "purple"
         ctx.font = `${21}px Arial`;
-        ctx.fillText(`Initial speed: ${(this.arrowLength/4).toFixed(2)}`, 
+        ctx.fillText(`Initial speed: ${(this.arrowLength/8).toFixed(2)}`, 
         `${textX}`,
          `${textY}`);
         ctx.fill();
