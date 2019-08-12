@@ -276,8 +276,8 @@ class Game {
         ctx.font = `${14}px Arial`;
         ctx.fillText(`Velocity_x=${this.ball.vx.toFixed(0)}, Velocity_y=${this.ball.vy.toFixed(0)},
         speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)}`, 
-        50,
-         50);
+        20,
+         20);
         //  console.log(Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0));
         ctx.fill();
             if (this.menu) this.menu.draw(ctx);

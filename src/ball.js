@@ -120,7 +120,7 @@ class Ball {
         if (game.hole.checkForWin()){
             this.stop();
             if(game.currentLevelNumber >= game.levels.length - 1){
-                this.won = true;}
+                game.won = true;}
                 else{
                 game.initiateLevel();
                 game.playSpeed = {num: 1, fractional: false};
