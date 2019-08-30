@@ -10,6 +10,7 @@ import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
 import Menu from './menu';
+import LevelMenu from './level_menu/level_menu';
 
 class Game {
 
@@ -38,23 +39,37 @@ class Game {
         this.frameCount = 0;
         this.vp = new Viewport();
         this.restartLevel = this.restartLevel.bind(this);
-        this.keyRestart = this.keyRestart.bind(this);
+        this.levelControl = this.levelControl.bind(this);
+        this.switchToLevelMenu = this.switchToLevelMenu.bind(this);
         this.timedMessages = [];
-        this.canvas.addEventListener("keydown", this.keyRestart);
+        this.canvas.addEventListener("keydown", this.levelControl);
         window.printo = () => {
         let ball = this.ball;
         console.log(`ballx: ${ball.x}, bpx: ${ball.prevx}, 
             balldrawX: ${ball.drawX}, ballInterX: ${ball.interpolateX}
             viewportx1: ${this.vp.x1} viewporty1: ${this.vp.y1}`
-            )}
+            )
+        }
             requestAnimationFrame(this.animate.bind(this));
-        // this.launchBallWithMouse = this.launchBallWithMouse.bind(this);
-        // this.setVelocityWithMouse = this.setVelocityWithMouse.bind(this);
         this.menuReady();
     }
-    keyRestart(event){
+    levelControl(event){
         if (event.keyCode === 82) this.restartLevel();
+        if (event.keyCode === 76) this.switchToLevelMenu();
     }
+
+    switchToLevelMenu(){
+        const levelMenu = new LevelMenu(this);
+        const {ctx, canvas} = this;
+        ctx.strokeStyle = "black";
+        ctx.width = 1200;
+        ctx.height = 600;
+        ctx.fillStyle = "black";
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        levelMenu.draw(this.ctx);
+        this.animating = false;
+    }
+
     initiateLevel() {
         
         this.currentLevelNumber += 1;
@@ -69,7 +84,6 @@ class Game {
         this.hole = level.hole;
         this.obstacles = level.obstacles || [];
         this.corners = level.corners;
-        // this.playSpeed = {num: 1, fractional: false};
         this.stars = new Stars(level);
         this.stars.generateBlock(0, 0);
         this.vp.setMovementStartPoints(
@@ -164,7 +178,7 @@ class Game {
         this.setVelocityWithMouse = setVelocityWithMouse;
         this.keyDownHandler = keyDownHandler;
         this.launchBallWithMouse = launchBallWithMouse;
-        canvas.addEventListener("mousemove", this.setVelocityWithMouse, false);
+        canvas.addEventListener("mousemove", this.setVelocityWithMouse, true);
         canvas.addEventListener('keydown', this.keyDownHandler, false);
         canvas.addEventListener("click", this.launchBallWithMouse, false);
     }
@@ -237,7 +251,6 @@ class Game {
         this.lastTime = time;
         this.frameCount += 1;
 
-        // every call to animate requests causes another call to animate
         if(this.animating)
         requestAnimationFrame(this.animate.bind(this));
     }
@@ -249,7 +262,8 @@ class Game {
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, 1200, 600);
+        ctx.strokeStyle = "black";
+        ctx.clearRect(0, 0, 1200, 600);
         if (this.stars){
             for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){
                 for (let j=Math.floor(vp.y1/1000); j<=Math.ceil(vp.y2/1000); j++){
@@ -266,8 +280,6 @@ class Game {
         this.obstacles.forEach(obstacle => obstacle.draw(ctx, vp));
         this.planets.forEach(planet => 
             planet.draw(ctx, planet.x - vp.x1, planet.y - vp.y1));
-        // if(this.startButton) this.startButton.draw(ctx);
-        // if (this.playSpeedMessage) this.playSpeedMessage.draw(ctx);
         this.timedMessages.forEach( message => {message.draw(ctx);})
         if(launchPad) {launchPad.draw(ctx);}
         if(this.won) this.victoryMessage();
@@ -278,7 +290,6 @@ class Game {
         speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)}`, 
         20,
          550);
-        //  console.log(Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0));
         ctx.fill();
         ctx.font = '16px Arial';
         ctx.fillStyle = 'white';

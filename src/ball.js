@@ -1,6 +1,6 @@
 import LaunchPad from "./launchpad";
 class Ball {
-    constructor(game, x = 0, y = 0, radius = 5, playSpeed = 1, color = "white", vx=0, vy=0){
+    constructor(game, x = 0, y = 0, radius = 5, color = "white", vx=0, vy=0){
         this.game = game;
         this.x = x;
         this.y = y;
@@ -50,15 +50,6 @@ class Ball {
         return x > corners[0][0] && x < corners[1][0] && y > corners[0][1] && y < corners[1][1];
     }
 
-    // setPlaySpeed(event){
-    //     if (event.keyCode === 70 && this.playSpeed < 4 ){
-    //         this.playSpeed += .2;
-    //     }
-    //     if (event.keyCode === 83 && this.playSpeed >= .4) {
-    //         this.playSpeed -= .2;
-    //     } 
-    //     this.accelCorrection = this.playSpeed ** (-.88);
-    // }
     stop(){
         this.stopped = true;
         this.vx = 0;
@@ -73,19 +64,10 @@ class Ball {
         this.prevx = this.x;
         this.prevy = this.y;
         if (this.stopped) return;
-        // this.x += this.playSpeed*this.vx;
-        // this.y += this.playSpeed* this.vy;
-        // this.vx += this.accelCorrection * this.playSpeed**2 * this.ax;
-        // this.vy += this.accelCorrection * this.playSpeed**2 * this.ay;
         this.x += this.vx;
         this.y +=  this.vy;
         this.vx +=  this.ax;
         this.vy +=  this.ay;
-        
-        // if (Math.abs(this.vx) + Math.abs(this.vy) < 0.4
-        // && Math.abs(this.ax) + Math.abs(this.ay) <0.1){
-        //     this.stop();}
-
         this.ax = 0;
         this.ay = 0;
             
@@ -129,13 +111,15 @@ class Ball {
     
     
     }
-    draw(ctx, r = this.radius ) {
-        this.setAuxPositions();
+    draw(ctx,  x, y, r = this.radius ) {
+        if(x === undefined) {this.setAuxPositions();
+        x = this.drawX;
+        y=this.drawY;}
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(
-          this.drawX, this.drawY, r, 0, 2 * Math.PI, true
+          x, y, r, 0, 2 * Math.PI, true
         );
         ctx.fill();
       };

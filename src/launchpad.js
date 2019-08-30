@@ -60,7 +60,7 @@ class LaunchPad {
      this.launchVx = this.arrowVector()[0]/8;
      this.launchVy = this.arrowVector()[1]/8;
   }
-  draw(ctx ) {
+  draw(ctx) {
    let x = this.vpX();
    let y = this.vpY();
    dottedArc(ctx, x, y, this.radius, 
@@ -68,6 +68,7 @@ class LaunchPad {
       let currentPlanet = this.game.currentPlanet;
       if(this.arrowTip.x === null){currentPlanet.hideText = false;}
    if (this.arrowTip.x !== null){
+      console.log('line 71')
       ctx.beginPath();
       ctx.strokeStyle = "white";
       ctx.setLineDash([5,5]);
@@ -131,23 +132,22 @@ class LaunchPad {
       const dx = cursor.x - this.x +vp.x1;
       const dy = cursor.y - this.y + vp.y1;
       const dz = Math.sqrt(dx**2 + dy**2);
-      console.log(`normal: ${this.normal}`);
-      console.log(`trh: ${this.thetaRestrictionHelper}`);
-      console.log(`dx, dy:${[dx, dy]}`);
+      // console.log(`normal: ${this.normal}`);
+      // console.log(`trh: ${this.thetaRestrictionHelper}`);
+      // console.log(`dx, dy:${[dx, dy]}`);
       if (
          dx**2 + dy**2 <= this.radius ** 2 &&
-         //  dx * this.normal[0] + dy * this.normal[1] >= 0
          (this.normal[0] - dx/dz)**2 + (this.normal[1] - dy/dz)**2 <= this.thetaRestrictionHelper
           ) {
              this.arrowTip.x = cursor.x;
              this.arrowTip.y = cursor.y;
-
             this.updateLaunchVelocity();
            
             this.updatePolar();
             
          }   
-         else {this.arrowTip.x = null;}
+         else {
+         this.arrowTip.x = null;}
     }
     setVelocityByArrowKeys(event, callback){
        const al = this.arrowLength;

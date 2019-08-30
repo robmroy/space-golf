@@ -31,10 +31,8 @@ class Viewport {
             // ballOvershoot.y  > 0 && 
             ballY > this.startDown || ballY < this.startUp
             ){
-            console.log(`ballY: ${ballY}, y1: ${y1}, y2: ${y2}`)
             const catchupY = Math.abs(ballOvershoot.y) <Math.abs(1.4 * ball.vy) ?
              ballOvershoot.y : 1.4 * ball.vy;
-             console.log(`catchupY: ${catchupY}`)
             this.y1 += catchupY;
             this.y2 += catchupY;
         }

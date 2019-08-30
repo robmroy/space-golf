@@ -8,7 +8,6 @@ class Menu{
     }
 
     draw(ctx, x = 400, y = 100) {
-        const levels = this.game.levels;
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.rect(

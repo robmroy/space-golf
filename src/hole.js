@@ -1,6 +1,7 @@
 import {intervalsIntersect} from './helper';
+import TimedMessage from './timedMessage';
 class Hole {
-    constructor(game, x, y, normal = [0,-1], width = 100){
+    constructor(game, x, y, normal = [0,-1], width = 100, scale = 1){
         this.game = game;
         this.x = x;
         this.y = y;
@@ -24,58 +25,48 @@ class Hole {
        this.y += this.vy;
    }
 
-   drawFlag(ctx, x = this.x, y = this.y ) {
+   drawFlag(ctx, x = this.x, y = this.y, scale=1) {
        let normal = this.normal;
+       let a = scale;
        ctx.setLineDash([]);
       ctx.beginPath();
       ctx.strokeStyle = "gold";
       ctx.moveTo(x, y);
-      ctx.lineTo(x + 50* normal[0] , y + 50 * normal[1])
+      ctx.lineTo(x + a* 50* normal[0] , y + a*50 * normal[1])
        ctx.stroke();
-       ctx.fillStyle = "red";
-       ctx.moveTo(x + 50* normal[0] , y + 50 * normal[1]);
-       ctx.lineTo(x + 70* normal[0] , y + 70 * normal[1]);
-       ctx.lineTo(x + 60* normal[0] - 30* normal[1], y + 60 * normal[1] + 30 * normal[0]);
-       ctx.lineTo(x + 50* normal[0] , y + 50 * normal[1]);
+       ctx.fillStyle = "#db0711";
+       ctx.moveTo(x + a*50* normal[0] , y + a* 50 * normal[1]);
+       ctx.lineTo(x + a*70* normal[0] , y + a*70 * normal[1]);
+       ctx.lineTo(x + a*60* normal[0] - a*30* normal[1], y + a*60 * normal[1] + a*30 * normal[0]);
+       ctx.lineTo(x + a*50* normal[0] , y + a*50 * normal[1]);
        ctx.fill();
      }
-     drawHole(ctx, x = this.x, y = this.y) {
+     drawHole(ctx, x = this.x, y = this.y, scale =1 ) {
          let {width, normal} = this;
-         let ball = this.game.ball;
+         let a = scale;
              ctx.beginPath();
              ctx.strokeStyle = "purple";
-             ctx.moveTo(x - normal[1] * width/2 , y + normal[0] * width/2 );
-             ctx.lineTo(x +  normal[1] * width/2, y - normal[0] * width/2);
+             ctx.moveTo(x - a*normal[1] * width/2 , y + a*normal[0] * width/2 );
+             ctx.lineTo(x +  a*normal[1] * width/2, y - a*normal[0] * width/2);
              ctx.stroke();
              ctx.beginPath();
-            //  ctx.fillStyle = "black";
-            //  ctx.moveTo(x + normal[1] * width/2, y - normal[0] * width/2);
-            //  ctx.lineTo(x + normal[1] * width/2 -30 * normal[0],
-            //      y - normal[0] * width/2 -30*normal[1]);
-            //  ctx.lineTo(x - normal[1] * width/2 -30 * normal[0],
-            //     y + normal[0] * width/2 -30*normal[1]);
-            // ctx.lineTo(x - normal[1] * width/2 ,
-            //     y + normal[0] * width/2);
-            //  ctx.lineTo(x + normal[1] * width/2, y - normal[0] * width/2 );
-            //  ctx.fill();
-         
 
         }
         checkForWin(){
             let {x, y, width, normal} = this;
             let ball = this.game.ball;
-            // let result = ball.y -ball.radius> y 
-            // && ball.y-2*ball.radius < y
-            // && Math.abs(ball.x - x) < width/2
-            // && ball.vy >0;
-            
-            // return result;
 
             let prevPerpComponent = normal[0] * (ball.prevx - x) + normal[1]*(ball.prevy-y);
             let perpComponent = normal[0] * (ball.x - x) + normal[1]*(ball.y-y);
-            return prevPerpComponent >= 0  && perpComponent <= 0
-            && intervalsIntersect([ ball.prevx, ball.x], [x - 0.5 * width* normal[1], x+ 0.5* width * normal[1]]) 
-            && intervalsIntersect([ ball.prevy, ball.y], [y - 0.5 * width* normal[0], y + 0.5 * width* normal[0]]);
+            if( intervalsIntersect([ ball.prevx, ball.x], [x - 0.5 * width* normal[1], x+ 0.5* width * normal[1]]) 
+            && intervalsIntersect([ ball.prevy, ball.y], [y - 0.5 * width* normal[0], y + 0.5 * width* normal[0]])
+            ){
+                if (prevPerpComponent >= 0  && perpComponent <= 0) return true;
+                if (prevPerpComponent < 0 && perpComponent > 0) this.game.timedMessages.push(
+                    new TimedMessage("WRONG WAY", 80, "#9c1c22", '28px Trebuchet MS', this.x, this.y + 70)
+                    );
+            }
+            return false;
         }
  
     

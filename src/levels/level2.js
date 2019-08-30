@@ -17,10 +17,7 @@ class Level2 {
         ]
         this.hole = new Hole(game, 640, 320);
         this.obstacles=[];
-        // this.obstacles = [
-        //     new Obstacle(game, 90, 0, 90, 900)   ,
-        //     new Obstacle(game, 600, 40, 850, 300)
-        // ]
+        
         }
 }
 
