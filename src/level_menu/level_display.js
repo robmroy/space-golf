@@ -24,6 +24,7 @@ class LevelDisplay{
         );
         ctx.setLineDash([]);
         obstacles.forEach(obst => {
+            if (obst.y1 <0 || obst.y2 <0){return;}
         ctx.beginPath();
         ctx.moveTo(this.scale * obst.x1 + this.x, this.scale * obst.y1 + this.y);
         ctx.lineTo(this.scale * obst.x2 + this.x, this.scale * obst.y2 + this.y);
