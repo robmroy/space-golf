@@ -48,16 +48,16 @@ class Hole {
              ctx.lineTo(x +  normal[1] * width/2, y - normal[0] * width/2);
              ctx.stroke();
              ctx.beginPath();
-             ctx.fillStyle = "black";
-             ctx.moveTo(x + normal[1] * width/2, y - normal[0] * width/2);
-             ctx.lineTo(x + normal[1] * width/2 -30 * normal[0],
-                 y - normal[0] * width/2 -30*normal[1]);
-             ctx.lineTo(x - normal[1] * width/2 -30 * normal[0],
-                y + normal[0] * width/2 -30*normal[1]);
-            ctx.lineTo(x - normal[1] * width/2 ,
-                y + normal[0] * width/2);
-             ctx.lineTo(x + normal[1] * width/2, y - normal[0] * width/2 );
-             ctx.fill();
+            //  ctx.fillStyle = "black";
+            //  ctx.moveTo(x + normal[1] * width/2, y - normal[0] * width/2);
+            //  ctx.lineTo(x + normal[1] * width/2 -30 * normal[0],
+            //      y - normal[0] * width/2 -30*normal[1]);
+            //  ctx.lineTo(x - normal[1] * width/2 -30 * normal[0],
+            //     y + normal[0] * width/2 -30*normal[1]);
+            // ctx.lineTo(x - normal[1] * width/2 ,
+            //     y + normal[0] * width/2);
+            //  ctx.lineTo(x + normal[1] * width/2, y - normal[0] * width/2 );
+            //  ctx.fill();
          
 
         }

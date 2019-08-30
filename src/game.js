@@ -273,13 +273,18 @@ class Game {
         if(this.won) this.victoryMessage();
         ctx.beginPath();
         ctx.fillStyle = "#3e78ad"
-        ctx.font = `${14}px Arial`;
+        ctx.font = `14px Arial`;
         ctx.fillText(`Velocity_x=${this.ball.vx.toFixed(0)}, Velocity_y=${this.ball.vy.toFixed(0)},
         speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)}`, 
         20,
-         20);
+         550);
         //  console.log(Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0));
         ctx.fill();
+        ctx.font = '16px Arial';
+        ctx.fillStyle = 'white';
+        ctx.fillText(`Level ${this.currentLevelNumber}`, 
+        20,
+         580);
             if (this.menu) this.menu.draw(ctx);
 
     }
