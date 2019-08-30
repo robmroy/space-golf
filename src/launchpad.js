@@ -68,7 +68,6 @@ class LaunchPad {
       let currentPlanet = this.game.currentPlanet;
       if(this.arrowTip.x === null){currentPlanet.hideText = false;}
    if (this.arrowTip.x !== null){
-      console.log('line 71')
       ctx.beginPath();
       ctx.strokeStyle = "white";
       ctx.setLineDash([5,5]);

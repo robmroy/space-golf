@@ -67,6 +67,7 @@ class Game {
         ctx.fillStyle = "black";
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         levelMenu.draw(this.ctx);
+        levelMenu.installEventListener();
         this.animating = false;
     }
 
@@ -178,7 +179,7 @@ class Game {
         this.setVelocityWithMouse = setVelocityWithMouse;
         this.keyDownHandler = keyDownHandler;
         this.launchBallWithMouse = launchBallWithMouse;
-        canvas.addEventListener("mousemove", this.setVelocityWithMouse, true);
+        canvas.addEventListener("mousemove", this.setVelocityWithMouse, false);
         canvas.addEventListener('keydown', this.keyDownHandler, false);
         canvas.addEventListener("click", this.launchBallWithMouse, false);
     }
