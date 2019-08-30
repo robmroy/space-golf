@@ -40,6 +40,7 @@ class Game {
         this.vp = new Viewport();
         this.restartLevel = this.restartLevel.bind(this);
         this.levelControl = this.levelControl.bind(this);
+        this.displayKeyCommands = this.displayKeyCommands.bind(this);
         this.switchToLevelMenu = this.switchToLevelMenu.bind(this);
         this.timedMessages = [];
         this.canvas.addEventListener("keydown", this.levelControl);
@@ -256,15 +257,37 @@ class Game {
         requestAnimationFrame(this.animate.bind(this));
     }
 
+    displayKeyCommands(){
+        let ctx = this.ctx;
+        ctx.beginPath();
+        ctx.fillStyle = "white"
+        ctx.font = `15px Arial`;
+        ctx.fillText('r to restart', 1090, 510);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillText('p to pause', 1090, 525);
+        ctx.fill();
     
+        ctx.beginPath();
+        ctx.fillText('l to select level', 1090, 540);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillText('s/f: slow/fast', 1090, 555);
+        ctx.fill();
+
+    }
+
+
     draw() {
         let {ctx, ball, vp, launchPad, hole} = this;
-        
         ctx.width = 1200;
         ctx.height = 600;
         ctx.fillStyle = "black";
         ctx.strokeStyle = "black";
         ctx.clearRect(0, 0, 1200, 600);
+        this.displayKeyCommands();
         if (this.stars){
             for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){
                 for (let j=Math.floor(vp.y1/1000); j<=Math.ceil(vp.y2/1000); j++){
