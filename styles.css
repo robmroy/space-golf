@@ -1,62 +1,12 @@
-#myContainer {
-    width: 1000px;
-    height: 600px;
-    position: relative;
-    background: yellow;
-    position: -webkit-sticky;
-    position: sticky;
-     top: 0;
-     left: 0;
-     margin: 0;
-  }
-  #body{
-    position: -webkit-sticky;
-    position: sticky;
-     top: 0;
-     left: 0;
-     height: 100%;
-     width: 100%;
-     margin: 0;
-  }
-  #ball {
-    position:absolute;
-    width: 8px;
-    height: 8px;
-    background-color: red;
-    border-radius: 50%;
-    /* top: 550px;
-    left: 0px; */
-  }
-  #planet {
-    position:absolute;
-    width: 8px;
-    height: 8px;
-    position: absolute;
-    background-color: brown;
-    border-radius: 50%;
-    top: 300px;
-    left: 300px;
-  }
-  
-  #game1-start{
-    display: none;
-  }
-  
-  #arrow{
-      position: absolute;
-    /* transform: rotate(-135deg); 
-    -webkit-transform: rotate(-135deg); */
-}
-i {
-    border: solid black;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-  } 
-
-
-
-#demo{
-    position: absolute;
+#body{
+  background: black;
 }
 
+ 
+#game-canvas{
+ display: block;
+ position: absolute;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%, -50%)
+}
