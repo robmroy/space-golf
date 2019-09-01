@@ -29,7 +29,7 @@ class Game {
             Level7,
             Level8
         ];
-        this.menu = new Menu(this);
+        // this.menu = new Menu(this);
         this.currentLevelNumber = 0;
         this.draw = this.draw.bind(this);
         this.initiateLevel = this.initiateLevel.bind(this);

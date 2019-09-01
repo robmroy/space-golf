@@ -53,7 +53,7 @@ class LevelMenu {
     draw(ctx){
         ctx.strokeStyle = 'white';
         const perSide = this.perSide;
-        for (let i=1; i<perSide; i++){
+        for (let i=0; i<=perSide; i++){
             ctx.beginPath();
             ctx.moveTo(0, i*600/perSide);
             ctx.lineTo(1200, i*600/perSide);

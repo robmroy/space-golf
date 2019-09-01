@@ -2,9 +2,7 @@ import Ball from '../ball';
 import LaunchPad from '../launchpad';
 import StickyPlanet from '../Sticky_planet';
 import Obstacle from '../obstacle';
-import BouncyPlanet from '../bouncy_planet';
 import Hole from '../hole';
-import StartButton from '../start_button';
 class Level1 {
     constructor(game){
         this.ball = new Ball(game, 300 + 25 + 5, 240 );

@@ -55,16 +55,24 @@ class Hole {
         checkForWin(){
             let {x, y, width, normal} = this;
             let ball = this.game.ball;
+            let messages = this.game.timedMessages;
 
             let prevPerpComponent = normal[0] * (ball.prevx - x) + normal[1]*(ball.prevy-y);
             let perpComponent = normal[0] * (ball.x - x) + normal[1]*(ball.y-y);
             if( intervalsIntersect([ ball.prevx, ball.x], [x - 0.5 * width* normal[1], x+ 0.5* width * normal[1]]) 
             && intervalsIntersect([ ball.prevy, ball.y], [y - 0.5 * width* normal[0], y + 0.5 * width* normal[0]])
             ){
-                if (prevPerpComponent >= 0  && perpComponent <= 0) return true;
-                if (prevPerpComponent < 0 && perpComponent > 0) this.game.timedMessages.push(
+                if (prevPerpComponent >= 0  && perpComponent <= 0) {
+                    for (let i=0; i< messages.length; i++){
+                        if(messages[i].text==="WRONG WAY"){
+                            messages[i] = new TimedMessage("oh nice", 14, "#9e8720", '18px Arial', this.x + 50, this.y + 100);
+                        }
+                    }
+                    return true;}
+                if (prevPerpComponent < 0 && perpComponent > 0) {
+                    messages.push(
                     new TimedMessage("WRONG WAY", 80, "#9c1c22", '28px Trebuchet MS', this.x, this.y + 70)
-                    );
+                    );}
             }
             return false;
         }
