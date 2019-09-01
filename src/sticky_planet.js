@@ -56,7 +56,6 @@ class StickyPlanet {
         ctx.fillText(`Escape vel. ${(this.radius * this.density **.45 *.504 ).toFixed(2)}`, 
         `${x +  r + 2}`,
          `${y + .5 * r + this.game.ball.radius}`);
-        ctx.fill();
       };
     }
 }

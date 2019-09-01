@@ -1,17 +1,18 @@
 import fastRandom from 'fast-random';
 
 class Stars {
-    constructor(level){
+    constructor(level, levelNum){
         this.topLeft = {x: level.corners[0]-600, y: level.corners[0]-300};
         this.bottomRight = {x: level.corners[1]+600, y: level.corners[1]+300};
         this.blocks = {};
         this.starsPerBlock = 100;
+        this.levelNum = levelNum;
     }
 
     generateBlock(xInThousands, yInThousands){
         let x = xInThousands;
         let y = yInThousands;
-        const seed = 1000*x + y;
+        const seed = 1000*x + y + this.levelNum * 10000;
         const frandom = fastRandom(seed);
         const stars = new Array(this.starsPerBlock);
         for (let i=0; i< stars.length; i++){

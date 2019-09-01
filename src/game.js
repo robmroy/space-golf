@@ -86,7 +86,7 @@ class Game {
         this.hole = level.hole;
         this.obstacles = level.obstacles || [];
         this.corners = level.corners;
-        this.stars = new Stars(level);
+        this.stars = new Stars(level, this.currentLevelNumber);
         this.stars.generateBlock(0, 0);
         this.vp.setMovementStartPoints(
             level.viewportMovementUp,
@@ -282,8 +282,8 @@ class Game {
 
     draw() {
         let {ctx, ball, vp, launchPad, hole} = this;
-        ctx.width = 1200;
-        ctx.height = 600;
+        // ctx.width = 1200;
+        // ctx.height = 600;
         ctx.fillStyle = "black";
         ctx.strokeStyle = "black";
         ctx.clearRect(0, 0, 1200, 600);
@@ -307,14 +307,12 @@ class Game {
         this.timedMessages.forEach( message => {message.draw(ctx);})
         if(launchPad) {launchPad.draw(ctx);}
         if(this.won) this.victoryMessage();
-        ctx.beginPath();
-        ctx.fillStyle = "#3e78ad"
+        ctx.fillStyle = "#3e78ad";
         ctx.font = `14px Arial`;
         ctx.fillText(`Velocity_x=${this.ball.vx.toFixed(0)}, Velocity_y=${this.ball.vy.toFixed(0)},
         speed = ${Math.sqrt(this.ball.vx ** 2 + this.ball.vy **2).toFixed(0)}`, 
         20,
          550);
-        ctx.fill();
         ctx.font = '16px Arial';
         ctx.fillStyle = 'white';
         ctx.fillText(`Level ${this.currentLevelNumber}`, 
