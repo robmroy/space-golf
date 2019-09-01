@@ -55,21 +55,21 @@ class Game {
         this.menuReady();
     }
     levelControl(event){
+        console.log(event.keyCode);
         if (event.keyCode === 82) this.restartLevel();
         if (event.keyCode === 76) this.switchToLevelMenu();
     }
 
     switchToLevelMenu(){
+        console.log('64')
         const levelMenu = new LevelMenu(this);
         const {ctx, canvas} = this;
         ctx.strokeStyle = "black";
-        ctx.width = 1200;
-        ctx.height = 600;
         ctx.fillStyle = "black";
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.animating = false;
+        ctx.clearRect(0, 0, 1200, 600);
         levelMenu.draw(this.ctx);
         levelMenu.installEventListener();
-        this.animating = false;
     }
 
     initiateLevel() {
@@ -247,13 +247,13 @@ class Game {
     }
 
     animate(time) {
+        if (!this.animating) return;
         const timeDelta = time - this.lastTime;
         this.step(timeDelta);
         this.draw();
         this.lastTime = time;
         this.frameCount += 1;
 
-        if(this.animating)
         requestAnimationFrame(this.animate.bind(this));
     }
 

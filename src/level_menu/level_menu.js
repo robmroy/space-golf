@@ -16,7 +16,6 @@ class LevelMenu {
         this.clickHandler = this.clickHandler.bind(this);
         const scale = 1/perSide;
         this.levelDisplays = levels.map((lvl, idx)=>{
-            console.log(200*Math.floor(idx/perSide))
             return (new LevelDisplay(
                 new lvl(game),
           (idx % perSide) * 1200/perSide,  
