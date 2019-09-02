@@ -41,13 +41,14 @@ class Hole {
        ctx.lineTo(x + a*50* normal[0] , y + a*50 * normal[1]);
        ctx.fill();
      }
-     drawHole(ctx, x = this.x, y = this.y, scale =1 ) {
+     drawHole(ctx, x = this.x, y = this.y, scale =1, vp) {
          let {width, normal} = this;
          let a = scale;
              ctx.beginPath();
              ctx.strokeStyle = "purple";
-             ctx.moveTo(x - a*normal[1] * width/2 , y + a*normal[0] * width/2 );
-             ctx.lineTo(x +  a*normal[1] * width/2, y - a*normal[0] * width/2);
+             const leftBound = vp ? vp.x1 : -Infinity;
+             ctx.moveTo(Math.max(leftBound, x - a*normal[1] * width/2) , y + a*normal[0] * width/2 );
+             ctx.lineTo(Math.max(leftBound, x +  a*normal[1] * width/2), y - a*normal[0] * width/2);
              ctx.stroke();
              ctx.beginPath();
 
