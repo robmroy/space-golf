@@ -6,6 +6,7 @@ import Level5 from './levels/level5';
 import Level6 from './levels/level6';
 import Level7 from './levels/level7';
 import Level8 from './levels/level8';
+import Level9 from './levels/level9';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
@@ -27,7 +28,8 @@ class Game {
             Level5,
             Level6,
             Level7,
-            Level8
+            Level8,
+            Level9
         ];
         // this.menu = new Menu(this);
         this.currentLevelNumber = 0;
@@ -37,7 +39,7 @@ class Game {
         this.playSpeed = {num: 1, fractional: false};
         this.setPlaySpeed = this.setPlaySpeed.bind(this);
         this.frameCount = 0;
-        this.vp = new Viewport();
+        this.vp = new Viewport({});
         this.restartLevel = this.restartLevel.bind(this);
         this.levelControl = this.levelControl.bind(this);
         this.displayKeyCommands = this.displayKeyCommands.bind(this);
@@ -77,8 +79,8 @@ class Game {
         this.currentLevelNumber += 1;
         
 
-        this.vp = new Viewport();
         const level = new this.levels[this.currentLevelNumber](this);
+        this.vp = new Viewport(level);
         this.ball = level.ball;
         this.currentPlanet = level.currentPlanet;
         this.launchPad = level.launchPad;

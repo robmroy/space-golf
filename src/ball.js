@@ -19,6 +19,7 @@ class Ball {
         this.drawY = y;
         this.interpolateX = x;
         this.interpolateY = y;
+        // this.logging= true;
     }
 
     vpX(){
