@@ -1,0 +1,45 @@
+import Ball from '../ball';
+import LaunchPad from '../launchpad';
+import StickyPlanet from '../Sticky_planet';
+import Obstacle from '../obstacle';
+import {polyFromFunction} from '../obstacles';
+import Hole from '../hole';
+class Splash {
+    constructor(game){
+        this.splash = true;
+        const invSqrt = 1/Math.sqrt(2);
+        this.ball = new Ball(game, 932, 190 );
+        this.ball.stopped = false;
+        this.ball.vx = -1.6;
+        this.ball.vy = 3.1
+        this.corners = [[-55500, -222500], [2225400, 2225100]];
+        this.currentPlanet = new StickyPlanet(game, -1000, 120, 12, "black", .0001, Math.PI/2);
+        // this.startButton = new StartButton(game, 400, 400);
+        this.launchPad = new LaunchPad(game, -1000, this.ball.y, [0, 1],
+            Math.PI/2);
+        this.planets = [
+            this.currentPlanet,
+            // new StickyPlanet(game, 500, 175, 12, "#27753a", 25, Math.PI/2)
+
+        ]
+        const ellipse1 = polyFromFunction(game,
+            t => 910 + 34* Math.cos(t), t => 155 + 48* Math.sin(t), .55,    1.75*Math.PI, Math.PI/60,
+            "orange", 2);
+        const ellipse2 = polyFromFunction(game,
+            t => 910 + 45* Math.cos(t), t => 155 + 59* Math.sin(t), .5,    1.8*Math.PI, Math.PI/60,
+            "orange", 25);
+
+        this.obstacles = [
+            // new Obstacle(game, 350, 100, 350, 250),
+            // new Obstacle(game, 350, 250, 650, 250),
+            // new Obstacle(game, 650, 250, 650, 100),
+            // new Obstacle(game, 650, 100, 350, 100),
+        ].concat(ellipse1).concat(ellipse2);
+        let sqrt = 1/Math.sqrt(2);
+        this.hole = new Hole(game, 966, 222,  [0, -1], 100);
+        this.viewportMovementStartX = 700;
+        this.viewportMovementStartY = 500;
+        }
+}
+
+export default Splash;

@@ -1,6 +1,6 @@
 import {intervalsIntersect} from './helper';
 class Obstacle {
-    constructor(game, x1 = 0, y1 = 0, x2 = 100, y2 = 100, color = "orange"){
+    constructor(game, x1 = 0, y1 = 0, x2 = 100, y2 = 100, color = "orange", width = 1){
         this.game = game;
         this.x1 = x1;
         this.y1 = y1;
@@ -13,6 +13,7 @@ class Obstacle {
         this.normal = [(y1 - y2)/z, (x2- x1)/z];
         this.bounce = this.bounce.bind(this);
         this.checkForBall = this.checkForBall.bind(this);
+        this.width = width;
     }
     bounce(){
         let ball = this.game.ball;
@@ -54,10 +55,12 @@ class Obstacle {
         let {x1, y1} = viewport;
         ctx.setLineDash([]);
         ctx.beginPath();
+        ctx.lineWidth = this.width;
         ctx.moveTo(this.x1 - x1, this.y1 - y1);
         ctx.lineTo(this.x2 - x1, this.y2 - y1);
         ctx.strokeStyle = this.color;
         ctx.stroke();
+        ctx.lineWidth = 1;
       };
 }
 

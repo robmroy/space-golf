@@ -22,7 +22,7 @@ class Level9 {
         this.obstacles = [
         ].concat(ellipse2);
         let sqrt = 1/Math.sqrt(2);
-        this.hole = new Hole(game, 30, 430,  [0, -1], 500);
+        this.hole = new Hole(game, 30, 430,  [0, -1], 480);
         this.viewportStyle = 'centered';
         this.viewportMovementStartX = 700;
         this.viewportMovementStartY = 500;

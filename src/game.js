@@ -7,6 +7,7 @@ import Level6 from './levels/level6';
 import Level7 from './levels/level7';
 import Level8 from './levels/level8';
 import Level9 from './levels/level9';
+import Splash from './levels/splash';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
@@ -21,6 +22,7 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         this.animating = true;
         this.levels = [null, 
+            Splash,
             Level1, 
             Level2,
             Level3,
@@ -63,7 +65,6 @@ class Game {
     }
 
     switchToLevelMenu(){
-        console.log('64')
         const levelMenu = new LevelMenu(this);
         const {ctx, canvas} = this;
         ctx.strokeStyle = "black";
@@ -77,9 +78,8 @@ class Game {
     initiateLevel() {
         
         this.currentLevelNumber += 1;
-        
-
         const level = new this.levels[this.currentLevelNumber](this);
+        this.level = level;
         this.vp = new Viewport(level);
         this.ball = level.ball;
         this.currentPlanet = level.currentPlanet;
@@ -290,6 +290,12 @@ class Game {
         ctx.strokeStyle = "black";
         ctx.clearRect(0, 0, 1200, 600);
         this.displayKeyCommands();
+        if (this.level.splash){
+            ctx.fillStyle = "orange";
+            ctx.font = `bold 180px Arial`;    
+            ctx.fillText("SPA  E", 500, 220);
+            ctx.fillText("GOLF", 500, 400);
+        }
         if (this.stars){
             for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){
                 for (let j=Math.floor(vp.y1/1000); j<=Math.ceil(vp.y2/1000); j++){
@@ -301,9 +307,9 @@ class Game {
             }
         }
         hole.drawFlag(ctx, hole.x - vp.x1, hole.y - vp.y1);
-        ball.draw(ctx);
         hole.drawHole(ctx, hole.x - vp.x1, hole.y - vp.y1);
         this.obstacles.forEach(obstacle => obstacle.draw(ctx, vp));
+        ball.draw(ctx);
         this.planets.forEach(planet => 
             planet.draw(ctx, planet.x - vp.x1, planet.y - vp.y1));
         this.timedMessages.forEach( message => {message.draw(ctx);})
@@ -317,7 +323,7 @@ class Game {
          550);
         ctx.font = '16px Arial';
         ctx.fillStyle = 'white';
-        ctx.fillText(`Level ${this.currentLevelNumber}`, 
+        ctx.fillText(`Level ${this.currentLevelNumber - 1}`, 
         20,
          580);
             if (this.menu) this.menu.draw(ctx);
