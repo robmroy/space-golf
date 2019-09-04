@@ -46,11 +46,13 @@ class Hole {
          let a = scale;
              ctx.beginPath();
              ctx.strokeStyle = "purple";
+             ctx.lineWidth = 2;
              const leftBound = vp ? vp.x1 : -Infinity;
              ctx.moveTo(Math.max(leftBound, x - a*normal[1] * width/2) , y + a*normal[0] * width/2 );
              ctx.lineTo(Math.max(leftBound, x +  a*normal[1] * width/2), y - a*normal[0] * width/2);
              ctx.stroke();
              ctx.beginPath();
+             ctx.lineWidth = 1;
 
         }
         checkForWin(){

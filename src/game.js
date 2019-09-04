@@ -7,7 +7,8 @@ import Level6 from './levels/level6';
 import Level7 from './levels/level7';
 import Level8 from './levels/level8';
 import Level9 from './levels/level9';
-import Splash from './levels/splash';
+import TitleSequence from './titleSequence';
+import TitleLevel from './levels/titleLevel';
 import TimedMessage from './timedMessage';
 import Viewport from './viewport';
 import Stars from './stars';
@@ -22,7 +23,7 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         this.animating = true;
         this.levels = [null, 
-            Splash,
+            TitleLevel,
             Level1, 
             Level2,
             Level3,
@@ -40,6 +41,7 @@ class Game {
         this.setupLaunchPad = this.setupLaunchPad.bind(this);
         this.playSpeed = {num: 1, fractional: false};
         this.setPlaySpeed = this.setPlaySpeed.bind(this);
+        this.animate = this.animate.bind(this);
         this.frameCount = 0;
         this.vp = new Viewport({});
         this.restartLevel = this.restartLevel.bind(this);
@@ -55,9 +57,17 @@ class Game {
             viewportx1: ${this.vp.x1} viewporty1: ${this.vp.y1}`
             )
         }
-            requestAnimationFrame(this.animate.bind(this));
+
+        // requestAnimationFrame(this.animate.bind(this));
         this.menuReady();
+        this.titleSequenceController = new TitleSequence(this);
+        
+
     }
+    start(){
+        this.titleSequenceController.start();
+    }
+
     levelControl(event){
         console.log(event.keyCode);
         if (event.keyCode === 82) this.restartLevel();
@@ -75,10 +85,13 @@ class Game {
         levelMenu.installEventListener();
     }
 
-    initiateLevel() {
+    initiateLevel(levelClass) {
+        if(!levelClass){
+            this.currentLevelNumber += 1;
+            levelClass = this.levels[this.currentLevelNumber];
+        }
         
-        this.currentLevelNumber += 1;
-        const level = new this.levels[this.currentLevelNumber](this);
+        const level = new levelClass(this);
         this.level = level;
         this.vp = new Viewport(level);
         this.ball = level.ball;
@@ -249,9 +262,9 @@ class Game {
     }
 
     animate(time) {
-        if (!this.animating) return;
         const timeDelta = time - this.lastTime;
         this.step(timeDelta);
+        if (!this.animating) return;
         this.draw();
         this.lastTime = time;
         this.frameCount += 1;
@@ -291,10 +304,10 @@ class Game {
         ctx.clearRect(0, 0, 1200, 600);
         this.displayKeyCommands();
         if (this.level.splash){
-            ctx.fillStyle = "orange";
-            ctx.font = `bold 180px Arial`;    
-            ctx.fillText("SPA  E", 500, 220);
-            ctx.fillText("GOLF", 500, 400);
+            // ctx.fillStyle = "orange";
+            // ctx.font = `bold 180px Arial`;    
+            // ctx.fillText("SPACE", 485, 220);
+            // ctx.fillText("GOLF", 500, 400);
         }
         if (this.stars){
             for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){

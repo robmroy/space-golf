@@ -4,14 +4,15 @@ import StickyPlanet from '../Sticky_planet';
 import Obstacle from '../obstacle';
 import {polyFromFunction} from '../obstacles';
 import Hole from '../hole';
-class Splash {
+class TitleLevel {
     constructor(game){
         this.splash = true;
         const invSqrt = 1/Math.sqrt(2);
         this.ball = new Ball(game, 932, 190 );
         this.ball.stopped = false;
         this.ball.vx = -1.6;
-        this.ball.vy = 3.1
+        this.ball.vy = 3.1;
+        this.ball.winHandler = this.winHandler.bind(this.ball);
         this.corners = [[-55500, -222500], [2225400, 2225100]];
         this.currentPlanet = new StickyPlanet(game, -1000, 120, 12, "black", .0001, Math.PI/2);
         // this.startButton = new StartButton(game, 400, 400);
@@ -34,12 +35,17 @@ class Splash {
             // new Obstacle(game, 350, 250, 650, 250),
             // new Obstacle(game, 650, 250, 650, 100),
             // new Obstacle(game, 650, 100, 350, 100),
-        ].concat(ellipse1).concat(ellipse2);
+        ].concat(ellipse1);
         let sqrt = 1/Math.sqrt(2);
-        this.hole = new Hole(game, 966, 222,  [0, -1], 100);
-        this.viewportMovementStartX = 700;
-        this.viewportMovementStartY = 500;
+        this.hole = new Hole(game, 980, 222,  [0, -1], 100);
         }
+        winHandler(){
+        this.stop();
+        const game = this.game;
+        game.titleSequenceController.winHandler();
+                
+    }
+
 }
 
-export default Splash;
+export default TitleLevel;

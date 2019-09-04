@@ -101,17 +101,23 @@ class Ball {
             }
         })
         if (game.hole.checkForWin()){
-            this.stop();
+            this.winHandler();
+        }
+    
+    
+    }
+
+    winHandler(){
+        this.stop();
+        const game = this.game;
             if(game.currentLevelNumber >= game.levels.length - 1){
                 game.won = true;}
                 else{
                 game.initiateLevel();
                 game.playSpeed = {num: 1, fractional: false};
                 }
-        }
-    
-    
     }
+
     draw(ctx,  x, y, r = this.radius ) {
         if(x === undefined) {this.setAuxPositions();
         x = this.drawX;
