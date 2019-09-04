@@ -101,7 +101,7 @@ class Game {
         this.hole = level.hole;
         this.obstacles = level.obstacles || [];
         this.corners = level.corners;
-        this.stars = new Stars(level, this.currentLevelNumber);
+        this.stars = new Stars(this, level, this.currentLevelNumber);
         this.stars.generateBlock(0, 0);
         this.vp.setMovementStartPoints(
             level.viewportMovementUp,
@@ -310,14 +310,10 @@ class Game {
             // ctx.fillText("GOLF", 500, 400);
         }
         if (this.stars){
-            for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){
-                for (let j=Math.floor(vp.y1/1000); j<=Math.ceil(vp.y2/1000); j++){
-                    if (!this.stars.getBlock(i, j)){
-                        this.stars.generateBlock(i, j)
-                    }
-                    this.stars.drawBlock(ctx, i, j, vp);
-                }
-            }
+           if (this.titleSequenceController){
+               this.titleSequenceController.drawStars(ctx);
+           }
+           else this.stars.draw(ctx);
         }
         hole.drawFlag(ctx, hole.x - vp.x1, hole.y - vp.y1);
         hole.drawHole(ctx, hole.x - vp.x1, hole.y - vp.y1);
@@ -340,6 +336,9 @@ class Game {
         20,
          580);
             if (this.menu) this.menu.draw(ctx);
+            if (this.titleSequenceController){
+                this.titleSequenceController.draw(ctx);
+            }
 
     }
 

@@ -8,6 +8,7 @@ class Viewport {
         this.setMovementStart = this.setMovementStartPoints.bind(this);
         this.moveWithBall = this.moveWithBall.bind(this);
         this.style = level.viewportStyle;
+        
     }
     setMovementStartPoints(up, right, down, left){
         this.startUp = up || 0;
@@ -16,6 +17,7 @@ class Viewport {
         this.startLeft = left || 0;
     }
     moveWithBall(ballX, ballY, ball){
+        if(this.style==="stopped"){return;}
         if (this.style === 'centered'){return this.moveCentered(ballX, ballY);}
         let {x1, x2, y1, y2} = this;
         let ballOvershoot = {x: ballX - .5*(x1+x2), y: ballY - .5 *(y1+y2)};

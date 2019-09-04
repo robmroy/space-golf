@@ -1,12 +1,13 @@
 import fastRandom from 'fast-random';
 
 class Stars {
-    constructor(level, levelNum){
+    constructor(game, level, levelNum){
         this.topLeft = {x: level.corners[0]-600, y: level.corners[0]-300};
         this.bottomRight = {x: level.corners[1]+600, y: level.corners[1]+300};
         this.blocks = {};
         this.starsPerBlock = 100;
         this.levelNum = levelNum;
+        this.game = game;
     }
 
     generateBlock(xInThousands, yInThousands){
@@ -24,9 +25,9 @@ class Stars {
         this.blocks[`${x}, ${y}`] = stars;
     }
 
-    drawBlock(ctx, xInThousands, yInThousands, viewport){
+    drawBlock(ctx, xInThousands, yInThousands, viewport, color = "white"){
         let stars = this.blocks[`${xInThousands}, ${yInThousands}`];
-        ctx.fillStyle = "white";
+        ctx.fillStyle = color;
         for (let i=0; i< stars.length; i++){
             let [x, y, r] = stars[i];
             ctx.beginPath();
@@ -42,6 +43,17 @@ class Stars {
         return this.blocks[`${x}, ${y}`];
     }
 
+    draw(ctx, color){
+        let vp = this.game.vp;
+        for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){
+            for (let j=Math.floor(vp.y1/1000); j<=Math.ceil(vp.y2/1000); j++){
+                if (!this.getBlock(i, j)){
+                    this.generateBlock(i, j)
+                }
+                this.drawBlock(ctx, i, j, vp, color);
+            }
+        }
+    }
     
 }
 
