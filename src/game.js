@@ -23,7 +23,6 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         this.animating = true;
         this.levels = [null, 
-            TitleLevel,
             Level1, 
             Level2,
             Level3,
@@ -52,7 +51,7 @@ class Game {
         this.canvas.addEventListener("keydown", this.levelControl);
         window.printo = () => {
         let ball = this.ball;
-        console.log(`ballx: ${ball.x}, bpx: ${ball.prevx}, 
+        console.log(`name: ${parseInt(window.name)**2}, ballx: ${ball.x}, bpx: ${ball.prevx}, 
             balldrawX: ${ball.drawX}, ballInterX: ${ball.interpolateX}
             viewportx1: ${this.vp.x1} viewporty1: ${this.vp.y1}`
             )
@@ -303,12 +302,6 @@ class Game {
         ctx.strokeStyle = "black";
         ctx.clearRect(0, 0, 1200, 600);
         this.displayKeyCommands();
-        if (this.level.splash){
-            // ctx.fillStyle = "orange";
-            // ctx.font = `bold 180px Arial`;    
-            // ctx.fillText("SPACE", 485, 220);
-            // ctx.fillText("GOLF", 500, 400);
-        }
         if (this.stars){
            if (this.titleSequenceController){
                this.titleSequenceController.drawStars(ctx);
@@ -324,6 +317,7 @@ class Game {
         this.timedMessages.forEach( message => {message.draw(ctx);})
         if(launchPad) {launchPad.draw(ctx);}
         if(this.won) this.victoryMessage();
+        if(!this.titleSequenceController){
         ctx.fillStyle = "#3e78ad";
         ctx.font = `14px Arial`;
         ctx.fillText(`Velocity_x=${this.ball.vx.toFixed(0)}, Velocity_y=${this.ball.vy.toFixed(0)},
@@ -332,9 +326,10 @@ class Game {
          550);
         ctx.font = '16px Arial';
         ctx.fillStyle = 'white';
-        ctx.fillText(`Level ${this.currentLevelNumber - 1}`, 
+        ctx.fillText(`Level ${this.currentLevelNumber}`, 
         20,
          580);
+        }
             if (this.menu) this.menu.draw(ctx);
             if (this.titleSequenceController){
                 this.titleSequenceController.draw(ctx);

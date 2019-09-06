@@ -31,7 +31,10 @@ class TitleSequence {
                 ctx.fillText("SPACE", 485, 220);                 
             }
             ctx.fillText("GOLF", 500, 400);
-
+            if(this.starRGB[0] === 255){
+                this.game.initiateLevel();
+                this.game.titleSequenceController = null;
+            }
         }
 
         drawStars(ctx){
