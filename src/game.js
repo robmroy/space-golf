@@ -85,6 +85,7 @@ class Game {
     }
 
     initiateLevel(levelClass) {
+        this.won = false;
         if(!levelClass){
             this.currentLevelNumber += 1;
             levelClass = this.levels[this.currentLevelNumber];

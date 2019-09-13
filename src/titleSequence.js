@@ -6,10 +6,10 @@ class TitleSequence {
         this.textRGB=[75,45,0];
         this.phase = 0;
         this.starRGB = [0,0,0];
+        this.startGamePlay = this.startGamePlay.bind(this);
         }
         start(){
             const game = this.game;
-
             game.initiateLevel(TitleLevel);
             requestAnimationFrame(this.game.animate);
         }
@@ -26,15 +26,29 @@ class TitleSequence {
             ctx.fillStyle = 
             `rgb(${this.textRGB[0]},${this.textRGB[1]},${this.textRGB[2]})`;
             ctx.font = `bold 180px Arial`; 
-            if(this.phase === 1){
+            if(this.phase >= 1){
                 ctx.font = `bold 180px Arial`;    
-                ctx.fillText("SPACE", 485, 220);                 
+                ctx.fillText("SPACE", 365, 220);                 
             }
-            ctx.fillText("GOLF", 500, 400);
+            ctx.fillText("GOLF", 380, 400);
             if(this.starRGB[0] === 255){
-                this.game.initiateLevel();
-                this.game.titleSequenceController = null;
+                if(this.phase === 1){
+                    document.body.addEventListener("click",
+                    this.startGamePlay)
+                    this.phase = 2;
+                }
+                ctx.fillStyle = "white";
+                ctx.font = `26px Arial`;    
+                ctx.fillText("Click anywhere to start", 450, 500);                 
+                
             }
+        }
+
+        startGamePlay(){
+            this.game.initiateLevel();
+            this.game.titleSequenceController = null;
+            document.body.removeEventListener("click",
+            this.startGamePlay);
         }
 
         drawStars(ctx){

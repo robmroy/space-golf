@@ -8,7 +8,7 @@ class TitleLevel {
     constructor(game){
         this.splash = true;
         const invSqrt = 1/Math.sqrt(2);
-        this.ball = new Ball(game, 932, 190 );
+        this.ball = new Ball(game, 812, 190 );
         this.ball.stopped = false;
         this.ball.vx = -1.6;
         this.ball.vy = 3.1;
@@ -25,20 +25,16 @@ class TitleLevel {
 
         ]
         const ellipse1 = polyFromFunction(game,
-            t => 910 + 34* Math.cos(t), t => 155 + 48* Math.sin(t), .55,    1.75*Math.PI, Math.PI/60,
+            t => 790 + 34* Math.cos(t), t => 155 + 48* Math.sin(t), .55,    1.75*Math.PI, Math.PI/60,
             "orange", 2);
         const ellipse2 = polyFromFunction(game,
             t => 910 + 45* Math.cos(t), t => 155 + 59* Math.sin(t), .5,    1.8*Math.PI, Math.PI/60,
             "orange", 25);
 
         this.obstacles = [
-            // new Obstacle(game, 350, 100, 350, 250),
-            // new Obstacle(game, 350, 250, 650, 250),
-            // new Obstacle(game, 650, 250, 650, 100),
-            // new Obstacle(game, 650, 100, 350, 100),
         ].concat(ellipse1);
         let sqrt = 1/Math.sqrt(2);
-        this.hole = new Hole(game, 980, 222,  [0, -1], 100);
+        this.hole = new Hole(game, 860, 222,  [0, -1], 100);
         }
         winHandler(){
         // this.stop();
