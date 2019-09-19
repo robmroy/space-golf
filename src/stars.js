@@ -1,60 +1,60 @@
 import fastRandom from 'fast-random';
 
 class Stars {
-    constructor(game, level, levelNum){
-        this.topLeft = {x: level.corners[0]-600, y: level.corners[0]-300};
-        this.bottomRight = {x: level.corners[1]+600, y: level.corners[1]+300};
+    constructor(game, level, levelNum) {
+        this.topLeft = { x: level.corners[0] - 600, y: level.corners[0] - 300 };
+        this.bottomRight = { x: level.corners[1] + 600, y: level.corners[1] + 300 };
         this.blocks = {};
         this.starsPerBlock = 100;
         this.levelNum = levelNum;
         this.game = game;
     }
 
-    generateBlock(xInThousands, yInThousands){
+    generateBlock(xInThousands, yInThousands) {
         let x = xInThousands;
         let y = yInThousands;
-        const seed = 1000*x + y + this.levelNum * 10000;
+        const seed = 1000 * x + y + this.levelNum * 10000;
         const frandom = fastRandom(seed);
         const stars = new Array(this.starsPerBlock);
-        for (let i=0; i< stars.length; i++){
+        for (let i = 0; i < stars.length; i++) {
             stars[i] = [
-                1000*(x + frandom.nextFloat()), 
-                1000*(y+frandom.nextFloat()), 
-                .3 + .8 * (frandom.nextFloat())**9]
+                1000 * (x + frandom.nextFloat()),
+                1000 * (y + frandom.nextFloat()),
+                .3 + .8 * (frandom.nextFloat()) ** 9]
         }
         this.blocks[`${x}, ${y}`] = stars;
     }
 
-    drawBlock(ctx, xInThousands, yInThousands, viewport, color = "white"){
+    drawBlock(ctx, xInThousands, yInThousands, viewport, color = "white") {
         let stars = this.blocks[`${xInThousands}, ${yInThousands}`];
         ctx.fillStyle = color;
-        for (let i=0; i< stars.length; i++){
+        for (let i = 0; i < stars.length; i++) {
             let [x, y, r] = stars[i];
             ctx.beginPath();
-            
+
             ctx.arc(
-              x - viewport.x1, y - viewport.y1, r, 0, 2 * Math.PI, true
+                x - viewport.x1, y - viewport.y1, r, 0, 2 * Math.PI, true
             );
             ctx.fill();
         }
     }
 
-    getBlock(x, y){
+    getBlock(x, y) {
         return this.blocks[`${x}, ${y}`];
     }
 
-    draw(ctx, color){
+    draw(ctx, color) {
         let vp = this.game.vp;
-        for(let i=Math.floor(vp.x1/1000); i<= Math.ceil(vp.x2/1000); i++){
-            for (let j=Math.floor(vp.y1/1000); j<=Math.ceil(vp.y2/1000); j++){
-                if (!this.getBlock(i, j)){
+        for (let i = Math.floor(vp.x1 / 1000); i <= Math.ceil(vp.x2 / 1000); i++) {
+            for (let j = Math.floor(vp.y1 / 1000); j <= Math.ceil(vp.y2 / 1000); j++) {
+                if (!this.getBlock(i, j)) {
                     this.generateBlock(i, j)
                 }
                 this.drawBlock(ctx, i, j, vp, color);
             }
         }
     }
-    
+
 }
 
 export default Stars;
