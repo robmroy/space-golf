@@ -22,7 +22,7 @@ class Level7 {
             
         ]
         let sqrt = 1/Math.sqrt(2);
-        this.hole = new Hole(game, 535, 270,  [-1, 0], 100);
+        this.hole = new Hole(game, 535, 270 + 100,  [-1, 0], 100);
         const ellipse = polyFromFunction(game,
             t => 530+  26* t * Math.sin(t), t => 330 + 100+ 27 * t* Math.cos(t), 3.5, 17, Math.PI/100);
         this.obstacles = [
@@ -33,7 +33,7 @@ class Level7 {
         this.viewportX2=1500;
         this.viewportY2=750;
         this.viewportMovementStartX = 700;
-        this.viewportMovementStartY = 500;
+        this.viewportMovementStartY = 1200;
         }
 }
 

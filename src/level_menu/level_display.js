@@ -4,7 +4,8 @@ class LevelDisplay{
         this.x = x;
         this.y = y;
         this.scale = scale;
-        this.vp= {x1: x, y1: y, x2: x + scale*1200, y2: y +scale* 600};
+        this.vp= {x1: -x/scale, y1: -y/scale, x2: x + scale*1200, y2: y +scale* 600,
+        zoom: scale};
     }
 
     draw(ctx){
@@ -32,9 +33,8 @@ class LevelDisplay{
         ctx.strokeStyle = obst.color;
         ctx.stroke();
         })
-        hole.drawFlag(ctx, this.scale*hole.x + this.x, this.scale*hole.y + this.y, this.scale);
-        hole.drawHole(ctx, this.scale*hole.x + this.x, this.scale*hole.y + this.y, this.scale,
-            this.vp);
+        hole.drawFlag(ctx, this.vp);
+        hole.drawHoleWithBound(ctx, this.vp, this.x);
 
     }
 

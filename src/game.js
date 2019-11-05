@@ -306,14 +306,14 @@ class Game {
             }
             else this.stars.draw(ctx);
         }
-        hole.drawFlag(ctx, hole.x - vp.x1, hole.y - vp.y1);
-        hole.drawHole(ctx, hole.x - vp.x1, hole.y - vp.y1);
+        hole.drawFlag(ctx, vp);
+        hole.drawHole(ctx, vp);
         this.obstacles.forEach(obstacle => obstacle.draw(ctx, vp));
         ball.draw(ctx);
         this.planets.forEach(planet =>
             planet.draw(ctx, vp));
         this.timedMessages.forEach(message => { message.draw(ctx); })
-        if (launchPad) { launchPad.draw(ctx); }
+        if (launchPad) { launchPad.draw(ctx, vp); }
         if (this.won) this.victoryMessage();
         if (!this.titleSequenceController) {
             ctx.fillStyle = "#3e78ad";

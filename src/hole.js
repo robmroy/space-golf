@@ -26,9 +26,11 @@ class Hole {
         this.y += this.vy;
     }
 
-    drawFlag(ctx, x = this.x, y = this.y, scale = 1) {
+    drawFlag(ctx, vp) {
+        let x = (this.x - vp.x1)*vp.zoom;
+        let y = (this.y - vp.y1)*vp.zoom;
         let normal = this.normal;
-        let a = scale;
+        let a = vp.zoom;
         ctx.setLineDash([]);
         ctx.beginPath();
         ctx.strokeStyle = "gold";
@@ -43,19 +45,34 @@ class Hole {
         ctx.fill();
     }
 
-    drawHole(ctx, x = this.x, y = this.y, scale = 1, vp) {
+    drawHole(ctx,  vp) {
+        let x = (this.x - vp.x1)*vp.zoom;
+        let y = (this.y - vp.y1)*vp.zoom;
         let { width, normal } = this;
-        let a = scale;
+        let a = vp.zoom;
         ctx.beginPath();
         ctx.strokeStyle = "purple";
         ctx.lineWidth = 2;
-        const leftBound = vp ? vp.x1 : -Infinity;
+        ctx.moveTo(x - a * normal[1] * width / 2, y + a * normal[0] * width / 2);
+        ctx.lineTo(x + a * normal[1] * width / 2, y - a * normal[0] * width / 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+    }
+
+    drawHoleWithBound(ctx, vp, leftBound){
+        let x = (this.x - vp.x1)*vp.zoom;
+        let y = (this.y - vp.y1)*vp.zoom;
+        let { width, normal } = this;
+        let a = vp.zoom;
+        ctx.beginPath();
+        ctx.strokeStyle = "purple";
+        ctx.lineWidth = 2;
         ctx.moveTo(Math.max(leftBound, x - a * normal[1] * width / 2), y + a * normal[0] * width / 2);
         ctx.lineTo(Math.max(leftBound, x + a * normal[1] * width / 2), y - a * normal[0] * width / 2);
         ctx.stroke();
         ctx.beginPath();
         ctx.lineWidth = 1;
-
     }
     checkForWin() {
         let { x, y, width, normal } = this;

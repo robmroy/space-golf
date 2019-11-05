@@ -25,7 +25,7 @@ class Stars {
         this.blocks[`${x}, ${y}`] = stars;
     }
 
-    drawBlock(ctx, xInThousands, yInThousands, viewport, color = "white") {
+    drawBlock(ctx, xInThousands, yInThousands, vp, color = "white") {
         let stars = this.blocks[`${xInThousands}, ${yInThousands}`];
         ctx.fillStyle = color;
         for (let i = 0; i < stars.length; i++) {
@@ -33,7 +33,7 @@ class Stars {
             ctx.beginPath();
 
             ctx.arc(
-                x - viewport.x1, y - viewport.y1, r, 0, 2 * Math.PI, true
+                (x - vp.x1)*vp.zoom, (y - vp.y1)*vp.zoom, r*vp.zoom, 0, 2 * Math.PI, true
             );
             ctx.fill();
         }

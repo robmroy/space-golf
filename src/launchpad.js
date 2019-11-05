@@ -47,7 +47,7 @@ class LaunchPad {
 
    arrowVector() {
       const vp = this.game.vp;
-      return [this.arrowTip.x - this.x + vp.x1, this.arrowTip.y - this.y + vp.y1];
+      return [this.arrowTip.x - (this.x + vp.x1)*vp.zoom, this.arrowTip.y - (this.y + vp.y1)*vp.zoom];
    }
 
    updatePolar() {
@@ -57,8 +57,8 @@ class LaunchPad {
 
    updateArrowTip() {
       let vp = this.game.vp;
-      this.arrowTip.x = this.x - vp.x1 + this.arrowLength * Math.cos(this.arrowAngle);
-      this.arrowTip.y = this.y - vp.y1 + this.arrowLength * Math.sin(this.arrowAngle);
+      this.arrowTip.x = (this.x - vp.x1) + this.arrowLength * Math.cos(this.arrowAngle);
+      this.arrowTip.y = (this.y - vp.y1) + this.arrowLength * Math.sin(this.arrowAngle);
    }
 
    updateLaunchVelocity() {
@@ -66,10 +66,11 @@ class LaunchPad {
       this.launchVy = this.arrowVector()[1] / 8;
    }
 
-   draw(ctx) {
-      let x = this.vpX();
-      let y = this.vpY();
-      dottedArc(ctx, x, y, this.radius,
+   draw(ctx, vp) {
+      let x = (this.x - vp.x1) * vp.zoom;
+      let y = (this.y - vp.y1) * vp.zoom;
+      let r = this.radius * vp.zoom;
+      dottedArc(ctx, x, y, r,
          this.normalAngle - this.maxTheta, this.normalAngle + this.maxTheta, this.color);
       let currentPlanet = this.game.currentPlanet;
       if (this.arrowTip.x === null) { currentPlanet.hideText = false; }
@@ -104,8 +105,9 @@ class LaunchPad {
 
    drawArrowBits(ctx) {
       let { x, y, arrowTip, game } = this;
-      x -= game.vp.x1;
-      y -= game.vp.y1;
+      let vp = game.vp;
+      x = (x- vp.x1)*vp.zoom;
+      y = (y - vp.y1) * vp.zoom;
 
       const theta = vectorAngle([arrowTip.x - x, arrowTip.y - y]);
       ctx.setLineDash([]);
@@ -135,11 +137,11 @@ class LaunchPad {
    setVelocity(event) {
       const vp = this.game.vp;
       const cursor = { x: event.clientX - error().x, y: event.clientY - error().y };
-      const dx = cursor.x - this.x + vp.x1;
-      const dy = cursor.y - this.y + vp.y1;
+      const dx = cursor.x - (this.x - vp.x1)*vp.zoom;
+      const dy = cursor.y - (this.y - vp.y1)*vp.zoom;
       const dz = Math.sqrt(dx ** 2 + dy ** 2);
       if (
-         dx ** 2 + dy ** 2 <= this.radius ** 2 &&
+         dx ** 2 + dy ** 2 <= (this.radius*vp.zoom) ** 2 &&
          (this.normal[0] - dx / dz) ** 2 + (this.normal[1] - dy / dz) ** 2 <= this.thetaRestrictionHelper
       ) {
          this.arrowTip.x = cursor.x;
