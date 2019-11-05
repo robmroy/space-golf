@@ -31,7 +31,6 @@ class Level8 {
         ].concat(ellipse2);
         let sqrt = 1/Math.sqrt(2);
         this.hole = new Hole(game, 1050, 300,  [-1, 0], 100);
-
         this.viewportMovementStartX = 700;
         this.viewportMovementStartY = 500;
         }

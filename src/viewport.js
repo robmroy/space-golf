@@ -1,10 +1,10 @@
 class Viewport {
     constructor(level, x1 = 0, y1 = 0, x2 = 1200 + x1, y2 = 600 + y1, zoom = 100) {
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
-        this.zoom = zoom;
+        this.x1 = level.viewportX1 || x1;
+        this.y1 = level.viewportY1 || y1;
+        this.x2 = level.viewportX2 || x2;
+        this.y2 = level.viewportY2 || y2;
+        this.zoom = level.viewportZoom || zoom;
         this.setMovementStart = this.setMovementStartPoints.bind(this);
         this.moveWithBall = this.moveWithBall.bind(this);
         this.style = level.viewportStyle;
