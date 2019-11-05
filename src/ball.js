@@ -41,8 +41,8 @@ class Ball {
             this.interpolateX = this.x;
             this.interpolateY = this.y;
         }
-        this.drawX = this.interpolateX - vp.x1;
-        this.drawY = this.interpolateY - vp.y1;
+        this.drawX = (this.interpolateX - vp.x1)*vp.zoom;
+        this.drawY = (this.interpolateY - vp.y1)*vp.zoom;
     }
 
     checkRectangle(corners) {
@@ -120,11 +120,12 @@ class Ball {
             x = this.drawX;
             y = this.drawY;
         }
+        let vp = this.game.vp;
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(
-            x, y, r, 0, 2 * Math.PI, true
+            x, y, r * vp.zoom, 0, 2 * Math.PI, true
         );
         ctx.fill();
     };

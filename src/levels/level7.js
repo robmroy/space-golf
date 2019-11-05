@@ -29,6 +29,7 @@ class Level7 {
         ]
 
         this.obstacles.push(...ellipse);
+        this.viewportZoom = .75;
         this.viewportX2=1500;
         this.viewportY2=750;
         this.viewportMovementStartX = 700;

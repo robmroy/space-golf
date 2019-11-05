@@ -41,7 +41,10 @@ class StickyPlanet {
     return { dx, dy, dz2, dz, normal }
   }
 
-  draw(ctx, x = this.x, y = this.y, r = this.radius) {
+  draw(ctx, vp) {
+    let x = (this.x - vp.x1)*vp.zoom;
+    let y = (this.y - vp.y1)*vp.zoom;
+    let r = this.radius * vp.zoom;
     ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.arc(

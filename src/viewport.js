@@ -1,5 +1,5 @@
 class Viewport {
-    constructor(level, x1 = 0, y1 = 0, x2 = 1200 + x1, y2 = 600 + y1, zoom = 100) {
+    constructor(level, x1 = 0, y1 = 0, x2 = 1200 + x1, y2 = 600 + y1, zoom = 1) {
         this.x1 = level.viewportX1 || x1;
         this.y1 = level.viewportY1 || y1;
         this.x2 = level.viewportX2 || x2;
@@ -41,10 +41,10 @@ class Viewport {
     }
 
     moveCentered(ballX, ballY) {
-        this.x1 = ballX - 600 * 100 / this.zoom;
-        this.x2 = ballX + 600 * 100 / this.zoom;
-        this.y1 = ballY - 300 * 100 / this.zoom;
-        this.y2 = ballY + 300 * 100 / this.zoom;
+        this.x1 = ballX - 600  / this.zoom;
+        this.x2 = ballX + 600  / this.zoom;
+        this.y1 = ballY - 300  / this.zoom;
+        this.y2 = ballY + 300  / this.zoom;
     }
 
     displayPos(pojo) {

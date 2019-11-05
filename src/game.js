@@ -311,7 +311,7 @@ class Game {
         this.obstacles.forEach(obstacle => obstacle.draw(ctx, vp));
         ball.draw(ctx);
         this.planets.forEach(planet =>
-            planet.draw(ctx, planet.x - vp.x1, planet.y - vp.y1));
+            planet.draw(ctx, vp));
         this.timedMessages.forEach(message => { message.draw(ctx); })
         if (launchPad) { launchPad.draw(ctx); }
         if (this.won) this.victoryMessage();

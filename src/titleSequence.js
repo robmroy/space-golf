@@ -15,6 +15,7 @@ class TitleSequence {
     }
 
     draw(ctx) {
+        this.startGamePlay();
         if (this.phase === 1) {
             let currentColor = this.textRGB.slice();
             const newRed = Math.min(255, currentColor[0] + 2);
@@ -31,7 +32,7 @@ class TitleSequence {
             ctx.fillText("SPACE", 365, 220);
         }
         ctx.fillText("GOLF", 380, 400);
-        if (this.starRGB[0] === 255) {
+        if (this.starRGB[0] >= 255) {
             if (this.phase === 1) {
                 document.body.addEventListener("click",
                     this.startGamePlay)

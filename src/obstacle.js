@@ -44,12 +44,12 @@ class Obstacle {
     }
 
     draw(ctx, viewport) {
-        let { x1, y1 } = viewport;
+        let { x1, y1, zoom } = viewport;
         ctx.setLineDash([]);
         ctx.beginPath();
         ctx.lineWidth = this.width;
-        ctx.moveTo(this.x1 - x1, this.y1 - y1);
-        ctx.lineTo(this.x2 - x1, this.y2 - y1);
+        ctx.moveTo((this.x1 - x1)*zoom, (this.y1 - y1)*zoom);
+        ctx.lineTo((this.x2 - x1)*zoom, (this.y2 - y1)*zoom);
         ctx.strokeStyle = this.color;
         ctx.stroke();
         ctx.lineWidth = 1;
