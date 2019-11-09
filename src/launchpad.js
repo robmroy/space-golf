@@ -157,6 +157,8 @@ class LaunchPad {
    }
 
    setVelocityByArrowKeys(event, callback) {
+      let relevantKeyCodes = [13, 32, 37, 38, 39, 40];
+      if (!relevantKeyCodes.includes(event.keyCode)){return;}
       const al = this.arrowLength;
       if (event.keyCode === 40) {
          this.arrowLength = Math.max(al - .4, 0);
