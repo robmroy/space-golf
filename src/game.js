@@ -116,6 +116,12 @@ class Game {
         this.initiateLevel();
     }
 
+    zoomIn() {
+        let vp = this.game.vp;
+        if(vp.zoom >= 2) {return;}
+        vp.zoom += .1;
+        vp.x1 = 600 
+    }
     setPlaySpeed(event) {
         if (![70, 83].includes(event.keyCode)) return;
         if (event.keyCode === 70) {

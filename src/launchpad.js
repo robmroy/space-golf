@@ -47,7 +47,7 @@ class LaunchPad {
 
    arrowVector() {
       const vp = this.game.vp;
-      return [this.arrowTip.x - (this.x + vp.x1)*vp.zoom, this.arrowTip.y - (this.y + vp.y1)*vp.zoom];
+      return [this.arrowTip.x - (this.x - vp.x1)*vp.zoom, this.arrowTip.y - (this.y - vp.y1)*vp.zoom];
    }
 
    updatePolar() {
@@ -62,14 +62,16 @@ class LaunchPad {
    }
 
    updateLaunchVelocity() {
-      this.launchVx = this.arrowVector()[0] / 8;
-      this.launchVy = this.arrowVector()[1] / 8;
+      let vp = this.game.vp;
+      this.launchVx = this.arrowVector()[0] / (8 * vp.zoom);
+      this.launchVy = this.arrowVector()[1] / (8 * vp.zoom);
    }
 
    draw(ctx, vp) {
-      let x = (this.x - vp.x1) * vp.zoom;
-      let y = (this.y - vp.y1) * vp.zoom;
-      let r = this.radius * vp.zoom;
+      let zoom = vp.zoom;
+      let x = (this.x - vp.x1) * zoom;
+      let y = (this.y - vp.y1) * zoom;
+      let r = this.radius * zoom;
       dottedArc(ctx, x, y, r,
          this.normalAngle - this.maxTheta, this.normalAngle + this.maxTheta, this.color);
       let currentPlanet = this.game.currentPlanet;
@@ -87,7 +89,7 @@ class LaunchPad {
          let textY = 0.5 * (y + this.arrowTip.y);
          ctx.fillStyle = "purple"
          ctx.font = `${21}px Arial`;
-         ctx.fillText(`Initial speed: ${(this.arrowLength / 8).toFixed(2)}`,
+         ctx.fillText(`Initial speed: ${(this.arrowLength / (8 * zoom)).toFixed(2)}`,
             `${textX}`,
             `${textY}`);
          ctx.fill();
