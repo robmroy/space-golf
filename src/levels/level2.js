@@ -1,8 +1,6 @@
 import Ball from '../ball';
 import LaunchPad from '../launchpad';
 import StickyPlanet from '../Sticky_planet';
-import Obstacle from '../obstacle';
-import BouncyPlanet from '../bouncy_planet';
 import Hole from '../hole';
 
 class Level2 {
@@ -13,11 +11,9 @@ class Level2 {
         this.launchPad = new LaunchPad(game, 600, 300, [0, -1]);
         this.planets = [
             this.currentPlanet,
-            
         ]
         this.hole = new Hole(game, 640, 180);
         this.obstacles=[];
-        
         }
 }
 
