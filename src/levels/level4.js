@@ -2,9 +2,7 @@ import Ball from '../ball';
 import LaunchPad from '../launchpad';
 import StickyPlanet from '../Sticky_planet';
 import Obstacle from '../obstacle';
-import BouncyPlanet from '../bouncy_planet';
 import Hole from '../hole';
-import StartButton from '../start_button';
 class Level4 {
     constructor(game){
         const sqrt = 1/Math.sqrt(2);
@@ -14,15 +12,12 @@ class Level4 {
         this.launchPad = new LaunchPad(game, this.ball.x, this.ball.y, [1, 0]);
         this.planets = [
             this.currentPlanet,
-            // new StickyPlanet(game, 300, 400, 35), 
             new StickyPlanet(game, 640, 280, 20, "orange", 1),
             
         ]
         this.hole = new Hole(game, 665, 330,   [sqrt,-sqrt], 100);
         this.obstacles = [
-            // new Obstacle(game, 90, 0, 90, 900)   ,
             new Obstacle(game, 250, 280, 640, 280),
-            // new Obstacle(game, 360, 100, 650, 270)
         ]
         this.viewportMovementStartX = 700;
         this.viewportMovementStartY = 500;

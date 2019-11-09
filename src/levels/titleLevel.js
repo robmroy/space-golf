@@ -1,7 +1,6 @@
 import Ball from '../ball';
 import LaunchPad from '../launchpad';
 import StickyPlanet from '../Sticky_planet';
-import Obstacle from '../obstacle';
 import {polyFromFunction} from '../obstacles';
 import Hole from '../hole';
 class TitleLevel {
@@ -16,13 +15,10 @@ class TitleLevel {
         this.viewportStyle = "stopped";
         this.corners = [[-55500, -222500], [2225400, 2225100]];
         this.currentPlanet = new StickyPlanet(game, -1000, 120, 12, "black", .0001, Math.PI/2);
-        // this.startButton = new StartButton(game, 400, 400);
         this.launchPad = new LaunchPad(game, -1000, this.ball.y, [0, 1],
             Math.PI/2);
         this.planets = [
             this.currentPlanet,
-            // new StickyPlanet(game, 500, 175, 12, "#27753a", 25, Math.PI/2)
-
         ]
         const ellipse1 = polyFromFunction(game,
             t => 790 + 34* Math.cos(t), t => 155 + 48* Math.sin(t), .55,    1.75*Math.PI, Math.PI/60,
@@ -33,11 +29,9 @@ class TitleLevel {
 
         this.obstacles = [
         ].concat(ellipse1);
-        let sqrt = 1/Math.sqrt(2);
         this.hole = new Hole(game, 860, 222,  [0, -1], 100);
         }
         winHandler(){
-        // this.stop();
         const game = this.game;
         game.titleSequenceController.winHandler();
                 
