@@ -1,7 +1,6 @@
 import Ball from '../ball';
 import LaunchPad from '../launchpad';
 import StickyPlanet from '../Sticky_planet';
-import Obstacle from '../obstacle';
 import {polyFromFunction} from '../obstacles';
 import Hole from '../hole';
 class Level9 {
@@ -10,7 +9,6 @@ class Level9 {
         this.ball = new Ball(game, 550 +12+5, 120 );
         this.corners = [[-55500, -222500], [2225400, 2225100]];
         this.currentPlanet = new StickyPlanet(game, 550, 120, 12, "#27753a", 1, Math.PI/2);
-        // this.startButton = new StartButton(game, 400, 400);
         this.launchPad = new LaunchPad(game, this.ball.x, this.ball.y, [1, 0],
             Math.PI/2);
         this.planets = [
