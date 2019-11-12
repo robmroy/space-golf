@@ -23,9 +23,10 @@ class Viewport {
         let x2 = x1 + 1200 * zoom;
         let y2 = y1 + 600 * zoom;
 
-        if (ballX > x2 - 100 || ballX < x1 + 100 || ballY <y1 + 50 || ballY > y2 - 50){
+        if (ballX > x2 - 100/ zoom || ballX < x1 + 100/ zoom|| ballY <y1 + 50/ zoom|| ballY > y2 - 50/ zoom){
             this.style = 'panning';
-            console.log(`ballX: ${ballX}, ballY: ${ballY}, x1: ${x1}, y1: ${y1}`)
+            console.log(`ballX: ${ballX}, ballY: ${ballY}, x1: ${x1}, y1: ${y1},
+            zoom: ${zoom}`)
         }
         if (this.style === 'panning') { return this.panToBall(ball); }
         if (this.style === 'centered') { return this.moveCentered(ballX, ballY); }
@@ -57,8 +58,8 @@ class Viewport {
         const prevBallX = ball.prevInterpolateX;
         const prevBallY = ball.prevInterpolateY;
         let panRate = this.zoom * 10;
-        let prevDX = prevBallX - (this.x1 + 600* this.zoom);
-        let prevDY = prevBallY - (this.y1 + 300* this.zoom);
+        let prevDX = prevBallX - (this.x1 + 600/ this.zoom);
+        let prevDY = prevBallY - (this.y1 + 300/ this.zoom);
         let newDX = null;
         let newDY = null;
             newDX = prevDX < 0 ? Math.min(prevDX + panRate, 0)
