@@ -320,7 +320,7 @@ class Game {
         ctx.fill();
 
         ctx.beginPath();
-        ctx.fillText('z/w: zoom in/out', 1090, 570);
+        ctx.fillText('z/x: zoom in/out', 1090, 570);
         ctx.fill();
     }
 

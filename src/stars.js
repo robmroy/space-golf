@@ -20,7 +20,7 @@ class Stars {
             stars[i] = [
                 1000 * (x + frandom.nextFloat()),
                 1000 * (y + frandom.nextFloat()),
-                .3 + .8 * (frandom.nextFloat()) ** 9]
+                .3 + .9 * (frandom.nextFloat()) ** 9]
         }
         this.blocks[`${x}, ${y}`] = stars;
     }
@@ -30,6 +30,7 @@ class Stars {
         ctx.fillStyle = color;
         for (let i = 0; i < stars.length; i++) {
             let [x, y, r] = stars[i];
+            if(r * vp.zoom < .3) continue;
             ctx.beginPath();
 
             ctx.arc(
