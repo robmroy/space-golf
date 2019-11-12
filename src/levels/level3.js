@@ -20,8 +20,6 @@ class Level3 {
         this.obstacles = [
             new Obstacle(game, 250, 150, 640, 340),
         ]
-        this.viewportMovementStartX = 700;
-        this.viewportMovementStartY = 500;
         }
 }
 

@@ -25,21 +25,22 @@ class Viewport {
 
         if (ballX > x2 - 100 || ballX < x1 + 100 || ballY <y1 + 50 || ballY > y2 - 50){
             this.style = 'panning';
+            console.log(`ballX: ${ballX}, ballY: ${ballY}, x1: ${x1}, y1: ${y1}`)
         }
         if (this.style === 'panning') { return this.panToBall(ball); }
         if (this.style === 'centered') { return this.moveCentered(ballX, ballY); }
-        let ballOvershoot = { x: ballX - .5 * (x1 + x2), y: ballY - .5 * (y1 + y2) };
-            const catchupX =
-                Math.abs(ballOvershoot.x) < Math.abs(1.4 * ball.vx) ?
-                    ballOvershoot.x : 1.4 * ball.vx;
-            this.x1 += catchupX;
-            this.x2 += catchupX;
+        // let ballOvershoot = { x: ballX - .5 * (x1 + x2), y: ballY - .5 * (y1 + y2) };
+        //     const catchupX =
+        //         Math.abs(ballOvershoot.x) < Math.abs(1.4 * ball.vx) ?
+        //             ballOvershoot.x : 1.4 * ball.vx;
+        //     this.x1 += catchupX;
+        //     this.x2 += catchupX;
     
          
-            const catchupY = Math.abs(ballOvershoot.y) < Math.abs(1.4 * ball.vy) ?
-                ballOvershoot.y : 1.4 * ball.vy;
-            this.y1 += catchupY;
-            this.y2 += catchupY;
+        //     const catchupY = Math.abs(ballOvershoot.y) < Math.abs(1.4 * ball.vy) ?
+        //         ballOvershoot.y : 1.4 * ball.vy;
+        //     this.y1 += catchupY;
+        //     this.y2 += catchupY;
         
     }
 
