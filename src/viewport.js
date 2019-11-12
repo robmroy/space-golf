@@ -18,26 +18,28 @@ class Viewport {
     }
     moveWithBall(ballX, ballY, ball) {
         if (this.style === "stopped") { return; }
-        if (this.style === 'centered') { return this.moveCentered(ballX, ballY); }
-        let { x1, x2, y1, y2 } = this;
+
+        let { x1, y1, zoom } = this;
+        let x2 = x1 + 1200 * zoom;
+        let y2 = y1 + 600 * zoom;
+
+        if (ballX > x2 - 100 || ballX < x1 + 100 || ballY <y1 + 50 || ballY > y2 - 50){
+            this.style = 'centered';
+        }
+        if (this.style === 'centered') { return this.panToBall(ball); }
         let ballOvershoot = { x: ballX - .5 * (x1 + x2), y: ballY - .5 * (y1 + y2) };
-        if (
-            ballX > this.startRight || ballX < this.startLeft) {
             const catchupX =
                 Math.abs(ballOvershoot.x) < Math.abs(1.4 * ball.vx) ?
                     ballOvershoot.x : 1.4 * ball.vx;
             this.x1 += catchupX;
             this.x2 += catchupX;
-        }
-        if (
-            // ballOvershoot.y  > 0 && 
-            ballY > this.startDown || ballY < this.startUp
-        ) {
+    
+         
             const catchupY = Math.abs(ballOvershoot.y) < Math.abs(1.4 * ball.vy) ?
                 ballOvershoot.y : 1.4 * ball.vy;
             this.y1 += catchupY;
             this.y2 += catchupY;
-        }
+        
     }
 
     moveCentered(ballX, ballY) {
@@ -45,6 +47,24 @@ class Viewport {
         this.x2 = ballX + 600  / this.zoom;
         this.y1 = ballY - 300  / this.zoom;
         this.y2 = ballY + 300  / this.zoom;
+    }
+
+    panToBall(ball){
+        const ballX = ball.interpolateX;
+        const ballY = ball.interpolateY;
+        const prevBallX = ball.prevInterpolateX;
+        const prevBallY = ball.prevInterpolateY;
+        let panRate = this.zoom * 10;
+        let prevDX = prevBallX - (this.x1 + 600* this.zoom);
+        let prevDY = prevBallY - (this.y1 + 300* this.zoom);
+        let newDX = null;
+        let newDY = null;
+            newDX = prevDX < 0 ? Math.min(prevDX + panRate, 0)
+                : Math.max(prevDX - panRate, 0);
+            newDY = prevDY < 0 ? Math.min(prevDY + panRate, 0)
+                : Math.max(prevDY - panRate, 0);
+        this.x1 += ballX - prevBallX +prevDX - newDX;
+        this.y1 += ballY - prevBallY +prevDY - newDY;        
     }
 
     displayPos(pojo) {

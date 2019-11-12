@@ -19,6 +19,8 @@ class Ball {
         this.drawY = y;
         this.interpolateX = x;
         this.interpolateY = y;
+        this.prevInterpolateX = x;
+        this.prevInterpolateY = y;
     }
 
     vpX() {
@@ -31,6 +33,8 @@ class Ball {
     setAuxPositions() {
         const playSpeed = this.game.playSpeed;
         const vp = this.game.vp;
+        this.prevInterpolateX = this.interpolateX;
+        this.prevInterpolateY = this.interpolateY;
         if (playSpeed.fractional && playSpeed.num > 1) {
             const num = playSpeed.num;
             const residue = this.game.frameCount % num;
