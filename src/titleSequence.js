@@ -15,7 +15,7 @@ class TitleSequence {
     }
 
     draw(ctx) {
-        // this.startGamePlay();
+        this.startGamePlay();
         if (this.phase === 1) {
             let currentColor = this.textRGB.slice();
             const newRed = Math.min(255, currentColor[0] + 2);
