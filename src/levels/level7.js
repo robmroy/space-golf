@@ -3,6 +3,7 @@ import LaunchPad from '../launchpad';
 import StickyPlanet from '../Sticky_planet';
 import {polyFromFunction} from '../obstacles';
 import Hole from '../hole';
+import Obstacle from '../obstacle';
 class Level7 {
     constructor(game){
         this.ball = new Ball(game, 185, 333 );
@@ -19,8 +20,7 @@ class Level7 {
         this.hole = new Hole(game, 535, 270 + 90,  [-1, 0], 100);
         const ellipse = polyFromFunction(game,
             t => 530 +  (26)* t * Math.sin(t), t => 330 + 90+ 27 * t* Math.cos(t), 3.5, 17, Math.PI/100);
-        this.obstacles = [
-        ]
+        this.obstacles = [new Obstacle(game, 530, 590, 530, 725)];
         this.obstacles.push(...ellipse);
         this.viewportZoom = .75;
         this.viewportX2=1500;
