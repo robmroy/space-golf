@@ -6,7 +6,7 @@ import Hole from '../hole';
 class Level1 {
     constructor(game){
         this.ball = new Ball(game, 300 + 25 + 5, 240 );
-        this.corners = [[-200, -200], [1200, 600]];
+        this.corners = [[-2000, -2000], [4200, 4000]];
         this.currentPlanet = new StickyPlanet(game, 300, 240, 25, "#27753a", 1);
         this.launchPad = new LaunchPad(game, this.ball.x, this.ball.y, [1, 0]);
         this.planets = [

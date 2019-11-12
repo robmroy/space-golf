@@ -5,7 +5,7 @@ class Stars {
         this.topLeft = { x: level.corners[0] - 600, y: level.corners[0] - 300 };
         this.bottomRight = { x: level.corners[1] + 600, y: level.corners[1] + 300 };
         this.blocks = {};
-        this.starsPerBlock = 100;
+        this.starsPerBlock = 300;
         this.levelNum = levelNum;
         this.game = game;
     }
@@ -20,7 +20,7 @@ class Stars {
             stars[i] = [
                 1000 * (x + frandom.nextFloat()),
                 1000 * (y + frandom.nextFloat()),
-                .3 + .9 * (frandom.nextFloat()) ** 9]
+                .08 + .8*(frandom.nextFloat()) ** 2]
         }
         this.blocks[`${x}, ${y}`] = stars;
     }
