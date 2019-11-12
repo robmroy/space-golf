@@ -1,5 +1,6 @@
 import Ball from '../ball';
 import LaunchPad from '../launchpad';
+import Obstacle from '../obstacle';
 import StickyPlanet from '../Sticky_planet';
 import {polyFromFunction} from '../obstacles';
 import Hole from '../hole';
@@ -14,12 +15,14 @@ class Level8 {
         this.planets = [
             this.currentPlanet,
             new StickyPlanet(game, 820, 300, 45, "orange", 3),
-            new StickyPlanet(game, 500, 230, 50, "orange", .2),
-            new StickyPlanet(game, 500, 310, 15, "orange", 10),
+            new StickyPlanet(game, 500, 230, 50, "orange", .3),
+            // new StickyPlanet(game, 500, 310, 15, "orange", 10),
         ]
         const ellipse2 = polyFromFunction(game,
             t => 800+ 300* Math.sin(t), t => 300 + 120* Math.cos(t), -0, 1.01 * Math.PI, Math.PI/100);
+            let obstacle1 = new Obstacle(game, 390, 230, 440, 230);
         this.obstacles = [
+            obstacle1
         ].concat(ellipse2);
         let sqrt = 1/Math.sqrt(2);
         this.hole = new Hole(game, 1050, 300,  [-1, 0], 100);
