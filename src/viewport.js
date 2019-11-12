@@ -24,9 +24,10 @@ class Viewport {
         let y2 = y1 + 600 * zoom;
 
         if (ballX > x2 - 100 || ballX < x1 + 100 || ballY <y1 + 50 || ballY > y2 - 50){
-            this.style = 'centered';
+            this.style = 'panning';
         }
-        if (this.style === 'centered') { return this.panToBall(ball); }
+        if (this.style === 'panning') { return this.panToBall(ball); }
+        if (this.style === 'centered') { return this.moveCentered(ballX, ballY); }
         let ballOvershoot = { x: ballX - .5 * (x1 + x2), y: ballY - .5 * (y1 + y2) };
             const catchupX =
                 Math.abs(ballOvershoot.x) < Math.abs(1.4 * ball.vx) ?
@@ -64,7 +65,8 @@ class Viewport {
             newDY = prevDY < 0 ? Math.min(prevDY + panRate, 0)
                 : Math.max(prevDY - panRate, 0);
         this.x1 += ballX - prevBallX +prevDX - newDX;
-        this.y1 += ballY - prevBallY +prevDY - newDY;        
+        this.y1 += ballY - prevBallY +prevDY - newDY;   
+        if (newDX === 0 && newDY === 0 ){this.style = "centered";}     
     }
 
     displayPos(pojo) {

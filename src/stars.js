@@ -46,8 +46,10 @@ class Stars {
 
     draw(ctx, color) {
         let vp = this.game.vp;
-        for (let i = Math.floor(vp.x1 / 1000); i <= Math.ceil(vp.x2 / 1000); i++) {
-            for (let j = Math.floor(vp.y1 / 1000); j <= Math.ceil(vp.y2 / 1000); j++) {
+        let x2 = vp.x1 + 1200 * vp.zoom;
+        let y2 = vp.y1 + 600 * vp.zoom;
+        for (let i = Math.floor(vp.x1 / 1000); i <= Math.ceil(x2 / 1000); i++) {
+            for (let j = Math.floor(vp.y1 / 1000); j <= Math.ceil(y2 / 1000); j++) {
                 if (!this.getBlock(i, j)) {
                     this.generateBlock(i, j)
                 }
