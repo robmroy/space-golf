@@ -137,8 +137,12 @@ class LaunchPad {
    }
 
    setVelocity(event) {
+      if(!this.cursor && !event) return;
       const vp = this.game.vp;
-      const cursor = { x: event.clientX - error().x, y: event.clientY - error().y };
+      if(event) {
+         this.cursor = { x: event.clientX - error().x, y: event.clientY - error().y };
+      }
+      const cursor = this.cursor;
       const dx = cursor.x - (this.x - vp.x1)*vp.zoom;
       const dy = cursor.y - (this.y - vp.y1)*vp.zoom;
       const dz = Math.sqrt(dx ** 2 + dy ** 2);

@@ -123,9 +123,10 @@ class Game {
         let fixedY = this.ball.interpolateY;
         if(vp.zoom >= upperLimitOnZoom) {return;}
         const zoomInc = .1;
-        vp.x1 = fixedX + (vp.x1 - fixedX) * zoom / (zoom + zoomInc); 
-        vp.y1 = fixedY + (vp.y1 - fixedY) * zoom / (zoom + zoomInc);
         vp.zoom = Math.min(vp.zoom + zoomInc, upperLimitOnZoom);
+        vp.x1 = fixedX + (vp.x1 - fixedX) * zoom / (vp.zoom); 
+        vp.y1 = fixedY + (vp.y1 - fixedY) * zoom / (vp.zoom);
+        this.launchPad.setVelocity();
     }
     zoomOut() {
         const lowerLimitOnZoom = .5;
@@ -135,9 +136,10 @@ class Game {
         let fixedY = this.ball.interpolateY;
         if(vp.zoom <= lowerLimitOnZoom) {return;}
         const zoomDec = .1;
-        vp.x1 = fixedX + (vp.x1 - fixedX) * zoom / (zoom - zoomDec); 
-        vp.y1 = fixedY + (vp.y1 - fixedY) * zoom / (zoom - zoomDec);
         vp.zoom = Math.max(vp.zoom - zoomDec, lowerLimitOnZoom);
+        vp.x1 = fixedX + (vp.x1 - fixedX) * zoom / (vp.zoom); 
+        vp.y1 = fixedY + (vp.y1 - fixedY) * zoom / (vp.zoom);
+        this.launchPad.setVelocity();
     }
     setSpeedAndZoom(event) {
         if (![70, 83, 88, 90].includes(event.keyCode)) return;
