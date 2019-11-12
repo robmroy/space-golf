@@ -18,12 +18,13 @@ class Obstacle {
 
     bounce() {
         let ball = this.game.ball;
+        let dampening = .02;
         let normal = this.normal;
         let vDotNormal = ball.vx * normal[0] + ball.vy * normal[1];
         let new_vx = ball.vx - 2 * vDotNormal * normal[0];
         let new_vy = ball.vy - 2 * vDotNormal * normal[1];
-        ball.vx = new_vx;
-        ball.vy = new_vy;
+        ball.vx = new_vx * (1 - dampening * Math.abs(vDotNormal));
+        ball.vy = new_vy * (1 - dampening * Math.abs(vDotNormal));
     }
 
     checkForBall() {
